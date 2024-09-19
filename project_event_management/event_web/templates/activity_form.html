@@ -123,5 +123,14 @@
         activityType.addEventListener('change', updateVisibility);
         updateVisibility();  // Initial check on page load
     });
+
+    const uploadImageInput = document.getElementById('id_upload_image');
+    uploadImageInput.addEventListener('change', function() {
+        if (uploadImageInput.files.length > 3) {
+            alert('คุณสามารถอัปโหลดได้สูงสุดแค่ 3 รูปเท่านั้น');
+            uploadImageInput.value = ''; // เคลียร์ไฟล์ที่ถูกเลือก
+        }
+    });
+
 </script>
 {% endblock %}
