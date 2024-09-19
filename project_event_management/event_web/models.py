@@ -71,7 +71,6 @@ class UserCategory(models.Model):
         on_delete=models.CASCADE
     )
 
-
 class Registration(models.Model):
     participant = models.ForeignKey(
         "User", 
@@ -89,7 +88,7 @@ class ActivityImage(models.Model):
         "Activity", 
         on_delete=models.CASCADE
     )
-    image_path = models.TextField()
+    image_path = models.ImageField(upload_to='activity_images/', verbose_name="รูปภาพกิจกรรม")
 
 class Review(models.Model):
     SCORE_CHOICES = [
