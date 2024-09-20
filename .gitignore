@@ -1,2 +1,4 @@
 #ignoreEnvironment
 myvenv/
+#ignore pycache
+__pycache__/
