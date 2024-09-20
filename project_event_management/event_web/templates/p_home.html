@@ -1,11 +1,63 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Home</title>
+    <link rel="stylesheet" href="{% static 'style.css' %}">
 </head>
+
 <body>
-    <h1>hello</h1>
+    <div class="navbar">
+        <div class="smallnav1">
+            <h1 class="webname">Website Name</h1>
+        </div>
+        <div class="smallnav2">
+            <button class="btn_profile">โปรไฟล์</button>
+        </div>
+    </div>
+    <div class="main_home">
+        <div class="ex1">
+            <h2 class="ghost">หมวดหมู่</h2>
+        </div>
+        <div class="ex2">
+            <h2 class="ghost">กิจกรรม</h2>
+            <div class="ghost_ex">
+                <form action="">
+                    <input class="searchbar" type="text" placeholder="Search..">
+                    <button class="btn_search">ค้นหา</button>
+                </form>
+
+            </div>
+        </div>
+    </div>
+    <div class="main_home">
+        <div class="categories">
+            <a href="">sample</a>
+            <a href="">sample</a>
+            <a href="">sample</a>
+            <a href="">sample</a>
+        </div>
+        <div class="events home">
+            <div class="block_event">
+                <h4>title</h4>
+            </div>
+            <div class="block_event">
+                <h4>title</h4>
+            </div>
+            <div class="block_event">
+                <h4>title</h4>
+            </div>
+            <div class="block_event">
+                <h4>title</h4>
+            </div>
+            <div class="block_event">
+                <h4>title</h4>
+            </div>
+        </div>
+    </div>
 </body>
+
 </html>
