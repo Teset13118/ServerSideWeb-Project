@@ -1,0 +1,94 @@
+{% extends 'layout.html' %}
+
+{% block title %} Activity {% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="row mb-4">
+        <div class="col-md-8">
+            <h1 class="display-4">{{ activity.title }}</h1>
+        </div>
+    </div>
+
+    <div class="row mb-4">
+    {% if activity_images|length == 3 %}
+        <div class="col-lg-8">
+            <div class="card">
+                <img src="{{ activity_images.0.image_path.url }}" class="card-img-top" alt="Large Image" style="width: 100%; height: auto;">
+            </div>
+        </div>
+        <div class="col-lg-4">
+            <div class="row mb-2">
+                <div class="col">
+                    <div class="card">
+                        <img src="{{ activity_images.1.image_path.url }}" class="card-img-top" alt="Small Image 1" style="width: 100%; height: auto;">
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <div class="card">
+                        <img src="{{ activity_images.2.image_path.url }}" class="card-img-top" alt="Small Image 2" style="width: 100%; height: auto;">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    {% elif activity_images|length == 2 %}
+        <div class="col-lg-12">
+            <div class="row">
+                <div class="col">
+                    <div class="card">
+                        <img src="{{ activity_images.0.image_path.url }}" class="card-img-top" alt="Small Image 1" style="width: 100%; height: auto;">
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="card">
+                        <img src="{{ activity_images.1.image_path.url }}" class="card-img-top" alt="Small Image 2" style="width: 100%; height: auto;">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    {% elif activity_images|length == 1 %}
+        <div class="col-lg-12">
+            <div class="card">
+                <img src="{{ activity_images.0.image_path.url }}" class="card-img-top" alt="Large Image" style="width: 100%; height: auto;">
+            </div>
+        </div>
+        
+    {% else %}
+        <p>No images available.</p>
+    {% endif %}
+</div>
+
+
+    <div class="row mb-4">
+        <div class="col">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Activity Information</h5>
+                    <p><strong>Category:</strong> {{ activity.category.category_name }}</p>
+                    <p><strong>Activity Type:</strong> {{ activity.get_activity_type_display }}</p>
+
+                    {% if activity.activity_type == 'hybrid' %}
+                        <p><strong>Location:</strong> {{ activity.location }}</p>
+                        <p><strong>Platform:</strong> {{ activity.platform }}</p>
+                    {% elif activity.activity_type == 'online' %}
+                        <p><strong>Platform:</strong> {{ activity.platform }}</p>
+                    {% elif activity.activity_type == 'onsite' %}
+                        <p><strong>Location:</strong> {{ activity.location }}</p>
+                    {% endif %}
+                    
+                    <p><strong>Start Date:</strong> {{ activity.start_date|date:"d M Y H:i" }}</p>
+                    <p><strong>Due Date:</strong> {{ activity.due_date|date:"d M Y H:i" }}</p>
+                    <p><strong>Description:</strong> {{ activity.description }}</p>
+                    <p><strong>Contact:</strong> {{ activity.contact }}</p>
+                    <p><strong>Status:</strong> {{ activity.get_is_approve_display }}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

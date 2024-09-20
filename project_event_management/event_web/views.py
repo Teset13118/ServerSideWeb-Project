@@ -49,3 +49,13 @@ class View_CreateActivity(View):
 class index(View):
     def get(self, request):
         return render(request, 'index.html')
+    
+class View_Activity(View):
+    def get(self, request, activity_id):
+        activity = Activity.objects.get(id=activity_id)
+        activity_images = ActivityImage.objects.filter(activity=activity)
+
+        return render(request, 'show_activity.html', {
+            'activity': activity,
+            'activity_images': activity_images
+        })
