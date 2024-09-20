@@ -1,37 +1,21 @@
-{% load static %}
-<!DOCTYPE html>
-<html lang="en">
+{% extends "layout.html" %}
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Home</title>
-    <link rel="stylesheet" href="{% static 'style.css' %}">
-</head>
+{% block title %}
+    Activity
+{% endblock %}
 
-<body>
-    <div class="navbar">
-        <div class="smallnav1">
-            <h1 class="webname">Website Name</h1>
-        </div>
-        <div class="smallnav2">
-            <button class="btn_profile">โปรไฟล์</button>
+{% block content %}
+<div class="main_activity">
+    <div class="ex2">
+        <h2 class="ghost">Title</h2>
+        <div class="ghost_ex">
+            <button class="btn_search">ลงทะเบียนกิจกรรม</button>
         </div>
     </div>
-    <div class="main_activity">
-        <div class="ex2">
-            <h2 class="ghost">Title</h2>
-            <div class="ghost_ex">
-                
-                <button class="btn_search">ลงทะเบียนกิจกรรม</button>
-            </div>
-        </div>
+</div>
+<div class="main_activity">
+    <div class="events activity">
+        <!-- Dynamic event content will go here -->
     </div>
-    <div class="main_activity">
-        <div class="events activity">
-            
-        </div>
-    </div>
-</body>
-
-</html>
+</div>
+{% endblock %}
