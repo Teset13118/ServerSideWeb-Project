@@ -60,3 +60,21 @@ class View_Activity(View):
             'activity': activity,
             'activity_images': activity_images
         })
+
+class ViewManageUser(View):
+    def get(self, request):
+        participants = User.objects.filter(role='Participant')
+        organizers = User.objects.filter(role='Organizer')
+        context = {
+            'participants': participants,
+            'organizers': organizers,
+        }
+        return render(request, 'manager/m_manage_users.html', context)
+
+class ViewManageActivity(View):
+    def get(self, request):
+        activities = Activity.objects.all()
+        context = {
+            'activities': activities,
+        }
+        return render(request, 'manager/m_manage_activity.html', context)
