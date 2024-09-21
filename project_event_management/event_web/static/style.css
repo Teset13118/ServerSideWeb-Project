@@ -4,6 +4,7 @@ html {
 
 body {
     margin: 0;
+    padding: 0;
     background-color: #ECF0F1;
     font-family: 'Kanit', sans-serif;
 }
@@ -27,7 +28,7 @@ body {
 
 /* ---------------------------------------------- */
 /* navbar */
-.navbar {
+/* .navbar {
     top: 0;
     position: fixed;
     z-index: 1;
@@ -63,7 +64,7 @@ body {
     background-color: #376786;
     cursor: pointer;
     scale: 1.25;
-}
+} */
 
 /* p_home */
 /* ---------------------------------------------------------------------------- */
@@ -71,16 +72,16 @@ body {
 /* main content */
 .main_home {
     margin-left: 15px;
-    margin-right: 25px;
+    margin-right: 35px;
     padding-bottom: 25px;
     display: grid;
     grid-template-columns: 20% 80%;
-    gap: 10px;
+    gap: 20px;
 }
 
 .ex1,
 .ex2 {
-    margin-top: 100px;
+    margin-top: 60px;
 }
 
 .ex2 {
@@ -91,47 +92,60 @@ body {
 .ghost,
 .ghost_ex {
     width: fit-content;
-    background-color: #E67E22;
     position: relative;
-    top: 65px;
-    color: white;
-    padding: 10px;
-    border-radius: 10px;
+    color: black;
+    user-select: none; /* Standard browsers */
+    -webkit-user-select: none; /* Safari/Chrome */
+    -moz-user-select: none; /* Firefox */
+    -ms-user-select: none; /* IE/Edge */
 }
 
 .ghost {
-    left: 30px;
+    top: 20px;
+    left: 20px;
 }
 
 .ghost_ex {
     height: fit-content;
     top: 85px;
     right: 30px;
+    top: 10px;
+    right: 20px;
 }
 
 
 .searchbar {
     border-style: hidden;
     height: 20px;
+    border-top-left-radius: 10px;
+    border-bottom-left-radius: 10px;
+    padding: 10px;
+    height: 30px;
     width: 300px;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
 }
 
 .btn_search {
     background-color: white;
     border-style: hidden;
-    border-radius: 10px;
-    padding: 5px;
+    padding: 3px;
+    padding-left: 5px;
+    padding-right: 5px;
+    border-top-right-radius: 10px;
+    border-bottom-right-radius: 10px;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
 }
 
 .btn_search:hover {
     background-color: gray;
+    background-color: rgb(211, 211, 211);
     cursor: pointer;
 }
 
 .categories {
     background-color: white;
     height: fit-content;
-    border-radius: 20px;
+    border-radius: 10px;
     padding: 20px;
     padding-top: 40px;
     display: flex;
@@ -142,9 +156,8 @@ body {
 
 .events {
     background-color: white;
-    border-radius: 20px;
-    padding: 20px;
-    padding-left: 50px;
+    border-radius: 10px;
+    padding: 30px;
     padding-top: 40px;
     display: flex;
     flex-wrap: wrap;
@@ -153,25 +166,79 @@ body {
 }
 
 .block_event {
-    width: 185px;
+    overflow: hidden;
+    width: 190px;
     height: 300px;
-    border-radius: 20px;
-    padding: 10px;
+    border-radius: 10px;
     border-style: solid;
-    border-width: 3px;
+    border-width: 2px;
     border-color: black;
-    word-wrap: break-word;
+    text-decoration: none;
 }
 
+.pic{
+    position: absolute;
+    width: 186px;
+    height: 296px;
+    border-radius: 8px;
+}
+.card_content {
+    padding: 10px;
+    color: black;
+    position: relative;
+    bottom: 100%;
+    width: auto;
+    word-wrap: break-word;
+    display: flex;
+    flex-direction: column;
+    transition: 0.5s;
+    height: 100%;
+    backdrop-filter: blur(15px);
+    user-select: none; /* Standard browsers */
+    -webkit-user-select: none; /* Safari/Chrome */
+    -moz-user-select: none; /* Firefox */
+    -ms-user-select: none; /* IE/Edge */
+}
+.block_event:hover .card_content{
+    bottom: 0;
+    display: flex;
+}
+
+.border{
+    border-radius: 5px;
+    margin: 1px;
+    width: 100%;
+    text-decoration: none;
+}
+.short_description{
+    height: 100px;
+}
+.smallbox{
+    display: flex;
+}
 
 /* p_activity */
 /* ------------------------------------------------------------------ */
 .main_activity {
-    padding-left: 15px;
-    padding-right: 15px;
+    padding-left: 25px;
+    padding-right: 25px;
     padding-bottom: 25px;
+    display: grid;
 }
 
 .activity {
     min-height: 1000px;
+}
+
+.btn_register{
+    background-color: white;
+    border-style: hidden;
+    padding: 5px;
+    border-radius: 10px;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+}
+
+.btn_register:hover {
+    background-color: rgb(211, 211, 211);
+    cursor: pointer;
 }

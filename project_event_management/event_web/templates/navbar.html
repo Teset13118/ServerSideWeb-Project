@@ -1,6 +1,40 @@
+<style>
+    .navbar {
+    position: fixed;
+    z-index: 1;
+    width: 100%;
+    font-weight: bold;
+    color: white;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #2C3E50;
+    padding-left: 20px;
+    padding-right: 20px;
+    user-select: none; /* Standard browsers */
+    -webkit-user-select: none; /* Safari/Chrome */
+    -moz-user-select: none; /* Firefox */
+    -ms-user-select: none; /* IE/Edge */
+}
+.btn_profile {
+    width: fit-content;
+    border-radius: 10px;
+    font-size: 14px;
+    padding: 5px;
+    color: white;
+    background-color: #E67E22;
+    border-style: hidden;
+}
+
+.btn_profile:hover {
+    background-color: #376786;
+    cursor: pointer;
+    scale: 1.05;
+}
+</style>
 <div class="navbar">
     <div class="smallnav1">
-        <h1 class="webname">Website Name</h1>
+        <h4 class="webname">Website Name</h4>
     </div>
     <div class="smallnav2">
         <button class="btn_profile">โปรไฟล์</button>

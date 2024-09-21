@@ -45,11 +45,11 @@ class View_CreateActivity(View):
 
 class ViewHome(View):
     def get(self, request):
-        return render(request, 'p_home.html')
+        return render(request, 'participants/p_home.html')
 
 class ViewActivity(View):
     def get(self, request):
-        return render(request, 'p_activity.html')
+        return render(request, 'participants/p_activity.html')
 
 class View_Activity(View):
     def get(self, request, activity_id):

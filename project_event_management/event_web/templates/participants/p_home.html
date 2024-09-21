@@ -1,0 +1,43 @@
+{% extends "layout.html" %}
+
+{% block title %}
+Home
+{% endblock %}
+
+{% block content %}
+<div class="main_home">
+    <div class="ex1">
+        <h5 class="ghost">หมวดหมู่กิจกรรม</h5>
+    </div>
+    <div class="ex2">
+        <h5 class="ghost">กิจกรรม</h5>
+        <div class="ghost_ex">
+            <form action="" class="search_form">
+                <input class="searchbar" type="text" placeholder="ค้นหา..">
+                <button class="btn_search"><i class="fa fa-search"> ค้นหา</i></button>
+            </form>
+        </div>
+    </div>
+</div>
+<div class="main_home">
+    <div class="categories">
+        <a href="">sample</a>
+        <a href="">sample</a>
+        <a href="">sample</a>
+        <a href="">sample</a>
+    </div>
+    <div class="events home">
+        <a class="block_event" href="{% url 'url_p_activitypage' %}">
+            <img src="static\pic\dog.jpg" alt="" class="pic">
+            <div class="card_content">
+                <p class="title_event border">title</p>
+                <div class="smallbox">
+                    <p class="border">start</p>
+                    <p class="border">due</p>
+                </div>
+                <p class="short_description border">short description</p>
+            </div>
+        </a>
+    </div>
+</div>
+{% endblock %}
