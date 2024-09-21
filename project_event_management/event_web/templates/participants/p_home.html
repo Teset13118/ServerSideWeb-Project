@@ -28,8 +28,8 @@ Home
     </div>
     <div class="home">
         {% for i in activity %}
-        <a class="block_event" href="{% url 'url_p_activitypage' %}">
-            <img src="static\pic\dog.jpg" alt="" class="small_pic">
+        <a class="block_event" href="{% url 'url_p_activitypage' i.id%}">
+            <img src="/static/pic/dog.jpg" alt="" class="small_pic">
             <div class="card_content">
                 <p class="title_event border">{{ i.title }}</p>
                 <div class="smallbox">

@@ -48,16 +48,16 @@ class ViewHome(View):
         activity = Activity.objects.all()
         return render(request, 'participants/p_home.html', {'activity': activity})
 
-class ViewActivity(View):
-    def get(self, request):
-        return render(request, 'participants/p_activity.html')
+# class ViewActivity(View):
+#     def get(self, request):
+#         return render(request, 'participants/p_activity.html')
 
-class View_Activity(View):
+class ViewActivity(View):
     def get(self, request, activity_id):
         activity = Activity.objects.get(id=activity_id)
         activity_images = ActivityImage.objects.filter(activity=activity)
 
-        return render(request, 'participants/p_activity_detail.html', {
+        return render(request, 'participants/p_activity.html', {
             'activity': activity,
             'activity_images': activity_images
         })

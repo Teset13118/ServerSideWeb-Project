@@ -6,8 +6,8 @@ from .views import *
 
 urlpatterns = [
     path("", ViewHome.as_view(), name="url_p_homepage"),
-    path("activity/", ViewActivity.as_view(), name="url_p_activitypage"),
-    path("activity/<int:activity_id>", View_Activity.as_view(), name="url_p_activity_detail"),
+    path("activity/<int:activity_id>", ViewActivity.as_view(), name="url_p_activitypage"),
+    # path("activity/<int:activity_id>", View_Activity.as_view(), name="url_p_activity_detail"),
     path("create_activity/", View_CreateActivity.as_view(), name="url_o_activity_form"),
     path("manage/users/", ViewManageUser.as_view(), name="url_m_manageusers"),
     path("manage/activities/", ViewManageActivity.as_view(), name="url_m_manageactivities"),

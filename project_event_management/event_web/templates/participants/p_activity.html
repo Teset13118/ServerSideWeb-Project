@@ -7,7 +7,7 @@
 {% block content %}
 <div class="main_activity">
     <div class="ex2">
-        <h2 class="ghost">Title</h2>
+        <h2 class="ghost">{{ activity.title }}</h2>
         <div class="ghost_ex">
             <button class="btn_register">ลงทะเบียนกิจกรรม</button>
         </div>
@@ -15,31 +15,52 @@
 </div>
 <div class="main_activity">
     <div class="activity">
-        <div class="big_pic">
-            
+        <div class="pic_area">
+            <div class="pic1">
+                <img src="/static/pic/dog.jpg" alt="" class="big_pic">
+            </div>
+            <div class="pic2">
+                <img src="/static/pic/dog.jpg" alt="" class="medium_pic">
+            </div>
+            <div class="pic3">
+                <img src="/static/pic/dog.jpg" alt="" class="medium_pic">
+            </div>
         </div>
         <div class="box1">
-            <div class="border">
-                close_register_date
+            <div class="box_content">
+                <h5>{{ activity.close_register_date|date:"d M Y H:i" }}</h5>
             </div>
-            <div class="border">
-                <h3>start_date</h3>
+            <div class="box_content">
+                <h5>{{ activity.start_date|date:"d M Y H:i" }}</h5>
             </div>
-            <div class="border">
-                <h3>due_date</h3>
+            <div class="box_content">
+                <h5>{{ activity.due_date|date:"d M Y H:i" }}</h5>
             </div>
-            <div class="border">
-                <h3>location</h3>
+
+            <!-- activity type -->
+            {% if activity.activity_type == 'hybrid' %}
+            <div class="box_content">
+                <h5>platform</h5>
             </div>
-            <div class="border">
-                <h3>platform</h3>
+            <div class="box_content">
+                <h5>location</h5>
             </div>
-            <div class="border">
-                description
+            {% elif activity.activity_type == 'online' %}
+            <div class="box_content">
+                <h5>platform</h5>
             </div>
-            <div class="border">
-                contact
+            {% elif activity.activity_type == 'onsite' %}
+            <div class="box_content">
+                <h5>location</h5>
             </div>
+            {% endif %}
+
+        </div>
+        <div class="box2">
+            <p>{{ activity.description }}</p>
+        </div>
+        <div class="box3">
+            <p>{{ activity.contact }}</p>
         </div>
     </div>
 </div>
