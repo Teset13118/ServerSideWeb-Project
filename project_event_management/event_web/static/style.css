@@ -154,7 +154,7 @@ body {
     box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
 }
 
-.events {
+.home{
     background-color: white;
     border-radius: 10px;
     padding: 30px;
@@ -176,7 +176,7 @@ body {
     text-decoration: none;
 }
 
-.pic{
+.small_pic{
     position: absolute;
     width: 186px;
     height: 296px;
@@ -228,6 +228,13 @@ body {
 
 .activity {
     min-height: 1000px;
+    background-color: white;
+    border-radius: 10px;
+    padding: 30px;
+    padding-top: 40px;
+    display: flex;
+    flex-direction: column;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
 }
 
 .btn_register{
@@ -241,4 +248,10 @@ body {
 .btn_register:hover {
     background-color: rgb(211, 211, 211);
     cursor: pointer;
+}
+
+.box1{
+    background-color: red;
+    display: flex;
+    justify-content: center;
 }

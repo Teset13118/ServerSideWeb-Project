@@ -26,18 +26,20 @@ Home
         <a href="">sample</a>
         <a href="">sample</a>
     </div>
-    <div class="events home">
+    <div class="home">
+        {% for i in activity %}
         <a class="block_event" href="{% url 'url_p_activitypage' %}">
-            <img src="static\pic\dog.jpg" alt="" class="pic">
+            <img src="static\pic\dog.jpg" alt="" class="small_pic">
             <div class="card_content">
-                <p class="title_event border">title</p>
+                <p class="title_event border">{{ i.title }}</p>
                 <div class="smallbox">
-                    <p class="border">start</p>
-                    <p class="border">due</p>
+                    <p class="border">{{i.start_date}}</p>
+                    <p class="border">{{i.due_date}}</p>
                 </div>
-                <p class="short_description border">short description</p>
+                <p class="short_description border">{{i.short_description}}</p>
             </div>
         </a>
+        {% endfor %}
     </div>
 </div>
 {% endblock %}
