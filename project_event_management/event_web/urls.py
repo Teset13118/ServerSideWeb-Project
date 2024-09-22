@@ -11,6 +11,8 @@ urlpatterns = [
     path("create_activity/", View_CreateActivity.as_view(), name="url_o_activity_form"),
     path("manage/users/", ViewManageUser.as_view(), name="url_m_manageusers"),
     path("manage/activities/", ViewManageActivity.as_view(), name="url_m_manageactivities"),
+
+    path("test/", ViewTest.as_view(), name="test"),
 ]
 
 # setting for showing media on website

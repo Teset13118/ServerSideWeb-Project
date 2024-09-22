@@ -28,30 +28,30 @@
         </div>
         <div class="box1">
             <div class="box_content">
-                <h5>{{ activity.close_register_date|date:"d M Y H:i" }}</h5>
+                <h5>{{ activity.close_register_date|date:"d M Y H:i A" }}</h5>
             </div>
             <div class="box_content">
-                <h5>{{ activity.start_date|date:"d M Y H:i" }}</h5>
+                <h5>{{ activity.start_date|date:"d M Y H:i A" }}</h5>
             </div>
             <div class="box_content">
-                <h5>{{ activity.due_date|date:"d M Y H:i" }}</h5>
+                <h5>{{ activity.due_date|date:"d M Y H:i A" }}</h5>
             </div>
 
             <!-- activity type -->
             {% if activity.activity_type == 'hybrid' %}
             <div class="box_content">
-                <h5>platform</h5>
+                <h5>{{ activity.platform }}</h5>
             </div>
             <div class="box_content">
-                <h5>location</h5>
+                <h5>{{ activity.location }}</h5>
             </div>
             {% elif activity.activity_type == 'online' %}
             <div class="box_content">
-                <h5>platform</h5>
+                <h5>{{ activity.platform }}</h5>
             </div>
             {% elif activity.activity_type == 'onsite' %}
             <div class="box_content">
-                <h5>location</h5>
+                <h5>{{ activity.location }}</h5>
             </div>
             {% endif %}
 

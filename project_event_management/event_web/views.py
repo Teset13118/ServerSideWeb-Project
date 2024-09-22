@@ -46,11 +46,15 @@ class View_CreateActivity(View):
 class ViewHome(View):
     def get(self, request):
         activity = Activity.objects.all()
-        return render(request, 'participants/p_home.html', {'activity': activity})
+        category = Category.objects.all()
+        return render(request, 'participants/p_home.html', {
+            'activity': activity,
+            'category': category
+            })
 
-# class ViewActivity(View):
-#     def get(self, request):
-#         return render(request, 'participants/p_activity.html')
+class ViewTest(View):
+    def get(self, request):
+        return render(request, 'participants/p_profile.html')
 
 class ViewActivity(View):
     def get(self, request, activity_id):
