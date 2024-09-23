@@ -21,9 +21,18 @@ Home
 </div>
 <div class="main_home">
     <div class="categories">
-        <button class="home_category_active">ทั้งหมด</button>
+        <!-- <a href="{% url 'url_p_homepage' %}" class="home_category_active">ทั้งหมด</a> -->
+        <!-- <button class="home_category_active">ทั้งหมด</button> -->
+        <button class="home_category_active" onclick="window.location.href='{% url 'url_p_homepage' %}'">
+            ทั้งหมด
+        </button>
+        
         {% for j in category %}
-        <button class="home_category">{{ j.category_name }}</button>
+        <!-- <a href="{% url 'url_p_homepage' %}?category_id={{ j.id }}" class="home_category">{{ j.category_name }}</a> -->
+        <button class="home_category" onclick="window.location.href='{% url 'url_p_homepage' %}?category_id={{ j.id }}'">
+            {{ j.category_name }}
+        </button>
+        <!-- <button class="home_category">{{ j.category_name }}</button> -->
         {% endfor %}
     </div>
     <div class="home">

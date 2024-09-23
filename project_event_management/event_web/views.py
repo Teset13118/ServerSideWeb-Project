@@ -45,7 +45,13 @@ class View_CreateActivity(View):
 
 class ViewHome(View):
     def get(self, request):
-        activity = Activity.objects.all()
+        category_id = request.GET.get('category_id')
+        
+        if category_id:
+            activity = Activity.objects.filter(category_id=category_id)
+        else:
+            activity = Activity.objects.all()
+
         category = Category.objects.all()
         return render(request, 'participants/p_home.html', {
             'activity': activity,

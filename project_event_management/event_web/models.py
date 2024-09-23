@@ -1,6 +1,7 @@
 from django.db import models
+from django.contrib.auth.models import AbstractUser
 
-class User(models.Model):
+class User(AbstractUser):
     ROLE_CHOICES = [
         ('Participant', 'Participant'),
         ('Organizer', 'Organizer'),
@@ -9,7 +10,7 @@ class User(models.Model):
     password = models.CharField(max_length=255)
     first_name = models.CharField(max_length=255)
     last_name = models.CharField(max_length=255)
-    gmail = models.EmailField(unique=True)
+    email = models.EmailField(unique=True)
     phone_number = models.CharField(max_length=10, unique=True)
     created_at = models.DateField()
     role = models.CharField(max_length=20, choices=ROLE_CHOICES)
