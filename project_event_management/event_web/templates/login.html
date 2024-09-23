@@ -10,18 +10,27 @@
 </head>
 <body>
     <div class="main_login">
-        <form>
+        <form method="POST" action="{% url 'url_login' %}">
+            {% csrf_token %}
             <h1 class="login_title">login</h1>
+            {{ form.username.errors }}
             <label for="username">Username:</label>
             <input type="text" id="username" name="username" required>
             <br>
+            {{ form.password.errors }}
             <label for="password">Password:</label>
             <input type="password" id="password" name="password" required>
             <br>
             <button type="submit">Submit</button>
+            {% if messages %}
+                <div>
+                    {% for message in messages %}
+                        <p class="text-danger">{{ message }}</p>
+                    {% endfor %}
+                </div>
+            {% endif %}
         </form>
     </div>
-
 </body>
 
 </html>

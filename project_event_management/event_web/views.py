@@ -9,6 +9,47 @@ from django.db.models.functions import Length, Upper, Concat
 import json
 import datetime
 
+from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.forms import AuthenticationForm
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth import logout, login, authenticate
+from django.contrib import messages
+
+
+class RegisterView(View):
+    def get(self, request):
+        form = CustomUserCreationForm()
+        return render(request, 'register.html', {"form": form})
+    
+    def post(self, request):
+        form = CustomUserCreationForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('url_login')
+        return render(request, 'register.html', {"form": form}) 
+    
+class LoginView(View):
+    def get(self, request):
+        form = AuthenticationForm()
+        return render(request, 'login.html', {"form": form})
+    
+    def post(self, request):
+        form = AuthenticationForm(data=request.POST)
+        if form.is_valid():
+            user = form.get_user() 
+            login(request,user)
+            return redirect('url_p_homepage') 
+        else:
+            messages.error(request, "Invalid username or password")
+
+        return render(request,'login.html', {"form":form})
+
+class LogoutView(View):
+    def get(self, request):
+        logout(request)
+        return redirect('url_login')
+
+
 class View_CreateActivity(View):
     def get(self, request):
         form = CreateActivity_Form()

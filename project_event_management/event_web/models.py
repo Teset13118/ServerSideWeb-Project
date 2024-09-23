@@ -12,7 +12,6 @@ class User(AbstractUser):
     last_name = models.CharField(max_length=255)
     email = models.EmailField(unique=True)
     phone_number = models.CharField(max_length=10, unique=True)
-    created_at = models.DateField()
     role = models.CharField(max_length=20, choices=ROLE_CHOICES)
 
     def __str__(self):
