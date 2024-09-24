@@ -38,7 +38,13 @@ Home
     <div class="home">
         {% for i in activity %}
         <a class="block_event" href="{% url 'url_p_activitypage' i.id%}">
-            <img src="/static/pic/dog.jpg" alt="" class="small_pic">
+            {% if i.activityimage_set.all %}
+                <!-- แสดงรูปภาพที่เก็บใน media -->
+                <img src="{{ i.activityimage_set.first.image_path.url }}" alt="" class="small_pic">
+            {% else %}
+                <!-- หากไม่มีรูปภาพแสดงรูปภาพสำรอง -->
+                <img src="/static/pic/dog.jpg" alt="" class="small_pic">
+            {% endif %}
             <div class="card_content">
                 <p class="title_event border">{{ i.title }}</p>
                 <p class="border"><i class="fa fa-calendar-check-o"></i>: {{i.start_date|date:"d/m/y H:i A"}}</p>

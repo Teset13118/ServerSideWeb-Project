@@ -1,0 +1,145 @@
+{% extends 'layout.html' %}
+
+{% block title %}Edit Activity{% endblock %}
+
+{% block content %}
+    <div class="container p-3">
+        <div class="card">
+            <div class="card-header bg-primary text-white">
+                <h1 class="card-title">แก้ไขกิจกรรม</h1>
+            </div>
+            <div class="card-body">
+                <form method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    
+                    <div class="mb-3">
+                        <label for="id_title" class="form-label">ชื่อกิจกรรม</label>
+                        <input type="text" class="form-control" id="id_title" name="title" value="{{ activity.title }}" required>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="id_close_register_date" class="form-label">กำหนดวันที่ปิดรับลงทะเบียน</label>
+                        <input type="datetime-local" class="form-control" id="id_close_register_date" name="close_register_date" value="{{ activity.close_register_date|date:'Y-m-d H:i' }}" required>
+                    </div>
+
+                    <div class="row g-3">
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label for="id_start_date" class="form-label">กำหนดวันที่เริ่มกิจกรรม</label>
+                                <input type="datetime-local" class="form-control" id="id_start_date" name="start_date" value="{{ activity.start_date|date:'Y-m-d H:i' }}" required>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label for="id_due_date" class="form-label">กำหนดวันที่สุดท้ายของกิจกรรม</label>
+                                <input type="datetime-local" class="form-control" id="id_due_date" name="due_date" value="{{ activity.due_date|date:'Y-m-d H:i' }}" required>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label for="id_activity_type" class="form-label">กำหนดประเภทการดำเนินกิจกรรม</label>
+                                <select class="form-select" id="id_activity_type" name="activity_type" required>
+                                    <option value="online" {% if activity.activity_type == 'online' %}selected{% endif %}>online</option>
+                                    <option value="onsite" {% if activity.activity_type == 'onsite' %}selected{% endif %}>onsite</option>
+                                    <option value="hybrid" {% if activity.activity_type == 'hybrid' %}selected{% endif %}>hybrid</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label for="id_category" class="form-label">หมวดหมู่ของกิจกรรม</label>
+                                <select class="form-select" id="id_category" name="category" required>
+                                    {% for category in categories %}
+                                        <option value="{{ category.id }}" {% if activity.category.id == category.id %}selected{% endif %}>{{ category.category_name }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="col-md-6">
+                        <div class="mb-3" id="location_container">
+                            <label for="id_location" class="form-label">กำหนดสถานที่</label>
+                            <input type="text" class="form-control" id="id_location" name="location" value="{{ activity.location }}" required>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="mb-3" id="platform_container">
+                            <label for="id_platform" class="form-label">กำหนดแพลตฟอร์ม จัดกิจกรรม</label>
+                            <input type="text" class="form-control" id="id_platform" name="platform" value="{{ activity.platform }}" required>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="mb-3">
+                            <label for="id_short_description" class="form-label">คำบรรยายสั้นๆ</label>
+                            <textarea class="form-control" id="id_short_description" name="short_description" required>{{ activity.short_description }}</textarea>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="mb-3">
+                            <label for="id_description" class="form-label">คำบรรยาย</label>
+                            <textarea class="form-control" id="id_description" name="description" required>{{ activity.description }}</textarea>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="mb-3">
+                            <label for="id_contact" class="form-label">ข้อมูลติดต่อ</label>
+                            <input type="text" class="form-control" id="id_contact" name="contact" value="{{ activity.contact }}" required>
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="id_upload_image" class="form-label">อัปโหลดรูปภาพเกี่ยวกับกิจกรรม</label>
+                        <input class="form-control" type="file" id="id_upload_image" name="upload_image" multiple />
+                        <div class="form-text">อัปโหลดสูงสุด 3 รูป</div>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary w-100">ส่งคำขอแก้ไขกิจกรรม</button>
+                </form>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block script %}
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const activityType = document.getElementById('id_activity_type');
+        const platformContainer = document.getElementById('platform_container');
+        const locationContainer = document.getElementById('location_container');
+
+        function updateVisibility() {
+            const selectedType = activityType.value;
+            if (selectedType == 'online') {
+                platformContainer.style.display = 'block';
+                locationContainer.style.display = 'none';
+            } else if (selectedType == 'onsite') {
+                platformContainer.style.display = 'none';
+                locationContainer.style.display = 'block';
+            } else if (selectedType == 'hybrid') {
+                platformContainer.style.display = 'block';
+                locationContainer.style.display = 'block';
+            } else {
+                platformContainer.style.display = 'none';
+                locationContainer.style.display = 'none';
+            }
+        }
+
+        activityType.addEventListener('change', updateVisibility);
+        updateVisibility();  // Initial check on page load
+    });
+
+    const uploadImageInput = document.getElementById('id_upload_image');
+    uploadImageInput.addEventListener('change', function() {
+        if (uploadImageInput.files.length > 3) {
+            alert('คุณสามารถอัปโหลดได้สูงสุดแค่ 3 รูปเท่านั้น');
+            uploadImageInput.value = ''; // เคลียร์ไฟล์ที่ถูกเลือก
+        }
+    });
+
+</script>
+{% endblock %}
