@@ -7,15 +7,30 @@ class User(AbstractUser):
         ('Organizer', 'Organizer'),
     ]
 
-    password = models.CharField(max_length=255)
     first_name = models.CharField(max_length=255)
     last_name = models.CharField(max_length=255)
     email = models.EmailField(unique=True)
-    phone_number = models.CharField(max_length=10, unique=True)
     role = models.CharField(max_length=20, choices=ROLE_CHOICES)
 
     def __str__(self):
         return f"{self.first_name} {self.last_name}"
+
+# Updated UserDetail model with birthday field
+class UserDetail(models.Model):
+    GENDER_CHOICES = [
+        ('M', 'Male'),
+        ('F', 'Female'),
+        ('O', 'Other'),
+    ]
+
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    phone_number = models.CharField(max_length=10, unique=True)
+    gender = models.CharField(max_length=1, choices=GENDER_CHOICES)
+    age = models.PositiveIntegerField()
+    birthday = models.DateField()  # Added birthday field
+
+    def __str__(self):
+        return f"{self.user.first_name} {self.user.last_name} - Details"
 
 class Category(models.Model):
     category_name = models.CharField(max_length=255, unique=True)
@@ -37,12 +52,12 @@ class Activity(models.Model):
     ]
 
     organizer = models.ForeignKey(
-        "User", 
+        User, 
         on_delete=models.CASCADE, 
         limit_choices_to={'role': 'Organizer'}
     )
     category = models.ForeignKey(
-        "Category", 
+        Category, 
         on_delete=models.CASCADE
     )
     title = models.CharField(max_length=255)
@@ -62,30 +77,29 @@ class Activity(models.Model):
 
 class UserCategory(models.Model):
     participant = models.ForeignKey(
-        "User", 
+        User, 
         on_delete=models.CASCADE, 
         limit_choices_to={'role': 'Participant'}
     )
     category = models.ForeignKey(
-        "Category", 
+        Category, 
         on_delete=models.CASCADE
     )
 
 class Registration(models.Model):
     participant = models.ForeignKey(
-        "User", 
+        User, 
         on_delete=models.CASCADE, 
         limit_choices_to={'role': 'Participant'}
     )
     category = models.ForeignKey(
-        "Category", 
+        Category, 
         on_delete=models.CASCADE
     )
 
-
 class ActivityImage(models.Model):
     activity = models.ForeignKey(
-        "Activity", 
+        Activity, 
         on_delete=models.CASCADE
     )
     image_path = models.ImageField(upload_to='activity_images/', verbose_name="รูปภาพกิจกรรม")
@@ -101,12 +115,12 @@ class Review(models.Model):
     ]
 
     participant = models.ForeignKey(
-        "User", 
+        User, 
         on_delete=models.CASCADE, 
         limit_choices_to={'role': 'Participant'}
     )
     activity = models.ForeignKey(
-        "Activity", 
+        Activity, 
         on_delete=models.CASCADE
     )
     description = models.TextField()

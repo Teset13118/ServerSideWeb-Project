@@ -38,7 +38,10 @@ class LoginView(View):
         if form.is_valid():
             user = form.get_user() 
             login(request,user)
-            return redirect('url_p_homepage') 
+            if user.role == "Participant":
+                return redirect('url_p_homepage')
+            else:
+                return redirect('url_profile')
         else:
             messages.error(request, "Invalid username or password")
 
@@ -98,8 +101,7 @@ class ViewHome(View):
             'activity': activity,
             'category': category
             })
-
-class ViewTest(View):
+class ViewProfile(View):
     def get(self, request):
         return render(request, 'participants/p_profile.html')
 

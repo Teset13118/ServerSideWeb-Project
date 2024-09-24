@@ -8,10 +8,10 @@ body {
     background-color: #ECF0F1;
     font-family: 'Kanit', sans-serif;
 }
-
+/* register */
 /* login */
 /* ---------------------------------------------- */
-.main_login {
+.main_login, .main_register{
     width: 20%;
     display: flex;
     justify-content: center;
@@ -22,8 +22,30 @@ body {
     padding: 30px;
     border-radius: 20px;
 }
-.login_title{
+.main_register{
+    width: 25%;
+    margin-top: 10%;
+}
+.login_title, .register_title{
     text-align: center;
+}
+.box_login, .box_register{
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    padding-left: 0px;
+}
+.btn_login, .btn_register{
+    background-color: white;
+    border-radius: 5px;
+    padding: 5px;
+    width: 100%;
+    border-width: 1px;
+}
+.regis_form{
+    height: 25px;
 }
 
 /* Profile */
@@ -314,7 +336,7 @@ body {
     box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
 }
 
-.btn_register{
+.btn_regis_activity{
     background-color: white;
     border-style: hidden;
     padding: 5px;
@@ -322,7 +344,7 @@ body {
     box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
 }
 
-.btn_register:hover {
+.btn_regis_activity:hover {
     background-color: rgb(211, 211, 211);
     cursor: pointer;
 }
