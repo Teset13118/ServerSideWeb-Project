@@ -36,15 +36,12 @@
     <div class="smallnav1">
         <h4 class="webname">Website Name</h4>
     </div>
-    <h5>{{ user.username }}</h5>
+    <h5>{{ user.id }}</h5>
     <div class="smallnav2">
         {% if user.is_authenticated %}
-        <!-- <button class="btn_profile" onclick="window.location.href='{% url 'url_profile' %}'">โปรไฟล์</button> -->
-        <a href="{% url 'url_profile' %}">โปรไฟล์</a>
+        <a href="{% url 'url_profile' user.id%}">โปรไฟล์</a>
         <a href="{% url 'url_logout' %}">logout</a>
         {% else %}
-        <!-- <a href="{% url 'url_login' %}">login</a> -->
-        <!-- <button class="btn_profile" onclick="window.location.href='{% url 'url_login' %}'">Login</button> -->
         <a href="{% url 'url_login' %}">Login</a>
         {% endif %}
     </div>

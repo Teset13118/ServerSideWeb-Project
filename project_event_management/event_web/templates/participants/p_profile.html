@@ -5,6 +5,7 @@ Profile
 {% endblock %}
 
 {% block content %}
+
 <div class="main_profile">
     <div class="ex3">
         <h2 class="ghost">โปรไฟล์ของคุณ</h2>
@@ -20,16 +21,17 @@ Profile
 </div>
 <div class="main_profile">
     <div class="profile_content">
-        <form action="">
+        <form action="{% url 'url_profile' user.id%}" method="POST">
             <div class="box1_profile">
-                <label for="name">ชื่อ</label>
-                <input type="text" class="profile_input">
-                <label for="password">นามสกุล</label>
-                <input type="text" name="" id="" class="profile_input">
-                <label for="password">gmail</label>
-                <input type="text" name="" id="" class="profile_input">
-                <label for="password">เบอร์ติดต่อ</label>
-                <input type="text" name="" id="" class="profile_input">
+                <label for="">ชื่อ</label>
+                
+                <label for="">นามสกุล</label>
+                
+                <label for="">gmail</label>
+                
+                <label for="">เบอร์ติดต่อ</label>
+                
+                <label for="">เพศ</label>
             </div>
         </form>
     </div>

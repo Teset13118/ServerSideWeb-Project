@@ -67,9 +67,14 @@ class ViewHome(View):
             'activity': activity,
             'category': category
             })
+    
 class ViewProfile(View):
-    def get(self, request):
-        return render(request, 'participants/p_profile.html')
+    def get(self, request, user_id):
+        profile = UserDetail.objects.get(id=user_id)
+        form = ProfileForm(instance = profile)
+        return render(request, 'participants/p_profile.html', {
+            'profile': form,
+        })
 
 class ViewActivity(View):
     def get(self, request, activity_id):
