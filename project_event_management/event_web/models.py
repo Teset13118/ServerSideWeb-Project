@@ -28,7 +28,7 @@ class UserDetail(models.Model):
     gender = models.CharField(max_length=1, choices=GENDER_CHOICES, null=True)
     age = models.PositiveIntegerField(null=True)
     birthday = models.DateField(null=True)
-    image_path = models.ImageField(upload_to='userprofile_images/', verbose_name="User_image")
+    image_path = models.ImageField(upload_to='userprofile_images/', verbose_name="User_image", null=True)
 
     def __str__(self):
         return f"{self.user.first_name} {self.user.last_name} - Details"

@@ -424,3 +424,37 @@ body {
     padding: 10px;
     width: 25%;
 }
+
+/* p_select_category */
+/* ------------------------------------------------------------------ */
+
+.container .p_select_category_card input[type="checkbox"] {
+    position: absolute;
+    opacity: 0;
+}
+
+.container .p_select_category_card {
+    transition: all 0.3s ease-in-out;
+    cursor: pointer;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    padding: 20px;
+    height: 100%; /* กำหนดให้เต็มพื้นที่ */
+    width: 100%; /* กำหนดให้เต็มพื้นที่ */
+    background-color: #fff;
+}
+
+.container .p_select_category_card:hover {
+    transform: scale(1.05);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+.container .p_select_category_icon {
+    font-size: 50px;
+    color: #6c757d;
+}
+
+.container .p_select_category_card input[type="checkbox"]:checked + .card {
+    border: 2px solid #007bff;
+    background-color: #e7f1ff;
+}
