@@ -176,4 +176,7 @@ class EditActivity(View):
             for image in images:
                 ActivityImage.objects.create(activity=activity, image_path=image)
         return redirect('url_p_homepage')
-    
+
+class SelectCategory(View):
+    def get(self, request):
+        return render(request, 'participants/p_select_category.html')
