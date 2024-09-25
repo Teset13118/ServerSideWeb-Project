@@ -24,7 +24,9 @@
             </div>
             <button type="submit" class="btn_login">Submit</button>
             <p>dont have account? <a href="{% url 'url_register' %}">register</a></p>
-            {{ form.errors }}
+            <div style="color:red;">
+                {{form.errors}}
+            </div>
         </form>
     </div>
 </body>

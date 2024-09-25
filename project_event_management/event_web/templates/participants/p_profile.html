@@ -14,26 +14,53 @@ Profile
 <div class="main_profile">
     <div class="profile">
         <div class="profile_category">
-            <button>ข้อมูลส่วนตัว</button>
+            <button onclick="Swap()">ข้อมูลส่วนตัว</button>
             <button>กิจกรรมที่ลงทะเบียน</button>
         </div>
     </div>
 </div>
 <div class="main_profile">
     <div class="profile_content">
-        <form action="{% url 'url_profile' user.id%}" method="POST">
-            <div class="box1_profile">
-                <label for="">ชื่อ</label>
-                
-                <label for="">นามสกุล</label>
-                
-                <label for="">gmail</label>
-                
-                <label for="">เบอร์ติดต่อ</label>
-                
-                <label for="">เพศ</label>
-            </div>
-        </form>
+        <div class="box1_profile">
+            <label for="">ชื่อ</label>
+            {% if user.first_name == null %}
+            <p>ยังไม่มีข้อมูล</p>
+            {% else %}
+            {{ user.first_name}}
+            {% endif %}
+            <label for="">นามสกุล</label>
+            {% if user.last_name == null %}
+            <p>ยังไม่มีข้อมูล</p>
+            {% else %}
+            {{ user.last_name}}
+            {% endif %}
+            <label for="">email</label>
+            {{ user.email }}
+            <label for="">เบอร์ติดต่อ</label>
+            {{ user.phone_number }}
+            <label for="">เพศ</label>
+            {% if profile.gender == "M" %}
+            <p>ชาย</p>
+            {% elif profile.gender == "F" %}
+            <p>หญิง</p>
+            {% elif profile.gender == "O" %}
+            <p>LGBT</p>
+            {% else %}
+            <p>ยังไม่มีข้อมูล</p>
+            {% endif %}
+            <label for="">อายุ</label>
+            {% if profile.age == null %}
+            <p>ยังไม่มีข้อมูล</p>
+            {% else %}
+            {{ profile.age }}
+            {% endif %}
+            <label for="">วันเกิด</label>
+            {% if profile.birthday == null %}
+            <p>ยังไม่มีข้อมูล</p>
+            {% else %}
+            {{ profile.birthday }}
+            {% endif %}
+        </div>
     </div>
 </div>
 <div class="main_profile">
@@ -44,4 +71,12 @@ Profile
     </div>
 </div>
 
+{% endblock %}
+
+{% block script %}
+<script>
+    function swap() {
+
+    }
+</script>
 {% endblock %}

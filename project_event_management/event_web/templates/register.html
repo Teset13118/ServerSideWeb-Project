@@ -23,6 +23,10 @@
                 {{ form.email }}
             </div>
             <div class="box_register">
+                <label for="">Phone:</label>
+                {{ form.phone_number }}
+            </div>
+            <div class="box_register">
                 <label for="">role:</label>
                 {{ form.role}}
             </div>
@@ -36,7 +40,9 @@
             </div>
             <button type="submit" class="btn_register">Submit</button>
             <p>already have account? <a href="{% url 'url_login' %}">login</a></p>
-            {{ form.errors }}
+            <div style="color:red;">
+                {{form.errors}}
+            </div>
         </form>
     </div>
 

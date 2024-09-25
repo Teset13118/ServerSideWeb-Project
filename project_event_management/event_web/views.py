@@ -25,7 +25,10 @@ class RegisterView(View):
     def post(self, request):
         form = CustomUserCreationForm(request.POST)
         if form.is_valid():
-            form.save()
+            usertxt = form.save()
+            UserDetail.objects.create(
+                user = usertxt 
+            )
             return redirect('url_login')
         return render(request, 'register.html', {"form": form}) 
     
@@ -69,11 +72,13 @@ class ViewHome(View):
             })
     
 class ViewProfile(View):
-    def get(self, request, user_id):
-        profile = UserDetail.objects.get(id=user_id)
-        form = ProfileForm(instance = profile)
+    def get(self, request, userid):
+        profile = UserDetail.objects.get(user_id=userid)
+        # user = User.objects.get(id=userid)
+        # form1 = ProfileForm(instance = profile)
+        # form2 = UserForm(instance = user)
         return render(request, 'participants/p_profile.html', {
-            'profile': form,
+            'profile': profile,
         })
 
 class ViewActivity(View):

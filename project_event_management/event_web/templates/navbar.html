@@ -36,7 +36,7 @@
     <div class="smallnav1">
         <h4 class="webname">Website Name</h4>
     </div>
-    <h5>{{ user.id }}</h5>
+    <h5>{{ user.username }}</h5>
     <div class="smallnav2">
         {% if user.is_authenticated %}
         <a href="{% url 'url_profile' user.id%}">โปรไฟล์</a>

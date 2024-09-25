@@ -7,8 +7,9 @@ class User(AbstractUser):
         ('Organizer', 'Organizer'),
     ]
 
-    first_name = models.CharField(max_length=255)
-    last_name = models.CharField(max_length=255)
+    first_name = models.CharField(max_length=255, null=True)
+    last_name = models.CharField(max_length=255, null=True)
+    phone_number = models.CharField(max_length=10, unique=True)
     email = models.EmailField(unique=True)
     role = models.CharField(max_length=20, choices=ROLE_CHOICES)
 
@@ -24,10 +25,9 @@ class UserDetail(models.Model):
     ]
 
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-    phone_number = models.CharField(max_length=10, unique=True)
-    gender = models.CharField(max_length=1, choices=GENDER_CHOICES)
-    age = models.PositiveIntegerField()
-    birthday = models.DateField()  # Added birthday field
+    gender = models.CharField(max_length=1, choices=GENDER_CHOICES, null=True)
+    age = models.PositiveIntegerField(null=True)
+    birthday = models.DateField(null=True)
 
     def __str__(self):
         return f"{self.user.first_name} {self.user.last_name} - Details"

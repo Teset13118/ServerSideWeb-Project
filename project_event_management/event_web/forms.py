@@ -7,12 +7,22 @@ from django.forms import ModelForm
 class CustomUserCreationForm(UserCreationForm):
     class Meta:
         model = User
-        fields = ('username', 'email', 'role', 'password1', 'password2')
+        fields = ['username', 'email', 'role', 'phone_number','password1', 'password2']
 
-class ProfileForm(ModelForm):
-    class Meta:
-        model = UserDetail
-        fields = ('phone_number', 'age', 'gender', 'birthday')
+# class ProfileForm(ModelForm):
+#     first_name = forms.CharField(max_length=100)
+#     last_name = forms.CharField(max_length=100)
+#     email = forms.EmailField()
+#     class Meta:
+#         model = UserDetail
+#         fields = ['user','phone_number', 'age', 'gender', 'birthday', 'first_name', 'last_name']
+#         widgets = {
+#             'birthday': forms.DateInput(attrs={"type": "date"}),
+#         }
+# class UserForm(ModelForm):
+#     class Meta:
+#         model = User
+#         fields = ['first_name', 'last_name', 'email']
 
 
 class CreateActivity_Form(forms.ModelForm):
