@@ -1,48 +1,78 @@
 <style>
     .navbar {
-    position: fixed;
-    z-index: 1;
-    width: 100%;
-    font-weight: bold;
-    color: white;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    background-color: #2C3E50;
-    padding-left: 20px;
-    padding-right: 20px;
-    user-select: none; /* Standard browsers */
-    -webkit-user-select: none; /* Safari/Chrome */
-    -moz-user-select: none; /* Firefox */
-    -ms-user-select: none; /* IE/Edge */
-}
-.btn_profile {
-    width: fit-content;
-    border-radius: 10px;
-    font-size: 14px;
-    padding: 5px;
-    color: white;
-    background-color: #E67E22;
-    border-style: hidden;
-}
+        position: fixed;
+        z-index: 1;
+        width: 100%;
+        font-weight: bold;
+        color: white;
+        display: flex;
+        justify-content: space-between;
+        background-color: #2C3E50;
+        padding: 5px;
+        padding-left: 20px;
+        padding-right: 20px;
+        user-select: none;
+        /* Standard browsers */
+        -webkit-user-select: none;
+        /* Safari/Chrome */
+        -moz-user-select: none;
+        /* Firefox */
+        -ms-user-select: none;
+        /* IE/Edge */
+    }
 
-.btn_profile:hover {
-    background-color: #376786;
-    cursor: pointer;
-    scale: 1.05;
-}
+    .btn_profile {
+        width: fit-content;
+        border-radius: 10px;
+        font-size: 14px;
+        padding: 5px;
+        color: white;
+        background-color: #E67E22;
+        border-style: hidden;
+    }
+
+    .btn_profile:hover {
+        background-color: #376786;
+        cursor: pointer;
+        scale: 1.05;
+    }
+    .smallnav2{
+        display: flex;
+        gap: 15px;
+    }
+    .btn_nav{
+        background-color: #E67E22;
+        color: white;
+        padding: 5px;
+        padding-left: 7px;
+        padding-right: 7px;
+        text-decoration: none;
+        border-radius: 10px;
+    }
+    .btn_nav:hover{
+        background-color: #c76e21;
+        color: white;
+    }
 </style>
 <div class="navbar">
     <div class="smallnav1">
         <h4 class="webname">Website Name</h4>
     </div>
-    <h5>{{ user.username }}</h5>
     <div class="smallnav2">
-        {% if user.is_authenticated %}
-        <a href="{% url 'url_profile' user.id%}">โปรไฟล์</a>
-        <a href="{% url 'url_logout' %}">logout</a>
-        {% else %}
-        <a href="{% url 'url_login' %}">Login</a>
-        {% endif %}
+        <div>
+            <h5>{{ user.username }}</h5>
+        </div>
+        <div style="display: flex; gap: 20px;">
+            {% if user.is_authenticated %}
+            <div>
+                <a href="{% url 'url_profile' user.id%}" class="btn_nav">โปรไฟล์</a>
+            </div>
+            <div>
+                <a href="{% url 'url_logout' %}" class="btn_nav">logout</a>
+            </div>
+            {% else %}
+            <a href="{% url 'url_login' %}">Login</a>
+            {% endif %}
+        </div>
     </div>
 </div>
