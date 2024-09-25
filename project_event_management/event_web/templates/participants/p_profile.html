@@ -5,22 +5,31 @@ Profile
 {% endblock %}
 
 {% block content %}
-
+<a href="{% url 'url_p_homepage' %}" class="btn_back">Back</a>
 <div class="main_profile">
     <div class="ex3">
-        <h2 class="ghost">โปรไฟล์ของคุณ</h2>
+        <h2 class="ghost" style="color: white;">โปรไฟล์ของคุณ</h2>
     </div>
 </div>
 <div class="main_profile">
     <div class="profile">
+        <div style="display: flex; gap: 15px;">
+            <div class="pic_box_profile">
+                <img src="/static/pic/dog.jpg" alt="" class="profile_pic">
+            </div>
+            <div style="align-self: end; padding-bottom: 20px;">
+                <h3>{{ user.username }}</h3>
+                <h6 style="font-size: 12px;">วันที่เข้าร่วม: {{ user.date_joined |date:"d M Y"}}</h6>
+            </div>
+        </div>
         <div class="profile_category">
-            <button onclick="Swap()">ข้อมูลส่วนตัว</button>
-            <button>กิจกรรมที่ลงทะเบียน</button>
+            <button onclick="SwapUserDetail()" class="btn_profile">ข้อมูลส่วนตัว</button>
+            <button onclick="SwapActivityDetail()" class="btn_profile">กิจกรรมที่ลงทะเบียน</button>
         </div>
     </div>
 </div>
-<div class="main_profile">
-    <div class="profile_content">
+<div class="main_profile" id="userDetails">
+    <div class="profile_user_content">
         <div class="box1_profile">
             <label for="">ชื่อ</label>
             {% if user.first_name == null %}
@@ -63,10 +72,10 @@ Profile
         </div>
     </div>
 </div>
-<div class="main_profile">
-    <div class="profile_content">
-        <div class="box1_profile">
-            <h1>กิจกรรมของฉัน</h1>
+<div class="main_profile" id="activityDetails" style="display: none;">
+    <div class="profile_activity_content">
+        <div class="box2_profile">
+            
         </div>
     </div>
 </div>
@@ -75,8 +84,14 @@ Profile
 
 {% block script %}
 <script>
-    function swap() {
+    function SwapUserDetail() {
+        document.getElementById('userDetails').style.display = 'flex';
+        document.getElementById('activityDetails').style.display = 'none';
+    }
 
+    function SwapActivityDetail() {
+        document.getElementById('userDetails').style.display = 'none';
+        document.getElementById('activityDetails').style.display = 'flex';
     }
 </script>
 {% endblock %}
