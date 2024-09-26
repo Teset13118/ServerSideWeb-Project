@@ -95,10 +95,31 @@
                         </div>
                     </div>
 
-                    <div class="mb-3">
-                        <label for="id_upload_image" class="form-label">Upload Activity Images</label>
-                        <input class="form-control" type="file" id="id_upload_image" name="upload_image" multiple />
-                        <div class="form-text">Upload up to 3 images</div>
+                    <div class="mb-3 mt-4">
+                        {% if purpose == 'create' %}
+                            <label for="id_upload_image" class="form-label">Upload Activity Images</label>
+                            <input class="form-control" type="file" id="id_upload_image" name="upload_image" multiple />
+                            <div class="form-text">You can upload a maximum of 3 images.</div>
+                        {% else %}
+                            <h2 class="text-center mb-2 ">Images of the activities you possess</h2>
+                            <div class="text-center form-text">**You can have up to 3 activity images in total, including previously uploaded images and those you are about to upload</div>
+                            <div class="row justify-content-center mt-2" id="image-container">
+                                {% for image in activity_images %}
+                                    <div class="col-lg-4 col-md-4 col-sm-6 mb-4 image-card" id="image-card-{{ image.id }}">
+                                        <div class="card text-center" style="height: 100%;">
+                                            <div class="card-body">
+                                                <img src="{{ image.image_path.url }}" alt="Activity Image" class="img-thumbnail mb-2" style="max-width: 100%; max-height: 150px;" />
+                                                <input class="form-control" type="file" name="upload_image_{{ image.id }}" />
+                                                <button type="button" class="btn btn-danger remove-image mt-2" data-image-id="{{ image.id }}">Remove</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                {% endfor %}
+                            </div>
+                            <label for="id_upload_image" class="form-label">Upload Activity Images</label>
+                            <input class="form-control" type="file" id="id_upload_image" name="upload_image" multiple />
+                            <div class="form-text">You can upload a maximum of 3 images in total.</div>
+                        {% endif %}
                     </div>
 
                     {% if purpose == 'create' %}
@@ -115,6 +136,46 @@
 {% block script %}
 <script>
     document.addEventListener('DOMContentLoaded', function() {
+        // ฟังก์ชันสำหรับลบรูปภาพ
+        const removeButtons = document.querySelectorAll('.remove-image');
+        let existingImageCount = document.querySelectorAll('.image-card').length; // จำนวนรูปที่มีอยู่ใน DOM
+
+        removeButtons.forEach(button => {
+            button.addEventListener('click', function () {
+                const imageId = this.getAttribute('data-image-id');
+                const imageCard = document.getElementById(`image-card-${imageId}`);
+
+                // สร้าง input hidden สำหรับเก็บ imageId ที่ถูกลบ
+                const inputRemove = document.createElement('input');
+                inputRemove.type = 'hidden';
+                inputRemove.name = 'existing_image_ids_to_remove';
+                inputRemove.value = imageId;
+
+                document.querySelector('form').appendChild(inputRemove);
+
+                // ลบ image card ออกจาก DOM
+                imageCard.remove();
+                existingImageCount--; // ลดจำนวนรูปที่มีอยู่
+            });
+        });
+
+        // ตรวจสอบการเลือกไฟล์ใหม่
+        const uploadInput = document.getElementById('id_upload_image');
+        const maxImages = 3;
+
+        uploadInput.addEventListener('change', function (event) {
+            // นับจำนวนไฟล์ที่ผู้ใช้เลือก
+            const selectedFilesCount = uploadInput.files.length;
+            const totalUploadedImages = existingImageCount + selectedFilesCount
+
+            // ตรวจสอบว่าไฟล์ที่เลือกจะทำให้รวมกับรูปเดิมเกิน 3 หรือไม่
+            if (totalUploadedImages > maxImages) {
+                alert(`You uploaded ${totalUploadedImages} images but You can only upload a maximum of ${maxImages} images in total.`);
+                // Reset การเลือกไฟล์เพื่อไม่ให้เกิน
+                uploadInput.value = '';
+            }
+        });
+
         const activityType = document.getElementById('id_activity_type');
         const platformContainer = document.getElementById('platform_container');
         const locationContainer = document.getElementById('location_container');
@@ -137,16 +198,8 @@
         }
 
         activityType.addEventListener('change', updateVisibility);
-        updateVisibility();  // Initial check on page load
+        updateVisibility(); // เรียกใช้ฟังก์ชันเพื่อเริ่มต้น
     });
-
-    const uploadImageInput = document.getElementById('id_upload_image');
-    uploadImageInput.addEventListener('change', function() {
-        if (uploadImageInput.files.length > 3) {
-            alert('You can upload a maximum of 3 images only.');
-            uploadImageInput.value = ''; // Clear the selected files
-        }
-    });
-
 </script>
+
 {% endblock %}

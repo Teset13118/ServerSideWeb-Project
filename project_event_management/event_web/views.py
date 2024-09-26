@@ -158,8 +158,8 @@ class View_CreateActivity(View):
                 is_approve="Approval", #FIXED STATUS DONT CHANGE!!!
             )
 
-            images = request.FILES.getlist('upload_image')
-            for image in images:
+            new_images = request.FILES.getlist('upload_image')
+            for image in new_images:
                 ActivityImage.objects.create(activity=activity, image_path=image)
             return redirect('url_p_homepage')
         else:
@@ -172,7 +172,8 @@ class EditActivity(View):
         activity = Activity.objects.get(id=activity_id)
         form = CreateActivity_Form(instance=activity)
         purpose = "edit"
-        return render(request, 'mo_ce_activity.html', {'activity': activity, 'form': form, 'purpose': purpose})
+        activity_images = ActivityImage.objects.filter(activity=activity)
+        return render(request, 'mo_ce_activity.html', {'activity': activity, 'form': form, 'purpose': purpose, 'activity_images': activity_images})
     
     def post(self, request, activity_id):
         activity = Activity.objects.get(id=activity_id)
@@ -181,22 +182,44 @@ class EditActivity(View):
         if form.is_valid():
             form.save()
 
-            images = request.FILES.getlist('upload_image') 
-            if images:
-                old_images = ActivityImage.objects.filter(activity=activity)
-                for old_image in old_images:
-                    # ลบไฟล์จากเซิร์ฟเวอร์
-                    if old_image.image_path:
-                        default_storage.delete(old_image.image_path.path)
-                # ลบจากฐานข้อมูล
-                old_images.delete()
+            # ID ของภาพที่ถูกลบ
+            existing_image_ids_remove = request.POST.getlist('existing_image_ids_to_remove')
 
-                for image in images:
-                    ActivityImage.objects.create(activity=activity, image_path=image)
+            # ลบภาพเก่าที่เลือก
+            for image_id in existing_image_ids_remove:
+                old_image = ActivityImage.objects.get(id=image_id, activity=activity)
+                if old_image.image_path:
+                    default_storage.delete(old_image.image_path.path)
+                old_image.delete()
+
+            # อัปเดตภาพเก่าเป็นใหม่
+            activity_images = ActivityImage.objects.filter(activity=activity)
+            for remaining_image in activity_images:
+                uploaded_file = request.FILES.get(f'upload_image_{remaining_image.id}')
+                if uploaded_file:  # หากมีการอัปโหลดไฟล์ใหม่
+                    if remaining_image.image_path:  # หากมีภาพเก่า
+                        default_storage.delete(remaining_image.image_path.path)  # ลบไฟล์เก่าจากเซิร์ฟเวอร์
+                    # อัปเดตภาพ
+                    remaining_image.image_path = uploaded_file
+                    remaining_image.save()
+
+            # หากมีการอัปโหลดภาพใหม่
+            new_images = request.FILES.getlist('upload_image') 
+            for new_image in new_images:
+                ActivityImage.objects.create(activity=activity, image_path=new_image)
+
             return redirect('url_p_homepage')
+        
         else:
-            form = CreateActivity_Form(instance=activity)
-            return render(request, 'mo_ce_activity.html', {'form': form, 'activity': activity, 'purpose': 'edit'})
+            form = CreateActivity_Form(request.POST, request.FILES, instance=activity)
+            activity_images = ActivityImage.objects.filter(activity=activity)
+            purpose = "edit"
+            return render(request, 'mo_ce_activity.html', {
+                'form': form,
+                'activity': activity,
+                'purpose': purpose,
+                'activity_images': activity_images
+            })
 
 class SelectCategory(View):
     def get(self, request):
