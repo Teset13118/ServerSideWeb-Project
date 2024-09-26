@@ -6,26 +6,31 @@ body {
     margin: 0;
     padding: 0;
     font-family: 'Kanit', sans-serif;
-    background-image: url('pic/earth.jpg') ;
+    background-image: url('pic/earth.jpg');
     background-attachment: fixed;
     background-size: 100%;
 }
 .btn_back{
     position: absolute;
-    margin-top: 75px;
+    margin-top: 80px;
     margin-left: 30px;
     border-radius: 5px;
-    background-color: white;
-    padding: 5px;
+    background-color: #E67E22;
+    padding: 7px;
     z-index:1;
     text-decoration: none;
-    color: black;
-    border-radius: 5px;
+    color: white;
+    border-radius: 10px;
     padding-left: 10px;
     padding-right: 10px;
+    border-style: solid;
+    border-width: 1.5px;
+    border-color: black;
+    box-shadow: rgba(0, 0, 0, 0.4) 0px 2px 4px, rgba(0, 0, 0, 0.3) 0px 7px 13px -3px, rgba(0, 0, 0, 0.2) 0px -3px 0px inset;
 }
 .btn_back:hover{
-    scale: 1.05;
+    border-color: white;
+    color: black;
 }
 /* register */
 /* login */
@@ -39,7 +44,7 @@ body {
     margin-top: 15%;
     padding: 30px;
     border-radius: 20px;
-    backdrop-filter: invert(80%);
+    background-color: white;
 }
 .main_register{
     width: 30%;
@@ -79,6 +84,7 @@ body {
     display: flex;
     justify-content: center;
     position: relative;
+    color: black;
 }
 
 .profile{
@@ -88,9 +94,8 @@ body {
     padding: 2px;
     display: flex;
     flex-direction: column;
-    border-style: solid;
-    border-width: 2px;
-    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+    box-shadow: rgba(52, 73, 94, 0.4) 5px 5px, rgba(41, 128, 185, 0.3) 10px 10px, rgba(127, 140, 141, 0.2) 15px 15px, rgba(236, 240, 241, 0.1) 20px 20px, rgba(189, 195, 199, 0.05) 25px 25px;
+
 }
 .pic_box_profile{
     width: 150px;
@@ -100,15 +105,15 @@ body {
     display: flex;
     justify-content: center;
     margin: 20px;
+    border-width: 2px;
     border-style: solid;
-    border-width: 1px;
 }
 .profile_pic{
     width: fit-content;
     height: auto;
 }
 .ex3{
-    margin-top: 60px;
+    margin-top: 70px;
 }
 .profile_category{
     background-color: white;
@@ -124,11 +129,10 @@ body {
 .profile_user_content{
     background-color: white;
     padding: 20px;
-    border-style: solid;
-    border-width: 2px;
     border-radius: 10px;
     width: 30%;
-    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+    box-shadow: rgba(52, 73, 94, 0.4) 5px 5px, rgba(41, 128, 185, 0.3) 10px 10px, rgba(127, 140, 141, 0.2) 15px 15px, rgba(236, 240, 241, 0.1) 20px 20px, rgba(189, 195, 199, 0.05) 25px 25px;
+
     display: flex;
     flex-direction: column;
 }
@@ -139,37 +143,58 @@ body {
     border-width: 2px;
     border-radius: 10px;
     width: 100%;
-    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+    box-shadow: rgba(52, 73, 94, 0.4) 5px 5px, rgba(41, 128, 185, 0.3) 10px 10px, rgba(127, 140, 141, 0.2) 15px 15px, rgba(236, 240, 241, 0.1) 20px 20px, rgba(189, 195, 199, 0.05) 25px 25px;
+
 }
 .btn_edit_user{
     text-decoration: none;
-    padding: 5px;
+    padding: 7px;
+    color: white;
+    align-self: center;
+    border-radius: 10px;
+    background-color: #E67E22;
     border-style: solid;
     border-width: 2px;
-    color: black;
-    border-radius: 10px;
-    background-color: white;
+    border-color: black;
+    box-shadow: rgba(0, 0, 0, 0.4) 0px 2px 4px, rgba(0, 0, 0, 0.3) 0px 7px 13px -3px, rgba(0, 0, 0, 0.2) 0px -3px 0px inset;
 }
 .btn_edit_user:hover{
     color: black;
-    background-color: rgb(211, 211, 211);
+    border-color: white;
 }
 .box1_profile{
     display: flex;
     flex-direction: column;
     row-gap: 10px;
+    margin-top: 20px;
 }
 .box2_profile{
     width: 100%;
 }
 .btn_profile{
-    border-radius: 5px;
-    background-color: white;
-    padding: 5px;
+    border-radius: 10px;
+    background-color: #E67E22;
+    color: white;
+    padding: 7px;
+    border-style: solid;
+    border-width: 2px;
+    border-color: black;
+    box-shadow: rgba(0, 0, 0, 0.4) 0px 2px 4px, rgba(0, 0, 0, 0.3) 0px 7px 13px -3px, rgba(0, 0, 0, 0.2) 0px -3px 0px inset;
+}
+.btn_profile:hover{
+    color: black;
+    border-color: white;
 }
 .box_user{
     display: flex;
-    justify-content: space-between;
+    flex-direction: column;
+}
+.box_user_form{
+    border-style: solid;
+    border-width: 1px;
+    border-left: 0px;
+    border-right: 0px;
+    border-top: 0px;
 }
 
 .profile_edit{
@@ -179,15 +204,13 @@ body {
     padding: 20px;
     display: flex;
     flex-direction: column;
-    border-style: solid;
-    border-width: 2px;
-    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+    box-shadow: rgba(52, 73, 94, 0.4) 5px 5px, rgba(41, 128, 185, 0.3) 10px 10px, rgba(127, 140, 141, 0.2) 15px 15px, rgba(236, 240, 241, 0.1) 20px 20px, rgba(189, 195, 199, 0.05) 25px 25px;
+
 }
 .box_edit_user{
     width: 100%;
     display: flex;
-    justify-content: space-between;
-    align-items: center;
+    flex-direction: column;
     padding: 10px;
 }
 
@@ -206,7 +229,7 @@ body {
 
 .ex1,
 .ex2 {
-    margin-top: 60px;
+    margin-top: 100px;
 }
 
 .ex2 {
@@ -247,7 +270,8 @@ body {
     padding: 10px;
     height: 30px;
     width: 300px;
-    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+    box-shadow: rgba(52, 73, 94, 0.4) 5px 5px, rgba(41, 128, 185, 0.3) 10px 10px, rgba(127, 140, 141, 0.2) 15px 15px, rgba(236, 240, 241, 0.1) 20px 20px, rgba(189, 195, 199, 0.05) 25px 25px;
+
 }
 
 .btn_search {
@@ -258,7 +282,8 @@ body {
     padding-right: 5px;
     border-top-right-radius: 10px;
     border-bottom-right-radius: 10px;
-    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+    box-shadow: rgba(52, 73, 94, 0.4) 5px 5px, rgba(41, 128, 185, 0.3) 10px 10px, rgba(127, 140, 141, 0.2) 15px 15px, rgba(236, 240, 241, 0.1) 20px 20px, rgba(189, 195, 199, 0.05) 25px 25px;
+
 }
 
 .btn_search:hover {
@@ -275,8 +300,7 @@ body {
     display: flex;
     flex-direction: column;
     gap: 20px;
-    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
-    
+    box-shadow: rgba(52, 73, 94, 0.4) 5px 5px, rgba(41, 128, 185, 0.3) 10px 10px, rgba(127, 140, 141, 0.2) 15px 15px, rgba(236, 240, 241, 0.1) 20px 20px, rgba(189, 195, 199, 0.05) 25px 25px;
 }
 .home_category{
     background-color: white;
@@ -308,7 +332,8 @@ body {
     display: flex;
     flex-wrap: wrap;
     gap: 20px;
-    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+    box-shadow: rgba(52, 73, 94, 0.4) 5px 5px, rgba(41, 128, 185, 0.3) 10px 10px, rgba(127, 140, 141, 0.2) 15px 15px, rgba(236, 240, 241, 0.1) 20px 20px, rgba(189, 195, 199, 0.05) 25px 25px;
+
 }
 
 .block_event {

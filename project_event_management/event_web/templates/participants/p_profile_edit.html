@@ -11,39 +11,45 @@ Profile_edit
     </div>
 </div>
 <div class="main_profile">
-    <div class="profile_edit" >
+    <div class="profile_edit">
         <form method="POST">
             {% csrf_token %}
-            <div class="box_edit_user">
-                <label for="id_first_name">First Name:</label>
-                {{ form2.first_name }}
+            <div style="display: flex;">
+                <div class="box_edit_user">
+                    <h5>ชื่อ :</h5>
+                    {{ form2.first_name }}
+                </div>
+                <div class="box_edit_user">
+                    <h5>นามสกุล :</h5>
+                    {{ form2.last_name }}
+                </div>
             </div>
             <div class="box_edit_user">
-                <label for="id_last_name">Last Name:</label>
-                {{ form2.last_name }}
-            </div>
-            <div class="box_edit_user">
-                <label for="id_email">Email:</label>
+                <h5>Email :</h5>
                 {{ form2.email }}
             </div>
             <div class="box_edit_user">
-                <label for="id_phone_number">Phone:</label>
+                <h5>Phone :</h5>
                 {{ form2.phone_number }}
             </div>
             <div class="box_edit_user">
-                <label for="id_gender">Gender:</label>
+                <h5>เพศ :</h5>
                 {{ form1.gender }}
             </div>
-            <div class="box_edit_user">
-                <label for="id_age">Age:</label>
-                {{ form1.age }}
+            <div style="display: flex;">
+                <div class="box_edit_user">
+                    <h5>อายุ :</h5>
+                    {{ form1.age }}
+                </div>
+                <div class="box_edit_user">
+                    <h5>วันเกิด :</h5>
+                    {{ form1.birthday }}
+                </div>
             </div>
-            <div class="box_edit_user">
-                <label for="id_birthday">Birthday:</label>
-                {{ form1.birthday }}
+            <div style="margin-top: 20px; text-align: right;">
+                <button type="submit" class="btn_profile" style="margin-right: 10px;"><b>Save Changes</b></button>
+                <a href="{% url 'url_profile' user.id%}" class="btn_edit_user" style="padding: 9px;"><b>Cancel</b></a>
             </div>
-            <button type="submit">Save Changes</button>
-            <a href="{% url 'url_profile' user.id%}">Cancel</a>
         </form>
     </div>
 </div>

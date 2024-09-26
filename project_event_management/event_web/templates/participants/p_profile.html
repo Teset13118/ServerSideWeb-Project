@@ -5,7 +5,7 @@ Profile
 {% endblock %}
 
 {% block content %}
-<a href="{% url 'url_p_homepage' %}" class="btn_back">Back</a>
+<a href="{% url 'url_p_homepage' %}" class="btn_back"><b>Back</b></a>
 <div class="main_profile">
     <div class="ex3">
         <h2 class="ghost" style="color: white;">โปรไฟล์ของคุณ</h2>
@@ -23,39 +23,44 @@ Profile
             </div>
         </div>
         <div class="profile_category">
-            <button onclick="SwapUserDetail()" class="btn_profile">ข้อมูลส่วนตัว</button>
-            <button onclick="SwapActivityDetail()" class="btn_profile">กิจกรรมที่ลงทะเบียน</button>
+            <button onclick="SwapUserDetail()" class="btn_profile"><b>ข้อมูลส่วนตัว</b></button>
+            <button onclick="SwapActivityDetail()" class="btn_profile"><b>กิจกรรมที่ลงทะเบียน</b></button>
         </div>
     </div>
 </div>
-<div class="main_profile" id="userDetails">
-    <div class="profile_user_content">
-        <div style="display: flex; justify-content: flex-end;">
-            <a href="{% url 'url_profile_edit' user.id%}" class="btn_edit_user">แก้ไขข้อมูล</a>
+<div class="main_profile" id="userDetails" style="display: flex; flex-direction: column; align-items: center;">
+    <div class="ex3" style="margin-top: 10px; color: white; display: flex;">
+        <h3 style="text-align: center;">ข้อมูลส่วนตัว</h3>
+        <div style="position: absolute; left: 60%;">
+            <a href="{% url 'url_profile_edit' user.id%}" class="btn_edit_user"><b>แก้ไขข้อมูล</b></a>
         </div>
+    </div>
+    <div class="profile_user_content">
         <div class="box1_profile">
-            <div class="box_user">
-                <label for="">ชื่อ</label>
-                {% if user.first_name == null %}
-                <p>ยังไม่มีข้อมูล</p>
-                {% else %}
-                {{ user.first_name}}
-                {% endif %}
+            <div style="display: flex; justify-content: space-between;">
+                <div class="box_user">
+                    <h5>ชื่อ :</h5>
+                    {% if user.first_name == null %}
+                    <p>ยังไม่มีข้อมูล</p>
+                    {% else %}
+                    {{ user.first_name}}
+                    {% endif %}
+                </div>
+                <div class="box_user">
+                    <h5>นามสกุล :</h5>
+                    {% if user.last_name == null %}
+                    <p>ยังไม่มีข้อมูล</p>
+                    {% else %}
+                    {{ user.last_name}}
+                    {% endif %}
+                </div>
             </div>
             <div class="box_user">
-                <label for="">นามสกุล</label>
-                {% if user.last_name == null %}
-                <p>ยังไม่มีข้อมูล</p>
-                {% else %}
-                {{ user.last_name}}
-                {% endif %}
-            </div>
-            <div class="box_user">
-                <label for="">email</label>
+                <h5>Email :</h5>
                 {{ user.email }}
             </div>
             <div class="box_user">
-                <label for="">เบอร์ติดต่อ</label>
+                <h5>เบอร์ติดต่อ :</h5>
                 {{ user.phone_number }}
             </div>
             <div class="box_user">
@@ -89,7 +94,10 @@ Profile
         </div>
     </div>
 </div>
-<div class="main_profile" id="activityDetails" style="display: none;">
+<div class="main_profile" id="activityDetails" style="display: none; flex-direction: column; align-items: center;">
+    <div class="ex3" style="margin-top: 10px; color: white; display: flex;">
+        <h3 style="text-align: center;">กิจกรรมของฉัน</h3>
+    </div>
     <div class="profile_activity_content">
         <div class="box2_profile">
 

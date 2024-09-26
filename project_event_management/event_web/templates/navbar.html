@@ -8,7 +8,7 @@
         display: flex;
         justify-content: space-between;
         background-color: #2C3E50;
-        padding: 5px;
+        padding: 10px;
         padding-left: 20px;
         padding-right: 20px;
         user-select: none;
@@ -27,15 +27,17 @@
     .btn_nav{
         background-color: #E67E22;
         color: white;
-        padding: 5px;
-        padding-left: 7px;
-        padding-right: 7px;
+        padding: 7px;
         text-decoration: none;
         border-radius: 10px;
+        border-style: solid;
+        border-width: 2px;
+        border-color: black;
+        box-shadow: rgba(0, 0, 0, 0.4) 0px 2px 4px, rgba(0, 0, 0, 0.3) 0px 7px 13px -3px, rgba(0, 0, 0, 0.2) 0px -3px 0px inset;
     }
     .btn_nav:hover{
-        background-color: #c76e21;
-        color: white;
+        border-color: white;
+        color: black;
     }
 </style>
 <div class="navbar">
@@ -49,13 +51,13 @@
         <div style="display: flex; gap: 20px;">
             {% if user.is_authenticated %}
             <div>
-                <a href="{% url 'url_profile' user.id%}" class="btn_nav">โปรไฟล์</a>
+                <a href="{% url 'url_profile' user.id%}" class="btn_nav"><b>โปรไฟล์</b></a>
             </div>
             <div>
-                <a href="{% url 'url_logout' %}" class="btn_nav">logout</a>
+                <a href="{% url 'url_logout' %}" class="btn_nav"><b>logout</b></a>
             </div>
             {% else %}
-            <a href="{% url 'url_login' %}" class="btn_nav">Login</a>
+            <a href="{% url 'url_login' %}" class="btn_nav"><b>Login</b></a>
             {% endif %}
         </div>
     </div>
