@@ -1,0 +1,152 @@
+{% extends 'layout.html' %}
+
+{% block title %}
+    {% if purpose == 'create' %}
+    Create Activity
+    {% else %}
+    Edit Activity
+    {% endif %}
+{% endblock %}
+
+{% block content %}
+    <div class="container p-3">
+        <div class="card" style="margin-top: 60px;">
+            <div class="card-header bg-primary text-white">
+                <h1 class="card-title">
+                    {% if purpose == 'create' %}
+                    Create Activity
+                    {% else %}
+                    Edit Activity
+                    {% endif %}
+                </h1>
+            </div>
+            <div class="card-body">
+                <form method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    
+                    <div class="mb-3">
+                        <label for="id_title" class="form-label">Activity Name</label>
+                        {{ form.title }}
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="id_close_register_date" class="form-label">Registration Closing Date</label>
+                        {{ form.close_register_date }}
+                    </div>
+
+                    <div class="row g-3">
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label for="id_start_date" class="form-label">Activity Start Date</label>
+                                {{ form.start_date }}
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label for="id_due_date" class="form-label">Activity End Date</label>
+                                {{ form.due_date }}
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label for="id_activity_type" class="form-label">Activity Type</label>
+                                {{ form.activity_type }}
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label for="id_category" class="form-label">Activity Category</label>
+                                {{ form.category }}
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="col-md-6">
+                        <div class="mb-3" id="location_container">
+                            <label for="id_location" class="form-label">Location</label>
+                            {{ form.location }}
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="mb-3" id="platform_container">
+                            <label for="id_platform" class="form-label">Platform</label>
+                            {{ form.platform }}
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="mb-3">
+                            <label for="id_short_description" class="form-label">Short Description</label>
+                            {{ form.short_description }}
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="mb-3">
+                            <label for="id_description" class="form-label">Description</label>
+                            {{ form.description }}
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="mb-3">
+                            <label for="id_contact" class="form-label">Contact Information</label>
+                            {{ form.contact }}
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="id_upload_image" class="form-label">Upload Activity Images</label>
+                        <input class="form-control" type="file" id="id_upload_image" name="upload_image" multiple />
+                        <div class="form-text">Upload up to 3 images</div>
+                    </div>
+
+                    {% if purpose == 'create' %}
+                        <button type="submit" onclick="window.location.href='{% url 'url_o_createactivity' %}'" class="btn btn-primary w-100">Submit Create Activity Request</button>
+                    {% else %}
+                        <button type="submit" onclick="window.location.href='{% url 'url_mo_editactivity' activity_id=activity.id %}'" class="btn btn-success w-100">Edit Activity</button>
+                    {% endif %}
+                </form>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block script %}
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const activityType = document.getElementById('id_activity_type');
+        const platformContainer = document.getElementById('platform_container');
+        const locationContainer = document.getElementById('location_container');
+
+        function updateVisibility() {
+            const selectedType = activityType.value;
+            if (selectedType == 'online') {
+                platformContainer.style.display = 'block';
+                locationContainer.style.display = 'none';
+            } else if (selectedType == 'onsite') {
+                platformContainer.style.display = 'none';
+                locationContainer.style.display = 'block';
+            } else if (selectedType == 'hybrid') {
+                platformContainer.style.display = 'block';
+                locationContainer.style.display = 'block';
+            } else {
+                platformContainer.style.display = 'none';
+                locationContainer.style.display = 'none';
+            }
+        }
+
+        activityType.addEventListener('change', updateVisibility);
+        updateVisibility();  // Initial check on page load
+    });
+
+    const uploadImageInput = document.getElementById('id_upload_image');
+    uploadImageInput.addEventListener('change', function() {
+        if (uploadImageInput.files.length > 3) {
+            alert('You can upload a maximum of 3 images only.');
+            uploadImageInput.value = ''; // Clear the selected files
+        }
+    });
+
+</script>
+{% endblock %}
