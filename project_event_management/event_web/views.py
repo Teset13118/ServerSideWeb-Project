@@ -74,11 +74,35 @@ class ViewHome(View):
 class ViewProfile(View):
     def get(self, request, userid):
         profile = UserDetail.objects.get(user_id=userid)
-        # user = User.objects.get(id=userid)
-        # form1 = ProfileForm(instance = profile)
-        # form2 = UserForm(instance = user)
         return render(request, 'participants/p_profile.html', {
             'profile': profile,
+        })
+    
+class ViewProfileEdit(View):
+    def get(self, request, userid):
+        profile = UserDetail.objects.get(user_id=userid)
+        user = User.objects.get(id=userid)
+        form1 = ProfileEditForm(instance = profile)
+        form2 = UserEditForm(instance = user)
+        return render(request, 'participants/p_profile_edit.html', {
+            'form1': form1,
+            'form2': form2,
+        })
+    
+    def post(self, request, userid):
+        profile = UserDetail.objects.get(user_id=userid)
+        user = User.objects.get(id=userid)
+        form1 = ProfileEditForm(request.POST, instance=profile)
+        form2 = UserEditForm(request.POST, instance=user)
+
+        if form1.is_valid() and form2.is_valid():
+            form1.save()
+            form2.save()
+            return redirect('url_profile', userid=userid)
+
+        return render(request, 'participants/p_profile_edit.html', {
+            'form1': form1,
+            'form2': form2,
         })
 
 class ViewActivity(View):

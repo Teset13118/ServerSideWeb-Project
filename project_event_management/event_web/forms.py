@@ -23,6 +23,17 @@ class CustomUserCreationForm(UserCreationForm):
 #     class Meta:
 #         model = User
 #         fields = ['first_name', 'last_name', 'email']
+class ProfileEditForm(ModelForm):
+    class Meta:
+        model = UserDetail
+        fields = ['age', 'gender', 'birthday']
+        widgets = {
+            'birthday': forms.DateInput(attrs={'type': 'date'}),
+        }
+class UserEditForm(ModelForm):
+    class Meta:
+        model = User
+        fields = ['first_name', 'last_name', 'phone_number', 'email']
 
 
 class CreateActivity_Form(forms.ModelForm):

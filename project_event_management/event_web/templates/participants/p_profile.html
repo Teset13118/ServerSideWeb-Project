@@ -30,52 +30,69 @@ Profile
 </div>
 <div class="main_profile" id="userDetails">
     <div class="profile_user_content">
+        <div style="display: flex; justify-content: flex-end;">
+            <a href="{% url 'url_profile_edit' user.id%}" class="btn_edit_user">แก้ไขข้อมูล</a>
+        </div>
         <div class="box1_profile">
-            <label for="">ชื่อ</label>
-            {% if user.first_name == null %}
-            <p>ยังไม่มีข้อมูล</p>
-            {% else %}
-            {{ user.first_name}}
-            {% endif %}
-            <label for="">นามสกุล</label>
-            {% if user.last_name == null %}
-            <p>ยังไม่มีข้อมูล</p>
-            {% else %}
-            {{ user.last_name}}
-            {% endif %}
-            <label for="">email</label>
-            {{ user.email }}
-            <label for="">เบอร์ติดต่อ</label>
-            {{ user.phone_number }}
-            <label for="">เพศ</label>
-            {% if profile.gender == "M" %}
-            <p>ชาย</p>
-            {% elif profile.gender == "F" %}
-            <p>หญิง</p>
-            {% elif profile.gender == "O" %}
-            <p>LGBT</p>
-            {% else %}
-            <p>ยังไม่มีข้อมูล</p>
-            {% endif %}
-            <label for="">อายุ</label>
-            {% if profile.age == null %}
-            <p>ยังไม่มีข้อมูล</p>
-            {% else %}
-            {{ profile.age }}
-            {% endif %}
-            <label for="">วันเกิด</label>
-            {% if profile.birthday == null %}
-            <p>ยังไม่มีข้อมูล</p>
-            {% else %}
-            {{ profile.birthday }}
-            {% endif %}
+            <div class="box_user">
+                <label for="">ชื่อ</label>
+                {% if user.first_name == null %}
+                <p>ยังไม่มีข้อมูล</p>
+                {% else %}
+                {{ user.first_name}}
+                {% endif %}
+            </div>
+            <div class="box_user">
+                <label for="">นามสกุล</label>
+                {% if user.last_name == null %}
+                <p>ยังไม่มีข้อมูล</p>
+                {% else %}
+                {{ user.last_name}}
+                {% endif %}
+            </div>
+            <div class="box_user">
+                <label for="">email</label>
+                {{ user.email }}
+            </div>
+            <div class="box_user">
+                <label for="">เบอร์ติดต่อ</label>
+                {{ user.phone_number }}
+            </div>
+            <div class="box_user">
+                <label for="">เพศ</label>
+                {% if profile.gender == "M" %}
+                <p>ชาย</p>
+                {% elif profile.gender == "F" %}
+                <p>หญิง</p>
+                {% elif profile.gender == "O" %}
+                <p>LGBT</p>
+                {% else %}
+                <p>ยังไม่มีข้อมูล</p>
+                {% endif %}
+            </div>
+            <div class="box_user">
+                <label for="">อายุ</label>
+                {% if profile.age == null %}
+                <p>ยังไม่มีข้อมูล</p>
+                {% else %}
+                {{ profile.age }}
+                {% endif %}
+            </div>
+            <div class="box_user">
+                <label for="">วันเกิด</label>
+                {% if profile.birthday == null %}
+                <p>ยังไม่มีข้อมูล</p>
+                {% else %}
+                {{ profile.birthday }}
+                {% endif %}
+            </div>
         </div>
     </div>
 </div>
 <div class="main_profile" id="activityDetails" style="display: none;">
     <div class="profile_activity_content">
         <div class="box2_profile">
-            
+
         </div>
     </div>
 </div>

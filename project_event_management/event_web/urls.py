@@ -11,6 +11,7 @@ urlpatterns = [
     path("register/", RegisterView.as_view(), name="url_register"),
     path("selectcategory/", SelectCategory.as_view(), name="url_select_category"),
     path("profile/<int:userid>", ViewProfile.as_view(), name="url_profile"),
+    path("profile_edit/<int:userid>", ViewProfileEdit.as_view(), name="url_profile_edit"),
     path("activity/<int:activity_id>", ViewActivity.as_view(), name="url_p_activitypage"),
     path("edit_activity/<int:activity_id>", EditActivity.as_view(), name="url_mo_editactivity"),
     # path("activity/<int:activity_id>", View_Activity.as_view(), name="url_p_activity_detail"),

@@ -1,0 +1,50 @@
+{% extends "layout.html" %}
+
+{% block title %}
+Profile_edit
+{% endblock %}
+
+{% block content %}
+<div class="main_profile">
+    <div class="ex3">
+        <h2 class="ghost" style="color: white;">แก้ไขข้อมูล</h2>
+    </div>
+</div>
+<div class="main_profile">
+    <div class="profile_edit" >
+        <form method="POST">
+            {% csrf_token %}
+            <div class="box_edit_user">
+                <label for="id_first_name">First Name:</label>
+                {{ form2.first_name }}
+            </div>
+            <div class="box_edit_user">
+                <label for="id_last_name">Last Name:</label>
+                {{ form2.last_name }}
+            </div>
+            <div class="box_edit_user">
+                <label for="id_email">Email:</label>
+                {{ form2.email }}
+            </div>
+            <div class="box_edit_user">
+                <label for="id_phone_number">Phone:</label>
+                {{ form2.phone_number }}
+            </div>
+            <div class="box_edit_user">
+                <label for="id_gender">Gender:</label>
+                {{ form1.gender }}
+            </div>
+            <div class="box_edit_user">
+                <label for="id_age">Age:</label>
+                {{ form1.age }}
+            </div>
+            <div class="box_edit_user">
+                <label for="id_birthday">Birthday:</label>
+                {{ form1.birthday }}
+            </div>
+            <button type="submit">Save Changes</button>
+            <a href="{% url 'url_profile' user.id%}">Cancel</a>
+        </form>
+    </div>
+</div>
+{% endblock %}
