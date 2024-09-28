@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
+from django.utils import timezone
 
 class User(AbstractUser):
     ROLE_CHOICES = [
@@ -126,3 +127,4 @@ class Review(models.Model):
     )
     description = models.TextField()
     score = models.CharField(max_length=1, choices=SCORE_CHOICES)
+    created_at = models.DateTimeField(default=timezone.now)
