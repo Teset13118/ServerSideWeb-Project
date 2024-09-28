@@ -123,9 +123,13 @@
                     </div>
 
                     {% if purpose == 'create' %}
-                        <button type="submit" onclick="window.location.href='{% url 'url_o_createactivity' %}'" class="btn btn-primary w-100">Submit Create Activity Request</button>
+                        <button type="submit" onclick="return confirmSubmit('create');" class="btn btn-primary w-100">
+                            Submit Create Activity Request
+                        </button>
                     {% else %}
-                        <button type="submit" onclick="window.location.href='{% url 'url_mo_editactivity' activity_id=activity.id %}'" class="btn btn-success w-100">Edit Activity</button>
+                        <button type="submit" onclick="return confirmSubmit('edit', '{{ activity.id }}');" class="btn btn-success w-100">
+                            Edit Activity
+                        </button>
                     {% endif %}
                 </form>
             </div>
@@ -200,6 +204,25 @@
         activityType.addEventListener('change', updateVisibility);
         updateVisibility(); // เรียกใช้ฟังก์ชันเพื่อเริ่มต้น
     });
+
+    function confirmSubmit(action, activityId = null) {
+        let message;
+        if (action === 'create') {
+            message = 'Are you sure you want to create this activity?';
+        } else if (action === 'edit') {
+            message = 'Are you sure you want to edit this activity?';
+        }
+
+        if (confirm(message)) {
+            if (action === 'create') {
+                window.location.href = "{% url 'url_o_createactivity' %}";
+            } else if (action === 'edit' && activityId) {
+                window.location.href = "{% url 'url_mo_editactivity' activity_id=1 %}".replace("1", activityId);
+            }
+            return true;
+        }
+        return false;
+    }
 </script>
 
 {% endblock %}
