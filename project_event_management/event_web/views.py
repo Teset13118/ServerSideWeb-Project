@@ -59,16 +59,21 @@ class LogoutView(View):
 class ViewHome(View):
     def get(self, request):
         category_id = request.GET.get('category_id')
+        search = request.GET.get('search', '')
         
         if category_id:
             activity = Activity.objects.filter(category_id=category_id)
         else:
             activity = Activity.objects.all()
 
+        if search:
+            activity = activity.filter(title__icontains=search)
+
         category = Category.objects.all()
         return render(request, 'participants/p_home.html', {
             'activity': activity,
             'category': category,
+             'search': search,
             })
 class ViewOrganizerHome(View):
     def get(self, request):
@@ -80,15 +85,18 @@ class ViewOrganizerHome(View):
 class ViewProfile(View):
     def get(self, request):
         profile = UserDetail.objects.get(user_id=request.user.id)
+        registration_activity = Registration.objects.filter(participant_id=request.user.id)
+
         return render(request, 'participants/p_profile.html', {
             'profile': profile,
+            'regis_activity': registration_activity
         })
     
 class ViewProfileEdit(View):
     def get(self, request):
-        profile = UserDetail.objects.get(user_id=request.user.id)
+        userdetail = UserDetail.objects.get(user_id=request.user.id)
         user = User.objects.get(id=request.user.id)
-        form1 = ProfileEditForm(instance = profile)
+        form1 = ProfileEditForm(instance = userdetail)
         form2 = UserEditForm(instance = user)
         return render(request, 'participants/p_profile_edit.html', {
             'form1': form1,
@@ -111,25 +119,6 @@ class ViewProfileEdit(View):
             'form2': form2,
         })
 
-# class ViewActivity(View):
-#     def get(self, request, activity_id):
-#         activity = Activity.objects.get(id=activity_id)
-#         activity_images = ActivityImage.objects.filter(activity=activity)
-
-#         return render(request, 'participants/p_activity.html', {
-#             'activity': activity,
-#             'activity_images': activity_images
-#         })
-#     def getregis(self, request, activity_id):
-#         regis_activity = request.GET.get('regis')
-#         participant = User.objects.get(id=regis_activity)
-#         activity = Activity.objects.get(id=activity_id)
-#         if regis_activity:
-#             Registration.objects.create(
-#                 activity_id = activity,
-#                 participant_id = participant
-#             )
-#         return render(request, 'participants/p_home.html')
 
 class ViewActivity(View):
     def get(self, request, activity_id):
@@ -148,12 +137,21 @@ class ViewActivity(View):
             'already_registration': already_registration,
         })
     def post(self, request, activity_id):
-        Registration.objects.create(
-            activity_id=activity_id, 
-            participant_id=request.user.id
-        )
-        return redirect('url_p_homepage')
+        action = request.POST.get('action')
         
+        if action == 'register':
+            Registration.objects.create(
+                activity_id=activity_id, 
+                participant_id=request.user.id
+            )
+        elif action == 'cancel':
+            Registration.objects.filter(
+                activity_id=activity_id, 
+                participant_id=request.user.id
+            ).delete()
+
+        return redirect('url_p_activitypage', activity_id=activity_id)
+
 class ViewManageUser(View):
     def get(self, request):
         participants = User.objects.filter(role='Participant')

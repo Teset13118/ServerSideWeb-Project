@@ -12,8 +12,9 @@ Home
     <div class="ex2">
         <h5 class="ghost" style="color: white;">กิจกรรม</h5>
         <div class="ghost_ex">
-            <form action="" class="search_form">
-                <input class="searchbar" type="text" placeholder="ค้นหา..">
+            <form method="GET" action="{% url 'url_p_homepage' %}" class="search_form">
+                {% csrf_token %}
+                <input class="searchbar" type="text" name="search" placeholder="ค้นหา.." value="{{ search }}">
                 <button class="btn_search"><i class="fa fa-search"> ค้นหา</i></button>
             </form>
         </div>
@@ -21,30 +22,32 @@ Home
 </div>
 <div class="main_home">
     <div class="categories">
-        <a href="{% url 'url_p_homepage' %}" class="home_category_active" onclick="">ทั้งหมด</a>
+        <a href="{% url 'url_p_homepage' %}" class="home_category_active">ทั้งหมด</a>
         
         {% for j in category %}
-        <a class="home_category" href="{% url 'url_p_homepage' %}?category_id={{ j.id }}">{{ j.category_name }}</a>
+        <a class="home_category" href="{% url 'url_p_homepage' %}?category_id={{ j.id }}{% if search %}&search={{ search }}{% endif %}">{{ j.category_name }}</a>
         {% endfor %}
     </div>
     <div class="home">
         {% for i in activity %}
-        <a class="block_event" href="{% url 'url_p_activitypage' i.id%}">
+        <a class="block_event" href="{% url 'url_p_activitypage' i.id %}">
             {% if i.activityimage_set.all %}
-                <!-- แสดงรูปภาพที่เก็บใน media -->
                 <img src="{{ i.activityimage_set.first.image_path.url }}" alt="" class="small_pic">
             {% else %}
-                <!-- หากไม่มีรูปภาพแสดงรูปภาพสำรอง -->
                 <img src="/static/pic/dog.jpg" alt="" class="small_pic">
             {% endif %}
             <div class="card_content">
                 <p class="title_event border">{{ i.title }}</p>
-                <p class="border"><i class="fa fa-calendar-check-o"></i>: {{i.start_date|date:"d/m/y H:i A"}}</p>
-                <p class="border">{{i.category.category_name}}</p>
-                <p class="short_description border">{{i.short_description}}</p>
+                <p class="border"><i class="fa fa-calendar-check-o"></i>: {{ i.start_date|date:"d/m/y H:i A" }}</p>
+                <p class="border">{{ i.category.category_name }}</p>
+                <p class="short_description border">{{ i.short_description }}</p>
             </div>
         </a>
+        {% empty %}
+        <h2 style="align-self: center;">ยังไม่มีกิจกรรม</h2>
         {% endfor %}
     </div>
 </div>
 {% endblock %}
+
+

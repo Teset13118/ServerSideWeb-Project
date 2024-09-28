@@ -6,9 +6,9 @@ Profile
 
 {% block content %}
 {% if user.role == "Participant" %}
-    <a href="{% url 'url_p_homepage' %}" class="btn_back"><b>Back</b></a> 
+<a href="{% url 'url_p_homepage' %}" class="btn_back"><b>Back</b></a>
 {% elif user.role == 'Organizer'%}
-    <a href="{% url 'url_o_homepage' %}" class="btn_back"><b>Back</b></a> 
+<a href="{% url 'url_o_homepage' %}" class="btn_back"><b>Back</b></a>
 {% endif %}
 <div class="main_profile">
     <div class="ex3">
@@ -106,7 +106,25 @@ Profile
     </div>
     <div class="profile_activity_content">
         <div class="box2_profile">
-
+            {% for i in regis_activity %}
+            <a class="block_event" href="{% url 'url_p_activitypage' i.activity.id%}">
+                {% if i.activity.activityimage_set.all %}
+                <!-- แสดงรูปภาพที่เก็บใน media -->
+                <img src="{{ i.activity.activityimage_set.first.image_path.url }}" alt="" class="small_pic">
+                {% else %}
+                <!-- หากไม่มีรูปภาพแสดงรูปภาพสำรอง -->
+                <img src="/static/pic/dog.jpg" alt="" class="small_pic">
+                {% endif %}
+                <div class="card_content">
+                    <p class="title_event border">{{ i.activity.title }}</p>
+                    <p class="border"><i class="fa fa-calendar-check-o"></i>: {{i.activity.start_date|date:"d/m/y H:i A"}}</p>
+                    <p class="border">{{i.activity.category.category_name}}</p>
+                    <p class="short_description border">{{i.activity.short_description}}</p>
+                </div>
+            </a>
+            {% empty %}
+            <h2>ยังไม่มีกิจกรรมที่ลงทะเบียน</h2>
+            {% endfor %}
         </div>
     </div>
 </div>

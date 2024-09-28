@@ -17,12 +17,9 @@ Activity
         <h2 class="ghost" style="color: white;">{{ activity.title }}</h2>
         <div class="ghost_ex" style="margin-top: 15px;">
             {% if user.role == "Participant" and not already_registration%}
-            <form method="POST" action="{% url 'url_p_activitypage' activity.id %}">
-                {% csrf_token %}
-                <button type="submit" class="btn_regis_activity">ลงทะเบียนกิจกรรม</button>
-            </form>
+            <button type="button" class="btn_regis_activity" data-toggle="modal" data-target="#registerModal">ลงทะเบียนกิจกรรม</button>
             {% elif user.role == "Participant" and already_registration%}
-            <a class="btn_regis_activity"href="#" style="background-color: green;">ลงทะเบียนกิจกรรมเรียบร้อยแล้ว</a>
+            <button class="btn_regis_activity" style="background-color: red;" data-toggle="modal" data-target="#cancelModal">ยกเลิกลงทะเบียนกิจกรรม</button>
             {% endif %}
         </div>
     </div>
@@ -80,9 +77,60 @@ Activity
 </div>
 <div class="main_activity" style="justify-content: center;">
     {% if user.role == "Participant" and not already_registration%}
-    <a class="btn_regis_activity" style=" padding: 20px; text-align: center;" href="{% url 'url_p_activitypage' activity.id%}?regis={{ user.id }}"><h3>ลงทะเบียนกิจกรรม</h3></a>
+    <button type="button" class="btn_regis_activity"  style=" padding: 20px; text-align: center;" data-toggle="modal" data-target="#registerModal"><h3>ลงทะเบียนกิจกรรม</h3></button>
     {% elif user.role == "Participant" and already_registration%}
-    <a class="btn_regis_activity" style=" padding: 20px; text-align: center; background-color: green;" href="#"><h3>ลงทะเบียนกิจกรรมเรียบร้อยแล้ว</h3></a>
+    <button class="btn_regis_activity" style=" padding: 20px; text-align: center; background-color: red;" data-toggle="modal" data-target="#cancelModal"><h3>ยกเลิกลงทะเบียนกิจกรรม</h3></button>
     {% endif %}
+</div>
+  
+  <!-- เข้าร่วมกิจกรรม Modal -->
+  <div class="modal fade" id="registerModal" tabindex="-1" role="dialog" aria-labelledby="registerModalTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="registerModalTitle">ลงทะเบียนกิจกรรม</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                คุณต้องการลงทะเบียนกิจกรรมนี้หรือไม่?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">ยกเลิก</button>
+                <form method="POST" action="{% url 'url_p_activitypage' activity.id %}">
+                    {% csrf_token %}
+                    <input type="hidden" name="action" value="register">
+                    <button type="submit" class="btn_regis_activity">ยืนยัน</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+  <!-- ยกเลิกเข้าร่มกิจกรรม Modal -->
+  <div class="modal fade" id="cancelModal" tabindex="-1" role="dialog" aria-labelledby="cancelModalTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="cancelModalTitle">ยกเลิกการลงทะเบียนกิจกรรม</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                คุณต้องการยกเลิกการลงทะเบียนกิจกรรมนี้หรือไม่?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">ยกเลิก</button>
+                <form method="POST" action="{% url 'url_p_activitypage' activity.id %}">
+                    {% csrf_token %}
+                    <!-- ช่วยให้รู้ว่าปุ่มที่กดไปคือจะทำอะไร -->
+                    <input type="hidden" name="action" value="cancel">
+                    <button type="submit" class="btn_regis_activity">ยืนยัน</button>
+                </form>
+            </div>
+        </div>
+    </div>
 </div>
 {% endblock %}
