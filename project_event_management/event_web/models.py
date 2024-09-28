@@ -93,8 +93,8 @@ class Registration(models.Model):
         on_delete=models.CASCADE, 
         limit_choices_to={'role': 'Participant'}
     )
-    category = models.ForeignKey(
-        Category, 
+    activity = models.ForeignKey(
+        Activity, 
         on_delete=models.CASCADE
     )
 

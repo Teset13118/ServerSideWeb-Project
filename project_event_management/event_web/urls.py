@@ -5,14 +5,15 @@ from django.urls import path, re_path
 from .views import *
 
 urlpatterns = [
-    path("", ViewHome.as_view(), name="url_p_homepage"),
+    path("Participant/", ViewHome.as_view(), name="url_p_homepage"),
+    path("Organizer/", ViewOrganizerHome.as_view(), name="url_o_homepage"),
     path("login/", LoginView.as_view(), name="url_login"),
     path("logout/", LogoutView.as_view(), name="url_logout"),
     path("register/", RegisterView.as_view(), name="url_register"),
     path("selectcategory/", SelectCategory.as_view(), name="url_select_category"),
 
-    path("profile/<int:userid>", ViewProfile.as_view(), name="url_profile"),
-    path("profile_edit/<int:userid>", ViewProfileEdit.as_view(), name="url_profile_edit"),
+    path("profile/", ViewProfile.as_view(), name="url_profile"),
+    path("profile_edit/", ViewProfileEdit.as_view(), name="url_profile_edit"),
     path("activity/<int:activity_id>", ViewActivity.as_view(), name="url_p_activitypage"),
 
     # new

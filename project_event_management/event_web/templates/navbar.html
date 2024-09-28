@@ -51,7 +51,7 @@
         <div style="display: flex; gap: 20px;">
             {% if user.is_authenticated %}
             <div>
-                <a href="{% url 'url_profile' user.id%}" class="btn_nav"><b>โปรไฟล์</b></a>
+                <a href="{% url 'url_profile'%}" class="btn_nav"><b>โปรไฟล์</b></a>
             </div>
             <div>
                 <a href="{% url 'url_logout' %}" class="btn_nav"><b>logout</b></a>

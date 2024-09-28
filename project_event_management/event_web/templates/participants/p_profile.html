@@ -5,7 +5,11 @@ Profile
 {% endblock %}
 
 {% block content %}
-<a href="{% url 'url_p_homepage' %}" class="btn_back"><b>Back</b></a>
+{% if user.role == "Participant" %}
+    <a href="{% url 'url_p_homepage' %}" class="btn_back"><b>Back</b></a> 
+{% elif user.role == 'Organizer'%}
+    <a href="{% url 'url_o_homepage' %}" class="btn_back"><b>Back</b></a> 
+{% endif %}
 <div class="main_profile">
     <div class="ex3">
         <h2 class="ghost" style="color: white;">โปรไฟล์ของคุณ</h2>
@@ -24,7 +28,9 @@ Profile
         </div>
         <div class="profile_category">
             <button onclick="SwapUserDetail()" class="btn_profile"><b>ข้อมูลส่วนตัว</b></button>
+            {% if user.role == "Participant"%}
             <button onclick="SwapActivityDetail()" class="btn_profile"><b>กิจกรรมที่ลงทะเบียน</b></button>
+            {% endif %}
         </div>
     </div>
 </div>
@@ -32,7 +38,7 @@ Profile
     <div class="ex3" style="margin-top: 10px; color: white; display: flex;">
         <h3 style="text-align: center;">ข้อมูลส่วนตัว</h3>
         <div style="position: absolute; left: 60%;">
-            <a href="{% url 'url_profile_edit' user.id%}" class="btn_edit_user"><b>แก้ไขข้อมูล</b></a>
+            <a href="{% url 'url_profile_edit' %}" class="btn_edit_user"><b>แก้ไขข้อมูล</b></a>
         </div>
     </div>
     <div class="profile_user_content">
@@ -64,7 +70,7 @@ Profile
                 {{ user.phone_number }}
             </div>
             <div class="box_user">
-                <label for="">เพศ</label>
+                <h5>เพศ</h5>
                 {% if profile.gender == "M" %}
                 <p>ชาย</p>
                 {% elif profile.gender == "F" %}
@@ -76,7 +82,7 @@ Profile
                 {% endif %}
             </div>
             <div class="box_user">
-                <label for="">อายุ</label>
+                <h5>อายุ</h5>
                 {% if profile.age == null %}
                 <p>ยังไม่มีข้อมูล</p>
                 {% else %}
@@ -84,7 +90,7 @@ Profile
                 {% endif %}
             </div>
             <div class="box_user">
-                <label for="">วันเกิด</label>
+                <h5>วันเกิด</h5>
                 {% if profile.birthday == null %}
                 <p>ยังไม่มีข้อมูล</p>
                 {% else %}

@@ -1,0 +1,40 @@
+{% extends "layout.html" %}
+
+{% block title %}
+Home
+{% endblock %}
+
+{% block content %}
+<div class="main_home_org">
+    <div class="ex2" style="margin-top: 120px;">
+        <h2 class="ghost" style="color: white;">{{ activity.title }}</h2>
+        <div class="ghost_ex" style="margin-top: 15px;">
+            <a class="btn_regis_activity" href="{% url 'url_o_createactivity'%}">สร้างกิจกรรม</a>
+        </div>
+    </div>
+</div>
+<div class="main_home_org">
+    <div class="activity_org">
+        {% for i in activity %}
+        {% if i.organizer_id == user.id  %}
+        <a class="block_event" href="{% url 'url_p_activitypage' i.id%}">
+            {% if i.activityimage_set.all %}
+            <!-- แสดงรูปภาพที่เก็บใน media -->
+            <img src="{{ i.activityimage_set.first.image_path.url }}" alt="" class="small_pic">
+            {% else %}
+            <!-- หากไม่มีรูปภาพแสดงรูปภาพสำรอง -->
+            <img src="/static/pic/dog.jpg" alt="" class="small_pic">
+            {% endif %}
+            <div class="card_content">
+                <p class="title_event border">{{ i.title }}</p>
+                <p class="border"><i class="fa fa-calendar-check-o"></i>: {{i.start_date|date:"d/m/y H:i A"}}</p>
+                <p class="border">{{i.category.category_name}}</p>
+                <p class="short_description border">{{i.short_description}}</p>
+            </div>
+        </a>
+        {% endif %}
+        {% endfor %}
+    </div>
+</div>
+
+{% endblock %}

@@ -45,6 +45,7 @@ body {
     padding: 30px;
     border-radius: 20px;
     background-color: white;
+    box-shadow: rgba(52, 73, 94, 0.4) 5px 5px, rgba(41, 128, 185, 0.3) 10px 10px, rgba(127, 140, 141, 0.2) 15px 15px, rgba(236, 240, 241, 0.1) 20px 20px, rgba(189, 195, 199, 0.05) 25px 25px;
 }
 .main_register{
     width: 30%;
@@ -255,8 +256,6 @@ body {
 
 .ghost_ex {
     height: fit-content;
-    top: 85px;
-    right: 30px;
     top: 10px;
     right: 20px;
 }
@@ -303,25 +302,32 @@ body {
     box-shadow: rgba(52, 73, 94, 0.4) 5px 5px, rgba(41, 128, 185, 0.3) 10px 10px, rgba(127, 140, 141, 0.2) 15px 15px, rgba(236, 240, 241, 0.1) 20px 20px, rgba(189, 195, 199, 0.05) 25px 25px;
 }
 .home_category{
+    text-decoration: none;
+    color: black;
     background-color: white;
     border-style: none;
     text-align: left;
     width: fit-content;
 }
 .home_category_active{
+    text-decoration: none;
     background-color: white;
+    color: black;
     width: fit-content;
     border-style: solid;
     border-top: 0px;
     border-left: 0px;
     border-right: 0px;
     text-align: left;
+
 }
 .home_category:hover{
-    scale: 1.05;
+    scale: 1.1;
+    color: black;
 }
 .home_category_active:hover{
-    scale: 1.05;
+    scale: 1.1;
+    color: black;
 }
 
 .home{
@@ -411,16 +417,21 @@ body {
 }
 
 .btn_regis_activity{
-    background-color: white;
-    border-style: hidden;
-    padding: 5px;
+    text-decoration: none;
+    padding: 7px;
+    color: white;
+    align-self: center;
     border-radius: 10px;
-    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+    background-color: #E67E22;
+    border-style: solid;
+    border-width: 2px;
+    border-color: black;
+    box-shadow: rgba(0, 0, 0, 0.4) 0px 2px 4px, rgba(0, 0, 0, 0.3) 0px 7px 13px -3px, rgba(0, 0, 0, 0.2) 0px -3px 0px inset;
 }
 
 .btn_regis_activity:hover {
-    background-color: rgb(211, 211, 211);
-    cursor: pointer;
+    color: black;
+    border-color: white;
 }
 .pic_area{
     width: 100%;
@@ -523,4 +534,25 @@ body {
 .container .p_select_category_card input[type="checkbox"]:checked + .card {
     border: 2px solid #007bff;
     background-color: #e7f1ff;
+}
+
+
+/* o_organizer */
+.main_home_org {
+    padding-left: 25px;
+    padding-right: 25px;
+    padding-bottom: 25px;
+    display: grid;
+}
+
+.activity_org {
+    min-height: 1000px;
+    background-color: white;
+    border-radius: 10px;
+    padding: 30px;
+    padding-top: 40px;
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
 }

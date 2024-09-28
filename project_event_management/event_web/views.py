@@ -45,7 +45,7 @@ class LoginView(View):
             if user.role == "Participant":
                 return redirect('url_p_homepage')
             else:
-                return redirect('url_profile')
+                return redirect('url_o_homepage')
         else:
             messages.error(request, "Invalid username or password")
 
@@ -68,20 +68,26 @@ class ViewHome(View):
         category = Category.objects.all()
         return render(request, 'participants/p_home.html', {
             'activity': activity,
-            'category': category
+            'category': category,
             })
+class ViewOrganizerHome(View):
+    def get(self, request):
+        activity = Activity.objects.all()
+        return render(request, 'organizer/o_home.html',{
+            'activity': activity,
+        })
     
 class ViewProfile(View):
-    def get(self, request, userid):
-        profile = UserDetail.objects.get(user_id=userid)
+    def get(self, request):
+        profile = UserDetail.objects.get(user_id=request.user.id)
         return render(request, 'participants/p_profile.html', {
             'profile': profile,
         })
     
 class ViewProfileEdit(View):
-    def get(self, request, userid):
-        profile = UserDetail.objects.get(user_id=userid)
-        user = User.objects.get(id=userid)
+    def get(self, request):
+        profile = UserDetail.objects.get(user_id=request.user.id)
+        user = User.objects.get(id=request.user.id)
         form1 = ProfileEditForm(instance = profile)
         form2 = UserEditForm(instance = user)
         return render(request, 'participants/p_profile_edit.html', {
@@ -89,32 +95,65 @@ class ViewProfileEdit(View):
             'form2': form2,
         })
     
-    def post(self, request, userid):
-        profile = UserDetail.objects.get(user_id=userid)
-        user = User.objects.get(id=userid)
+    def post(self, request):
+        profile = UserDetail.objects.get(user_id=request.user.id)
+        user = User.objects.get(id=request.user.id)
         form1 = ProfileEditForm(request.POST, instance=profile)
         form2 = UserEditForm(request.POST, instance=user)
 
         if form1.is_valid() and form2.is_valid():
             form1.save()
             form2.save()
-            return redirect('url_profile', userid=userid)
+            return redirect('url_profile')
 
         return render(request, 'participants/p_profile_edit.html', {
             'form1': form1,
             'form2': form2,
         })
 
+# class ViewActivity(View):
+#     def get(self, request, activity_id):
+#         activity = Activity.objects.get(id=activity_id)
+#         activity_images = ActivityImage.objects.filter(activity=activity)
+
+#         return render(request, 'participants/p_activity.html', {
+#             'activity': activity,
+#             'activity_images': activity_images
+#         })
+#     def getregis(self, request, activity_id):
+#         regis_activity = request.GET.get('regis')
+#         participant = User.objects.get(id=regis_activity)
+#         activity = Activity.objects.get(id=activity_id)
+#         if regis_activity:
+#             Registration.objects.create(
+#                 activity_id = activity,
+#                 participant_id = participant
+#             )
+#         return render(request, 'participants/p_home.html')
+
 class ViewActivity(View):
     def get(self, request, activity_id):
         activity = Activity.objects.get(id=activity_id)
         activity_images = ActivityImage.objects.filter(activity=activity)
 
+        #เช็คว่ามีการ ลงทะเบียนไปแล้วหรือยัง
+        already_registration = Registration.objects.filter(
+            activity_id=activity_id, 
+            participant_id=request.user.id
+        ).exists()
+            
         return render(request, 'participants/p_activity.html', {
             'activity': activity,
-            'activity_images': activity_images
+            'activity_images': activity_images,
+            'already_registration': already_registration,
         })
-
+    def post(self, request, activity_id):
+        Registration.objects.create(
+            activity_id=activity_id, 
+            participant_id=request.user.id
+        )
+        return redirect('url_p_homepage')
+        
 class ViewManageUser(View):
     def get(self, request):
         participants = User.objects.filter(role='Participant')
@@ -137,7 +176,7 @@ class View_CreateActivity(View):
     def get(self, request):
         form = CreateActivity_Form()
         purpose = "create"
-        return render(request, 'mo_ce_activity.html', {'form': form, 'purpose': purpose})
+        return render(request, 'organizer/mo_ce_activity.html', {'form': form, 'purpose': purpose})
 
     def post(self, request):
         form = CreateActivity_Form(request.POST, request.FILES)
@@ -154,18 +193,18 @@ class View_CreateActivity(View):
                 description=form.cleaned_data['description'],
                 contact=form.cleaned_data['contact'],
                 category=form.cleaned_data['category'],
-                organizer_id=1, #FIXED HERE THIS IS A MANUAL INSERT :D
+                organizer_id= request.user.id,
                 is_approve="Approval", #FIXED STATUS DONT CHANGE!!!
             )
 
             new_images = request.FILES.getlist('upload_image')
             for image in new_images:
                 ActivityImage.objects.create(activity=activity, image_path=image)
-            return redirect('url_p_homepage')
+            return redirect('url_o_homepage')
         else:
             print(form.errors)
             form = CreateActivity_Form()
-            return render(request, 'mo_ce_activity.html', {'form': form})
+            return render(request, 'organizer/mo_ce_activity.html', {'form': form})
 
 class EditActivity(View):
     def get(self, request, activity_id):
@@ -173,7 +212,7 @@ class EditActivity(View):
         form = CreateActivity_Form(instance=activity)
         purpose = "edit"
         activity_images = ActivityImage.objects.filter(activity=activity)
-        return render(request, 'mo_ce_activity.html', {'activity': activity, 'form': form, 'purpose': purpose, 'activity_images': activity_images})
+        return render(request, 'organizer/mo_ce_activity.html', {'activity': activity, 'form': form, 'purpose': purpose, 'activity_images': activity_images})
     
     def post(self, request, activity_id):
         activity = Activity.objects.get(id=activity_id)
@@ -208,13 +247,13 @@ class EditActivity(View):
             for new_image in new_images:
                 ActivityImage.objects.create(activity=activity, image_path=new_image)
 
-            return redirect('url_p_homepage')
+            return redirect('url_o_homepage')
         
         else:
             form = CreateActivity_Form(request.POST, request.FILES, instance=activity)
             activity_images = ActivityImage.objects.filter(activity=activity)
             purpose = "edit"
-            return render(request, 'mo_ce_activity.html', {
+            return render(request, 'organizer/mo_ce_activity.html', {
                 'form': form,
                 'activity': activity,
                 'purpose': purpose,

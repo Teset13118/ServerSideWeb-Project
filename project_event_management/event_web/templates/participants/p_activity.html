@@ -1,15 +1,29 @@
 {% extends "layout.html" %}
 
 {% block title %}
-    Activity
+Activity
 {% endblock %}
 
 {% block content %}
+
+{% if user.role == "Participant" %}
+<a href="{% url 'url_p_homepage' %}" class="btn_back"><b>Back</b></a>
+{% elif user.role == 'Organizer'%}
+<a href="{% url 'url_o_homepage' %}" class="btn_back"><b>Back</b></a>
+{% endif %}
+
 <div class="main_activity">
-    <div class="ex2">
-        <h2 class="ghost">{{ activity.title }}</h2>
-        <div class="ghost_ex">
-            <button class="btn_regis_activity">ลงทะเบียนกิจกรรม</button>
+    <div class="ex2" style="margin-top: 120px;">
+        <h2 class="ghost" style="color: white;">{{ activity.title }}</h2>
+        <div class="ghost_ex" style="margin-top: 15px;">
+            {% if user.role == "Participant" and not already_registration%}
+            <form method="POST" action="{% url 'url_p_activitypage' activity.id %}">
+                {% csrf_token %}
+                <button type="submit" class="btn_regis_activity">ลงทะเบียนกิจกรรม</button>
+            </form>
+            {% elif user.role == "Participant" and already_registration%}
+            <a class="btn_regis_activity"href="#" style="background-color: green;">ลงทะเบียนกิจกรรมเรียบร้อยแล้ว</a>
+            {% endif %}
         </div>
     </div>
 </div>
@@ -63,5 +77,12 @@
             <p>{{ activity.contact }}</p>
         </div>
     </div>
+</div>
+<div class="main_activity" style="justify-content: center;">
+    {% if user.role == "Participant" and not already_registration%}
+    <a class="btn_regis_activity" style=" padding: 20px; text-align: center;" href="{% url 'url_p_activitypage' activity.id%}?regis={{ user.id }}"><h3>ลงทะเบียนกิจกรรม</h3></a>
+    {% elif user.role == "Participant" and already_registration%}
+    <a class="btn_regis_activity" style=" padding: 20px; text-align: center; background-color: green;" href="#"><h3>ลงทะเบียนกิจกรรมเรียบร้อยแล้ว</h3></a>
+    {% endif %}
 </div>
 {% endblock %}

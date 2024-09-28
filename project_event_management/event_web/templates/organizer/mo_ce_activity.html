@@ -123,7 +123,7 @@
                     </div>
 
                     {% if purpose == 'create' %}
-                        <button type="submit" onclick="window.location.href='{% url 'url_o_createactivity' %}'" class="btn btn-primary w-100">Submit Create Activity Request</button>
+                        <button type="submit" onclick="window.location.href='{% url 'url_o_createactivity'%}'" class="btn btn-primary w-100">Submit Create Activity Request</button>
                     {% else %}
                         <button type="submit" onclick="window.location.href='{% url 'url_mo_editactivity' activity_id=activity.id %}'" class="btn btn-success w-100">Edit Activity</button>
                     {% endif %}
