@@ -124,6 +124,7 @@ class ViewActivity(View):
     def get(self, request, activity_id):
         activity = Activity.objects.get(id=activity_id)
         activity_images = ActivityImage.objects.filter(activity=activity)
+        current_time = timezone.now()
 
         #เช็คว่ามีการ ลงทะเบียนไปแล้วหรือยัง
         already_registration = Registration.objects.filter(
@@ -135,6 +136,7 @@ class ViewActivity(View):
             'activity': activity,
             'activity_images': activity_images,
             'already_registration': already_registration,
+            'current_time': current_time,
         })
     def post(self, request, activity_id):
         action = request.POST.get('action')
