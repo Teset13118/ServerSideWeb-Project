@@ -677,3 +677,36 @@ body {
 .comment-input:focus {
     outline: none;
 }
+
+.star-rating {
+    display: flex;
+    flex-direction: row-reverse;
+    justify-content: center;
+    font-size: 2rem;
+    padding: 10px;  
+}
+
+.star-rating input[type="radio"] {
+    display: none;
+}
+
+.star {
+    color: grey;
+    cursor: pointer;
+    transition: color 0.3s;
+}
+
+/* เมื่อดาวถูกเลือก */
+.star.selected {
+    color: gold;
+}
+
+/* เมื่อ hover จะเปลี่ยนสีเหลืองชั่วคราว */
+.star:hover, .star:hover ~ .star {
+    color: gold;
+}
+
+.star-rating input[type="radio"]:checked + label.star, 
+.star-rating input[type="radio"]:checked + label.star ~ label.star {
+    color: gold;
+}
