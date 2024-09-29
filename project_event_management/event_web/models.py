@@ -107,15 +107,6 @@ class ActivityImage(models.Model):
     image_path = models.ImageField(upload_to='activity_images/', verbose_name="Activity_image")
 
 class Review(models.Model):
-    SCORE_CHOICES = [
-    ('0', '0'),
-    ('1', '1'),
-    ('2', '2'),
-    ('3', '3'),
-    ('4', '4'),
-    ('5', '5')
-    ]
-
     participant = models.ForeignKey(
         User, 
         on_delete=models.CASCADE, 
@@ -126,5 +117,5 @@ class Review(models.Model):
         on_delete=models.CASCADE
     )
     description = models.TextField()
-    score = models.CharField(max_length=1, choices=SCORE_CHOICES)
+    score = models.IntegerField(choices=[(i, str(i)) for i in range(6)])
     created_at = models.DateTimeField(default=timezone.now)

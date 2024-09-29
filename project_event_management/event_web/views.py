@@ -125,6 +125,9 @@ class ViewActivity(View):
         activity = Activity.objects.get(id=activity_id)
         activity_images = ActivityImage.objects.filter(activity=activity)
         current_time = timezone.now()
+        reviews = Review.objects.filter(activity=activity)
+        for review in reviews:
+            review.star_list = ['★'] * review.score
 
         #เช็คว่ามีการ ลงทะเบียนไปแล้วหรือยัง
         already_registration = Registration.objects.filter(
@@ -137,15 +140,30 @@ class ViewActivity(View):
             'activity_images': activity_images,
             'already_registration': already_registration,
             'current_time': current_time,
+            'reviews': reviews,
         })
     def post(self, request, activity_id):
+        activity = Activity.objects.get(id=activity_id)
         action = request.POST.get('action')
-        
+        comment = request.POST.get("comment")
+        score = request.POST.get("score")
+
+        if comment and score:
+            review = Review.objects.create(
+            participant=request.user,
+            description=comment,
+            score=score,
+            activity=activity,
+            created_at=timezone.now())
+        else:
+            messages.error(request, "Comment and score are required.")
+
         if action == 'register':
             Registration.objects.create(
                 activity_id=activity_id, 
                 participant_id=request.user.id
             )
+            messages.success(request, "You have successfully registered for the activity.")
         elif action == 'cancel':
             Registration.objects.filter(
                 activity_id=activity_id, 
