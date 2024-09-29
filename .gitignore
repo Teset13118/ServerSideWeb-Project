@@ -1,6 +1,11 @@
 #ignoreEnvironment
 myvenv/
-migrations/
+*/migrations/
+*/migrations/*.pyc
+*/migrations/*.pyo
+*/migrations/*.log
+*/migrations/__pycache__/
+*/migrations/*.py
 # Created by https://www.toptal.com/developers/gitignore/api/django
 # Edit at https://www.toptal.com/developers/gitignore?templates=django
 
