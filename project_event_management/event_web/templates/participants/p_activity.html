@@ -26,6 +26,7 @@ Activity
         </div>
     </div>
 </div>
+
 <div class="main_activity">
     <div class="activity">
         <div class="row mb-4">
@@ -165,32 +166,37 @@ Activity
     </div>
 </div>
 
-<!-- {% if current_time > activity.due_date %} -->
+{% if current_time > activity.due_date %}
+<!-- Comment Section -->
 <div class="comment-section">
     <h3 class="text-white">แสดงความคิดเห็น</h3>
 
-    <!-- แสดงความคิดเห็นที่มีอยู่ -->
-    {% for review in activity.review_set.all %}
+    <!-- Existing Comments -->
+    {% for review in reviews %}
     <div class="comment-card">
         <div class="card-body">
-            <div class="d-flex align-items-center">
+            <div class="d-flex align-items-center user-info">
                 {% if review.participant.userdetail.image_path %}
                 <img src="{{ review.participant.userdetail.image_path.url }}" class="rounded-circle me-3" alt="{{ review.participant.username }}" width="50" height="50">
                 {% else %}
                 <img src="https://uxwing.com/wp-content/themes/uxwing/download/peoples-avatars/default-profile-picture-grey-male-icon.png" class="rounded-circle me-3" alt="{{ review.participant.username }}" width="50" height="50">
                 {% endif %}
                 <div>
-                    <h5 class="card-title mb-1">{{ review.participant.username }}</h5>
-                    <small class="text-muted">{{ review.created_at|date:"d M Y H:i" }}</small>
+                    <h5 class="card-title mb-1 user-id">{{ review.participant.username }}</h5>
+                    <small class="text-muted date">{{ review.created_at|date:"d M Y H:i" }}</small>
+                </div>
+                <div class="review_showstars">
+                {% for star in review.star_list %}
+                    <span class="gold_star">{{ star }}</span>
+                {% endfor %}
                 </div>
             </div>
-            <p class="card-text mt-3">{{ review.description }}</p>
+            <p class="card-text mt-3 review-content">{{ review.description }}</p>
         </div>
     </div>
     {% empty %}
-    <p class="text-white">ยังไม่มีความคิดเห็น โปรดเป็นคนแรกที่แสดงความคิดเห็น!</p>
+    <p>No reviews yet.</p>
     {% endfor %}
-</div>
 
 <!-- แบบฟอร์มเพิ่มความคิดเห็น -->    
 <div class="comment-input-container">
@@ -199,10 +205,43 @@ Activity
             {% csrf_token %}
             <img src="https://uxwing.com/wp-content/themes/uxwing/download/peoples-avatars/default-profile-picture-grey-male-icon.png" class="profile-img" alt="User Profile Image">
             <textarea class="comment-input" name="comment" placeholder="Add a comment..." required></textarea>
+
+            <div class="star-rating">
+                <input type="radio" id="5-stars" name="score" value="5">
+                <label for="5-stars" class="star" data-value="5">&#9733;</label>
+
+                <input type="radio" id="4-stars" name="score" value="4">
+                <label for="4-stars" class="star" data-value="4">&#9733;</label>
+
+                <input type="radio" id="3-stars" name="score" value="3">
+                <label for="3-stars" class="star" data-value="3">&#9733;</label>
+
+                <input type="radio" id="2-stars" name="score" value="2">
+                <label for="2-stars" class="star" data-value="2">&#9733;</label>
+
+                <input type="radio" id="1-star" name="score" value="1">
+                <label for="1-star" class="star" data-value="1">&#9733;</label>
+            </div>
+            
             <button type="submit" class="send-btn">SEND</button>
         </form>
     </div>
 </div>
-<!-- {% endif %} -->
+{% endif %}
 
+{% endblock %}
+
+{% block script %}
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const stars = document.querySelectorAll('.star-rating input[type="radio"]');
+
+        stars.forEach(star => {
+            star.addEventListener('click', function() {
+                stars.forEach(s => s.classList.remove('selected'));
+                this.classList.add('selected');
+            });
+        });
+    });
+</script>
 {% endblock %}
