@@ -109,24 +109,23 @@ Profile
     <div class="profile_activity_content">
         <div class="box2_profile">
             {% for i in regis_activity %}
-            <a class="block_event" href="{% url 'url_p_activitypage' i.activity.id%}">
+            <a class="block_event" href="{% url 'url_p_activitypage' i.id %}">
                 {% if i.activity.activityimage_set.all %}
-                <!-- แสดงรูปภาพที่เก็บใน media -->
-                <img src="{{ i.activity.activityimage_set.first.image_path.url }}" alt="" class="small_pic">
+                    <img src="{{ i.activityimage_set.first.image_path.url }}" alt="" class="small_pic">
                 {% else %}
-                <!-- หากไม่มีรูปภาพแสดงรูปภาพสำรอง -->
-                <img src="/static/pic/dog.jpg" alt="" class="small_pic">
+                    <img src="/static/pic/dog.jpg" alt="" class="small_pic">
                 {% endif %}
                 <div class="card_content">
-                    <p class="title_event border">{{ i.activity.title }}</p>
-                    <p class="border"><i class="fa fa-calendar-check-o"></i>: {{i.activity.start_date|date:"d/m/y H:i A"}}</p>
-                    <p class="border">{{i.activity.category.category_name}}</p>
-                    <p class="short_description border">{{i.activity.short_description}}</p>
+                    <h4 style="text-decoration: none;">{{ i.activity.title }}</h4>
+                    <hr>
+                    <p class="" ><i class="fa fa-calendar-check-o" style="font-size: 24px;"></i> : <b style="font-size: 18px;">{{ i.activity.start_date|date:"d/m/y H:i A" }}</b></p>
+                    <p class=""><i class="fa fa-group" style="font-size:24px"></i> : <b style="font-size: 18px;">{{ i.activity.category.category_name }}</b></p>
+                    <p class="short_description" style="font-size: 16px;"><b>{{ i.activity.short_description }}</b></p>
                 </div>
             </a>
             {% empty %}
             <h2>ยังไม่มีกิจกรรมที่ลงทะเบียน</h2>
-            {% endfor %}
+            {% endfor %} 
         </div>
     </div>
 </div>
