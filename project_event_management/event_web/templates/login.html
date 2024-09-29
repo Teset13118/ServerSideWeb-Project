@@ -8,26 +8,34 @@
     <title>Login</title>
     <link rel="stylesheet" href="{% static 'style.css' %}">
 </head>
+<style>
+    body {
+        display: flex;
+    }
+</style>
 
 <body>
+    <a href="{% url 'url_p_homepage' %}" class="btn_back" style="margin-top: 20px;"><b>Back</b></a>
     <div class="main_login">
-        <form method="POST" class="login_form">
-            {% csrf_token %}
-            <h1 class="login_title">login</h1>
-            <div class="box_login">
-                <label for="username">Username: </label>
-                {{ form.username }}
-            </div>
-            <div class="box_login">
-                <label for="password">Password: </label>
-                {{ form.password }}
-            </div>
-            <button type="submit" class="btn_login">Submit</button>
-            <p>dont have account? <a href="{% url 'url_register' %}">register</a></p>
-            <div style="color:red;">
-                {{form.errors}}
-            </div>
-        </form>
+        <div style="width: 100%; display: flex; justify-content: center;">
+            <form method="POST" class="login_form">
+                {% csrf_token %}
+                <h1 class="login_title">login</h1>
+                <div class="box_login">
+                    <label for="username">Username: </label>
+                    {{ form.username }}
+                </div>
+                <div class="box_login">
+                    <label for="password">Password: </label>
+                    {{ form.password }}
+                </div>
+                <button type="submit" class="btn_login">Submit</button>
+                <p>dont have account? <a href="{% url 'url_register' %}">register</a></p>
+                <div style="color:red;">
+                    {{form.errors}}
+                </div>
+            </form>
+        </div>
     </div>
 </body>
 

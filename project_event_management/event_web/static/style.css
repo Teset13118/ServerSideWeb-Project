@@ -36,18 +36,22 @@ body {
 /* login */
 /* ---------------------------------------------- */
 .main_login, .main_register{
-    width: 25%;
     display: flex;
     justify-content: center;
     margin: auto;
     margin-top: 15%;
-    padding: 20px;
+    padding: 10px;
     border-radius: 20px;
     background-color: white;
     box-shadow: rgba(52, 73, 94, 0.4) 5px 5px, rgba(41, 128, 185, 0.3) 10px 10px, rgba(127, 140, 141, 0.2) 15px 15px, rgba(236, 240, 241, 0.1) 20px 20px, rgba(189, 195, 199, 0.05) 25px 25px;
 }
+.main_login{
+    width: 25%;
+    min-height: 300px;
+}
 .main_register{
     width: 30%;
+    min-height: 500px;
     margin-top: 10%;
 }
 .register_form{
@@ -74,8 +78,15 @@ body {
     background-color: white;
     border-radius: 5px;
     padding: 5px;
+    margin-top: 20px;
     width: 100%;
     border-width: 1px;
+}
+.btn_login:hover{
+    background-color: rgb(226, 226, 226);
+}
+.btn_register:hover{
+    background-color: rgb(226, 226, 226);
 }
 .regis_form{
     height: 25px;
@@ -211,7 +222,7 @@ body {
 
 .profile_edit{
     background-color: white;
-    width: 30%;
+    width: 4    0%;
     border-radius: 10px;
     padding: 20px;
     display: flex;
@@ -349,6 +360,7 @@ body {
     padding-top: 40px;
     display: flex;
     flex-wrap: wrap;
+    align-items: center;
     gap: 20px;
     box-shadow: rgba(52, 73, 94, 0.4) 5px 5px, rgba(41, 128, 185, 0.3) 10px 10px, rgba(127, 140, 141, 0.2) 15px 15px, rgba(236, 240, 241, 0.1) 20px 20px, rgba(189, 195, 199, 0.05) 25px 25px;
 
@@ -621,7 +633,7 @@ body {
     width: 100%;
 }
 
-form {
+.comment_form {
     display: flex;
     align-items: flex-start;
     width: 100%;

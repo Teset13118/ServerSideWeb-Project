@@ -44,7 +44,7 @@ Profile
     <div class="profile_user_content">
         <div class="box1_profile">
             <div style="display: flex; justify-content: space-between;">
-                <div class="box_user">
+                <div class="box_user" style="flex: 50%;">
                     <h5>ชื่อ :</h5>
                     {% if user.first_name == null %}
                     <p>ยังไม่มีข้อมูล</p>
@@ -52,7 +52,7 @@ Profile
                     {{ user.first_name}}
                     {% endif %}
                 </div>
-                <div class="box_user">
+                <div class="box_user" style="flex: 50%;">
                     <h5>นามสกุล :</h5>
                     {% if user.last_name == null %}
                     <p>ยังไม่มีข้อมูล</p>
@@ -81,21 +81,23 @@ Profile
                 <p>ยังไม่มีข้อมูล</p>
                 {% endif %}
             </div>
-            <div class="box_user">
-                <h5>อายุ</h5>
-                {% if profile.age == null %}
-                <p>ยังไม่มีข้อมูล</p>
-                {% else %}
-                {{ profile.age }}
-                {% endif %}
-            </div>
-            <div class="box_user">
-                <h5>วันเกิด</h5>
-                {% if profile.birthday == null %}
-                <p>ยังไม่มีข้อมูล</p>
-                {% else %}
-                {{ profile.birthday }}
-                {% endif %}
+            <div style="display: flex; justify-content: space-between;">
+                <div class="box_user" style="flex: 50%;">
+                    <h5>อายุ</h5>
+                    {% if profile.age == null %}
+                    <p>ยังไม่มีข้อมูล</p>
+                    {% else %}
+                    {{ profile.age }}
+                    {% endif %}
+                </div>
+                <div class="box_user" style="flex: 50%;">
+                    <h5>วันเกิด</h5>
+                    {% if profile.birthday == null %}
+                    <p>ยังไม่มีข้อมูล</p>
+                    {% else %}
+                    {{ profile.birthday }}
+                    {% endif %}
+                </div>
             </div>
         </div>
     </div>

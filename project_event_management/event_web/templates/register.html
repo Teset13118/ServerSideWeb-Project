@@ -8,8 +8,14 @@
     <title>Login</title>
     <link rel="stylesheet" href="{% static 'style.css' %}">
 </head>
+<style>
+    body {
+        display: flex;
+    }
+</style>
 
 <body>
+    <a href="{% url 'url_p_homepage' %}" class="btn_back" style="margin-top: 20px;"><b>Back</b></a>
     <div class="main_register">
         <form method="POST" class="register_form">
             {% csrf_token %}

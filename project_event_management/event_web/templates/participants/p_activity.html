@@ -6,10 +6,12 @@ Activity
 
 {% block content %}
 
-{% if user.role == "Participant" %}
+{% if user.role == "Participant"%}
 <a href="{% url 'url_p_homepage' %}" class="btn_back"><b>Back</b></a>
 {% elif user.role == 'Organizer'%}
 <a href="{% url 'url_o_homepage' %}" class="btn_back"><b>Back</b></a>
+{% else %}
+<a href="{% url 'url_p_homepage' %}" class="btn_back"><b>Back</b></a>
 {% endif %}
 
 <div class="main_activity">
@@ -68,30 +70,30 @@ Activity
         </div>
         <div class="box1">
             <div class="box_content">
-                <h5>{{ activity.close_register_date|date:"d M Y H:i A" }}</h5>
+                <h5>เวลาปิดลงทะเบียนกิจกรรม: {{ activity.close_register_date|date:"d M Y H:i A" }}</h5>
             </div>
             <div class="box_content">
-                <h5>{{ activity.start_date|date:"d M Y H:i A" }}</h5>
+                <h5>เวลาเริ่มกิจกรรม: {{ activity.start_date|date:"d M Y H:i A" }}</h5>
             </div>
             <div class="box_content">
-                <h5>{{ activity.due_date|date:"d M Y H:i A" }}</h5>
+                <h5>เวลาจบกิจกรรม: {{ activity.due_date|date:"d M Y H:i A" }}</h5>
             </div>
 
             <!-- activity type -->
             {% if activity.activity_type == 'hybrid' %}
             <div class="box_content">
-                <h5>{{ activity.platform }}</h5>
+                <h5>แพลตฟอร์มที่จัดกิจกรรม: {{ activity.platform }}</h5>
             </div>
             <div class="box_content">
-                <h5>{{ activity.location }}</h5>
+                <h5>สถานที่จัดกิจกรรม: {{ activity.location }}</h5>
             </div>
             {% elif activity.activity_type == 'online' %}
             <div class="box_content">
-                <h5>{{ activity.platform }}</h5>
+                <h5>แพลตฟอร์มที่จัดกิจกรรม: {{ activity.platform }}</h5>
             </div>
             {% elif activity.activity_type == 'onsite' %}
             <div class="box_content">
-                <h5>{{ activity.location }}</h5>
+                <h5>สถานที่จัดกิจกรรม: {{ activity.location }}</h5>
             </div>
             {% endif %}
 
@@ -100,7 +102,7 @@ Activity
             <p>{{ activity.description }}</p>
         </div>
         <div class="box3">
-            <p>{{ activity.contact }}</p>
+            <p><h5>ช่องทางการติดต่อ: </h5>{{ activity.contact }}</p>
         </div>
     </div>
 </div>
@@ -193,7 +195,7 @@ Activity
 <!-- แบบฟอร์มเพิ่มความคิดเห็น -->    
 <div class="comment-input-container">
     <div class="content-wrapper">
-        <form method="post" action="">
+        <form method="post" action="" class="comment_form">
             {% csrf_token %}
             <img src="https://uxwing.com/wp-content/themes/uxwing/download/peoples-avatars/default-profile-picture-grey-male-icon.png" class="profile-img" alt="User Profile Image">
             <textarea class="comment-input" name="comment" placeholder="Add a comment..." required></textarea>
