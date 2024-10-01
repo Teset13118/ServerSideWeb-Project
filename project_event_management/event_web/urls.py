@@ -14,14 +14,15 @@ urlpatterns = [
 
     path("profile/", ViewProfile.as_view(), name="url_profile"),
     path("profile_edit/", ViewProfileEdit.as_view(), name="url_profile_edit"),
-    path("activity/<int:activity_id>", ViewActivity.as_view(), name="url_p_activitypage"),
 
-    # new
+    path("activity/<int:activity_id>", ViewActivity.as_view(), name="url_p_activitypage"),
     path("create_activity/", View_CreateActivity.as_view(), name="url_o_createactivity"),
     path("edit_activity/<int:activity_id>", EditActivity.as_view(), name="url_mo_editactivity"),
     
     path("manage/users/", ViewManageUser.as_view(), name="url_m_manageusers"),
     path("manage/activities/", ViewManageActivity.as_view(), name="url_m_manageactivities"),
+    path("manage/activities/delete/<int:activity_id>/", ViewManageActivity.as_view(), name="url_m_deleteactivities"),
+    path("manage/activities/approve/<int:activity_id>/", ViewManageActivity.as_view(), name="url_m_approve_activity")
 ]
 
 # old
