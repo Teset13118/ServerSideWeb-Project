@@ -18,27 +18,34 @@ Activity
     <div class="ex2" style="margin-top: 120px;">
         <h2 class="ghost" style="color: white;">{{ activity.title }}</h2>
         <div class="ghost_ex" style="margin-top: 15px;">
-            {% if user.role == "Participant" and not already_registration%}
-            <form method="POST" action="{% url 'url_p_activitypage' activity.id %}">
-                {% csrf_token %}
-                <input type="hidden" name="action" value="register">
-                <button type="submit" class="btn_regis_activity" onclick="return confirm('คุณต้องการลงทะเบียนกิจกรรมนี้หรือไม่?');">ลงทะเบียนกิจกรรม</button>
-            </form>
-            {% elif user.role == "Participant" and already_registration%}
-            <form method="POST" action="{% url 'url_p_activitypage' activity.id %}">
-                {% csrf_token %}
-                <!-- ช่วยให้รู้ว่าปุ่มที่กดไปคือจะทำอะไร -->
-                <input type="hidden" name="action" value="cancel">
-                <button type="submit" class="btn_regis_activity" style="background-color: red;" onclick="return confirm('คุณต้องการยกเลิกลงทะเบียนกิจกรรมนี้หรือไม่?');">ยกเลิกลงทะเบียนกิจกรรม</button>
-            </form>
-            {% elif user.role == "Organizer" %}
-            <form method="GET" action="{% url 'url_mo_editactivity' activity.id %}" >
-                {% csrf_token %}
-                <!-- ช่วยให้รู้ว่าปุ่มที่กดไปคือจะทำอะไร -->
-                <input type="hidden" name="action" value="edit">
-                <button type="submit" class="btn_regis_activity" style="background-color: yellow;" onclick="return confirm('คุณต้องการแก้ไขกิจกรรมนี้หรือไม่?');">แก้ไขกิจกรรม</button>
-            </form>
-            {% endif %}
+            {% if user.role == "Participant" %}
+            {% if activity.close_register_date < current_time%} <button type="submit" class="btn_regis_activity"
+                style="background-color: gray;">ไม่สามารถลงทะเบียนกิจกรรมได้แล้ว</button>
+                {% elif not already_registration%}
+                <form method="POST" action="{% url 'url_p_activitypage' activity.id %}">
+                    {% csrf_token %}
+                    <input type="hidden" name="action" value="register">
+                    <button type="submit" class="btn_regis_activity"
+                        onclick="return confirm('คุณต้องการลงทะเบียนกิจกรรมนี้หรือไม่?');">ลงทะเบียนกิจกรรม</button>
+                </form>
+                {% elif already_registration%}
+                <form method="POST" action="{% url 'url_p_activitypage' activity.id %}">
+                    {% csrf_token %}
+                    <!-- ช่วยให้รู้ว่าปุ่มที่กดไปคือจะทำอะไร -->
+                    <input type="hidden" name="action" value="cancel">
+                    <button type="submit" class="btn_regis_activity" style="background-color: red;"
+                        onclick="return confirm('คุณต้องการยกเลิกลงทะเบียนกิจกรรมนี้หรือไม่?');">ยกเลิกลงทะเบียนกิจกรรม</button>
+                </form>
+                {% endif %}
+                {% elif user.role == "Organizer" %}
+                <form method="GET" action="{% url 'url_mo_editactivity' activity.id %}">
+                    {% csrf_token %}
+                    <!-- ช่วยให้รู้ว่าปุ่มที่กดไปคือจะทำอะไร -->
+                    <input type="hidden" name="action" value="edit">
+                    <button type="submit" class="btn_regis_activity" style="background-color: yellow;"
+                        onclick="return confirm('คุณต้องการแก้ไขกิจกรรมนี้หรือไม่?');">แก้ไขกิจกรรม</button>
+                </form>
+                {% endif %}
         </div>
     </div>
 </div>
@@ -49,181 +56,199 @@ Activity
             {% if activity_images|length == 3 %}
             <div class="pic_area">
                 <div class="pic1">
-                <img src="/static/pic/dog.jpg" alt="" class="big_pic">
-            </div>
-            <div class="pic2">
-                <img src="/static/pic/dog.jpg" alt="" class="medium_pic">
-            </div>
-            <div class="pic3">
-                <img src="/static/pic/dog.jpg" alt="" class="medium_pic">
-            </div>
-        
-            {% elif activity_images|length == 2 %}
+                    <img src="/static/pic/dog.jpg" alt="" class="big_pic">
+                </div>
+                <div class="pic2">
+                    <img src="/static/pic/dog.jpg" alt="" class="medium_pic">
+                </div>
+                <div class="pic3">
+                    <img src="/static/pic/dog.jpg" alt="" class="medium_pic">
+                </div>
+
+                {% elif activity_images|length == 2 %}
                 <div class="col-lg-12">
                     <div class="row">
                         <div class="col">
                             <div class="card">
-                                <img src="{{ activity_images.0.image_path.url }}" class="card-img-top" alt="Small Image 1" style="width: 100%; height: auto;">
+                                <img src="{{ activity_images.0.image_path.url }}" class="card-img-top"
+                                    alt="Small Image 1" style="width: 100%; height: auto;">
                             </div>
                         </div>
                         <div class="col">
                             <div class="card">
-                                <img src="{{ activity_images.1.image_path.url }}" class="card-img-top" alt="Small Image 2" style="width: 100%; height: auto;">
+                                <img src="{{ activity_images.1.image_path.url }}" class="card-img-top"
+                                    alt="Small Image 2" style="width: 100%; height: auto;">
                             </div>
                         </div>
                     </div>
                 </div>
-        
-            {% elif activity_images|length == 1 %}
+
+                {% elif activity_images|length == 1 %}
                 <div class="col-lg-12">
                     <div class="card">
-                        <img src="{{ activity_images.0.image_path.url }}" class="card-img-top" alt="Large Image" style="width: 100%; height: auto;">
+                        <img src="{{ activity_images.0.image_path.url }}" class="card-img-top" alt="Large Image"
+                            style="width: 100%; height: auto;">
                     </div>
                 </div>
-                
-            {% else %}
-                <p>No images available.</p>
-            {% endif %}
-        </div>
-        <div class="box1">
-            <div class="box_content">
-                <h5>เวลาปิดลงทะเบียนกิจกรรม: {{ activity.close_register_date|date:"d M Y H:i A" }}</h5>
-            </div>
-            <div class="box_content">
-                <h5>เวลาเริ่มกิจกรรม: {{ activity.start_date|date:"d M Y H:i A" }}</h5>
-            </div>
-            <div class="box_content">
-                <h5>เวลาจบกิจกรรม: {{ activity.due_date|date:"d M Y H:i A" }}</h5>
-            </div>
 
-            <!-- activity type -->
-            {% if activity.activity_type == 'hybrid' %}
-            <div class="box_content">
-                <h5>แพลตฟอร์มที่จัดกิจกรรม: {{ activity.platform }}</h5>
-            </div>
-            <div class="box_content">
-                <h5>สถานที่จัดกิจกรรม: {{ activity.location }}</h5>
-            </div>
-            {% elif activity.activity_type == 'online' %}
-            <div class="box_content">
-                <h5>แพลตฟอร์มที่จัดกิจกรรม: {{ activity.platform }}</h5>
-            </div>
-            {% elif activity.activity_type == 'onsite' %}
-            <div class="box_content">
-                <h5>สถานที่จัดกิจกรรม: {{ activity.location }}</h5>
-            </div>
-            {% endif %}
-
-        </div>
-        <div class="box2">
-            <p>{{ activity.description }}</p>
-        </div>
-        <div class="box3">
-            <p><h5>ช่องทางการติดต่อ: </h5>{{ activity.contact }}</p>
-        </div>
-    </div>
-</div>
-<div class="main_activity" style="justify-content: center;">
-    {% if user.role == "Participant" and not already_registration%}
-    <form method="POST" action="{% url 'url_p_activitypage' activity.id %}">
-        {% csrf_token %}
-        <input type="hidden" name="action" value="register">
-        <button type="submit" class="btn_regis_activity" style=" padding: 20px; margin-top: 20px; text-align: center;" onclick="return confirm('คุณต้องการลงทะเบียนกิจกรรมนี้หรือไม่?');">ลงทะเบียนกิจกรรม</button>
-    </form>
-    {% elif user.role == "Participant" and already_registration%}
-    <form method="POST" action="{% url 'url_p_activitypage' activity.id %}">
-        {% csrf_token %}
-        <!-- ช่วยให้รู้ว่าปุ่มที่กดไปคือจะทำอะไร -->
-        <input type="hidden" name="action" value="cancel">
-        <button type="submit" class="btn_regis_activity" style="padding: 20px; margin-top: 20px; text-align: center; background-color: red;" onclick="return confirm('คุณต้องการยกเลิกลงทะเบียนกิจกรรมนี้หรือไม่?');">ยกเลิกลงทะเบียนกิจกรรม</button>
-    </form>
-    {% elif user.role == "Organizer" %}
-    <form method="GET" action="{% url 'url_mo_editactivity' activity.id %}">
-        {% csrf_token %}
-        <!-- ช่วยให้รู้ว่าปุ่มที่กดไปคือจะทำอะไร -->
-        <input type="hidden" name="action" value="edit">
-        <button type="submit" class="btn_regis_activity" style="padding: 20px; margin-top: 20px; text-align: center; background-color: yellow;" onclick="return confirm('คุณต้องการแก้ไขกิจกรรมนี้หรือไม่?');">แก้ไขกิจกรรม</button>
-    </form>
-    {% endif %}
-</div>
-  
-
-{% if current_time > activity.due_date %}
-<!-- Comment Section -->
-<div class="comment-section">
-    <h3 class="text-white">แสดงความคิดเห็น</h3>
-
-    <!-- Existing Comments -->
-    {% for review in reviews %}
-    <div class="comment-card">
-        <div class="card-body">
-            <div class="d-flex align-items-center user-info">
-                {% if review.participant.userdetail.image_path %}
-                <img src="{{ review.participant.userdetail.image_path.url }}" class="rounded-circle me-3" alt="{{ review.participant.username }}" width="50" height="50">
                 {% else %}
-                <img src="https://uxwing.com/wp-content/themes/uxwing/download/peoples-avatars/default-profile-picture-grey-male-icon.png" class="rounded-circle me-3" alt="{{ review.participant.username }}" width="50" height="50">
+                <p>No images available.</p>
                 {% endif %}
-                <div>
-                    <h5 class="card-title mb-1 user-id">{{ review.participant.username }}</h5>
-                    <small class="text-muted date">{{ review.created_at|date:"d M Y H:i" }}</small>
-                </div>
-                <div class="review_showstars">
-                {% for star in review.star_list %}
-                    <span class="gold_star">{{ star }}</span>
-                {% endfor %}
-                </div>
             </div>
-            <p class="card-text mt-3 review-content">{{ review.description }}</p>
+            <div class="box1">
+                <div class="box_content">
+                    <h5>เวลาปิดลงทะเบียนกิจกรรม: {{ activity.close_register_date|date:"d M Y H:i A" }}</h5>
+                </div>
+                <div class="box_content">
+                    <h5>เวลาเริ่มกิจกรรม: {{ activity.start_date|date:"d M Y H:i A" }}</h5>
+                </div>
+                <div class="box_content">
+                    <h5>เวลาจบกิจกรรม: {{ activity.due_date|date:"d M Y H:i A" }}</h5>
+                </div>
+
+                <!-- activity type -->
+                {% if activity.activity_type == 'hybrid' %}
+                <div class="box_content">
+                    <h5>แพลตฟอร์มที่จัดกิจกรรม: {{ activity.platform }}</h5>
+                </div>
+                <div class="box_content">
+                    <h5>สถานที่จัดกิจกรรม: {{ activity.location }}</h5>
+                </div>
+                {% elif activity.activity_type == 'online' %}
+                <div class="box_content">
+                    <h5>แพลตฟอร์มที่จัดกิจกรรม: {{ activity.platform }}</h5>
+                </div>
+                {% elif activity.activity_type == 'onsite' %}
+                <div class="box_content">
+                    <h5>สถานที่จัดกิจกรรม: {{ activity.location }}</h5>
+                </div>
+                {% endif %}
+
+            </div>
+            <div class="box2">
+                <p>{{ activity.description }}</p>
+            </div>
+            <div class="box3">
+                <p>
+                <h5>ช่องทางการติดต่อ: </h5>{{ activity.contact }}</p>
+            </div>
         </div>
     </div>
-    {% empty %}
-    <p>No reviews yet.</p>
-    {% endfor %}
-
-<!-- แบบฟอร์มเพิ่มความคิดเห็น -->    
-<div class="comment-input-container">
-    <div class="content-wrapper">
-        <form method="post" action="" class="comment_form">
-            {% csrf_token %}
-            <img src="https://uxwing.com/wp-content/themes/uxwing/download/peoples-avatars/default-profile-picture-grey-male-icon.png" class="profile-img" alt="User Profile Image">
-            <textarea class="comment-input" name="comment" placeholder="Add a comment..." required></textarea>
-
-            <div class="star-rating">
-                <input type="radio" id="5-stars" name="score" value="5">
-                <label for="5-stars" class="star" data-value="5">&#9733;</label>
-
-                <input type="radio" id="4-stars" name="score" value="4">
-                <label for="4-stars" class="star" data-value="4">&#9733;</label>
-
-                <input type="radio" id="3-stars" name="score" value="3">
-                <label for="3-stars" class="star" data-value="3">&#9733;</label>
-
-                <input type="radio" id="2-stars" name="score" value="2">
-                <label for="2-stars" class="star" data-value="2">&#9733;</label>
-
-                <input type="radio" id="1-star" name="score" value="1">
-                <label for="1-star" class="star" data-value="1">&#9733;</label>
-            </div>
-            
-            <button type="submit" class="send-btn">SEND</button>
-        </form>
+    <div class="main_activity" style="justify-content: center;">
+        {% if user.role == "Participant" %}
+        {% if activity.close_register_date < current_time%} <button type="submit" class="btn_regis_activity"
+            style="padding: 20px; margin-top: 20px; text-align: center; background-color: gray;">
+            ไม่สามารถลงทะเบียนกิจกรรมได้แล้ว</button>
+            {% elif not already_registration%}
+            <form method="POST" action="{% url 'url_p_activitypage' activity.id %}">
+                {% csrf_token %}
+                <input type="hidden" name="action" value="register">
+                <button type="submit" class="btn_regis_activity"
+                    style=" padding: 20px; margin-top: 20px; text-align: center;"
+                    onclick="return confirm('คุณต้องการลงทะเบียนกิจกรรมนี้หรือไม่?');">ลงทะเบียนกิจกรรม</button>
+            </form>
+            {% elif already_registration%}
+            <form method="POST" action="{% url 'url_p_activitypage' activity.id %}">
+                {% csrf_token %}
+                <!-- ช่วยให้รู้ว่าปุ่มที่กดไปคือจะทำอะไร -->
+                <input type="hidden" name="action" value="cancel">
+                <button type="submit" class="btn_regis_activity"
+                    style="padding: 20px; margin-top: 20px; text-align: center; background-color: red;"
+                    onclick="return confirm('คุณต้องการยกเลิกลงทะเบียนกิจกรรมนี้หรือไม่?');">ยกเลิกลงทะเบียนกิจกรรม</button>
+            </form>
+            {% endif %}
+            {% elif user.role == "Organizer" %}
+            <form method="GET" action="{% url 'url_mo_editactivity' activity.id %}">
+                {% csrf_token %}
+                <!-- ช่วยให้รู้ว่าปุ่มที่กดไปคือจะทำอะไร -->
+                <input type="hidden" name="action" value="edit">
+                <button type="submit" class="btn_regis_activity"
+                    style="padding: 20px; margin-top: 20px; text-align: center; background-color: yellow;"
+                    onclick="return confirm('คุณต้องการแก้ไขกิจกรรมนี้หรือไม่?');">แก้ไขกิจกรรม</button>
+            </form>
+            {% endif %}
     </div>
-</div>
-{% endif %}
 
-{% endblock %}
 
-{% block script %}
-<script>
-    document.addEventListener('DOMContentLoaded', function() {
-        const stars = document.querySelectorAll('.star-rating input[type="radio"]');
+    {% if current_time > activity.due_date %}
+    <!-- Comment Section -->
+    <div class="comment-section">
+        <h3 class="text-white">แสดงความคิดเห็น</h3>
 
-        stars.forEach(star => {
-            star.addEventListener('click', function() {
-                stars.forEach(s => s.classList.remove('selected'));
-                this.classList.add('selected');
+        <!-- Existing Comments -->
+        {% for review in reviews %}
+        <div class="comment-card">
+            <div class="card-body">
+                <div class="d-flex align-items-center user-info">
+                    {% if review.participant.userdetail.image_path %}
+                    <img src="{{ review.participant.userdetail.image_path.url }}" class="rounded-circle me-3"
+                        alt="{{ review.participant.username }}" width="50" height="50">
+                    {% else %}
+                    <img src="https://uxwing.com/wp-content/themes/uxwing/download/peoples-avatars/default-profile-picture-grey-male-icon.png"
+                        class="rounded-circle me-3" alt="{{ review.participant.username }}" width="50" height="50">
+                    {% endif %}
+                    <div>
+                        <h5 class="card-title mb-1 user-id">{{ review.participant.username }}</h5>
+                        <small class="text-muted date">{{ review.created_at|date:"d M Y H:i" }}</small>
+                    </div>
+                    <div class="review_showstars">
+                        {% for star in review.star_list %}
+                        <span class="gold_star">{{ star }}</span>
+                        {% endfor %}
+                    </div>
+                </div>
+                <p class="card-text mt-3 review-content">{{ review.description }}</p>
+            </div>
+        </div>
+        {% empty %}
+        <p>No reviews yet.</p>
+        {% endfor %}
+
+        <!-- แบบฟอร์มเพิ่มความคิดเห็น -->
+        <div class="comment-input-container">
+            <div class="content-wrapper">
+                <form method="post" action="" class="comment_form">
+                    {% csrf_token %}
+                    <img src="https://uxwing.com/wp-content/themes/uxwing/download/peoples-avatars/default-profile-picture-grey-male-icon.png"
+                        class="profile-img" alt="User Profile Image">
+                    <textarea class="comment-input" name="comment" placeholder="Add a comment..." required></textarea>
+
+                    <div class="star-rating">
+                        <input type="radio" id="5-stars" name="score" value="5">
+                        <label for="5-stars" class="star" data-value="5">&#9733;</label>
+
+                        <input type="radio" id="4-stars" name="score" value="4">
+                        <label for="4-stars" class="star" data-value="4">&#9733;</label>
+
+                        <input type="radio" id="3-stars" name="score" value="3">
+                        <label for="3-stars" class="star" data-value="3">&#9733;</label>
+
+                        <input type="radio" id="2-stars" name="score" value="2">
+                        <label for="2-stars" class="star" data-value="2">&#9733;</label>
+
+                        <input type="radio" id="1-star" name="score" value="1">
+                        <label for="1-star" class="star" data-value="1">&#9733;</label>
+                    </div>
+
+                    <button type="submit" class="send-btn">SEND</button>
+                </form>
+            </div>
+        </div>
+        {% endif %}
+
+        {% endblock %}
+
+        {% block script %}
+        <script>
+            document.addEventListener('DOMContentLoaded', function () {
+                const stars = document.querySelectorAll('.star-rating input[type="radio"]');
+
+                stars.forEach(star => {
+                    star.addEventListener('click', function () {
+                        stars.forEach(s => s.classList.remove('selected'));
+                        this.classList.add('selected');
+                    });
+                });
             });
-        });
-    });
-</script>
-{% endblock %}
+        </script>
+        {% endblock %}
