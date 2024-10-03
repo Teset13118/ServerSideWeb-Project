@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponse, Http404, JsonResponse
 from django.views import View
 from django.db import transaction
@@ -189,6 +189,19 @@ class ViewManageActivity(View):
             'activities': activities,
         }
         return render(request, 'manager/m_manage_activity.html', context)
+    
+    def delete(self, request, activity_id):
+        activity = get_object_or_404(Activity, id=activity_id)
+        activity.delete()
+        return JsonResponse({'message': 'Activity deleted successfully'}, status=200)
+    
+    def put(self, request, activity_id):
+        activity = get_object_or_404(Activity, id=activity_id)
+        if activity.is_approve == 'Approval':
+            activity.is_approve = 'Approved'
+            activity.save()
+            return JsonResponse({'message': 'Activity approved successfully'}, status=200)
+        return JsonResponse({'message': 'Activity not in approval status'}, status=400)
     
 class View_CreateActivity(View):
     def get(self, request):
