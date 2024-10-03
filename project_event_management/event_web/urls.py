@@ -20,6 +20,7 @@ urlpatterns = [
     path("edit_activity/<int:activity_id>", EditActivity.as_view(), name="url_mo_editactivity"),
     
     path("manage/users/", ViewManageUser.as_view(), name="url_m_manageusers"),
+    path("manage/users/delete/<int:user_id>/", ViewManageUser.as_view(), name="url_m_deleteusers"),
     path("manage/activities/", ViewManageActivity.as_view(), name="url_m_manageactivities"),
     path("manage/activities/delete/<int:activity_id>/", ViewManageActivity.as_view(), name="url_m_deleteactivities"),
     path("manage/activities/approve/<int:activity_id>/", ViewManageActivity.as_view(), name="url_m_approve_activity")

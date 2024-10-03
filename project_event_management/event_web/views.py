@@ -181,6 +181,23 @@ class ViewManageUser(View):
             'organizers': organizers,
         }
         return render(request, 'manager/m_manage_users.html', context)
+    
+    def delete(self, request, user_id):
+        get_user = get_object_or_404(User, id=user_id)
+
+        if get_user.role == 'Organizer':
+            activities = Activity.objects.filter(organizer=get_user)
+
+        for activity in activities:
+            activity_images = ActivityImage.objects.filter(activity=activity)
+            for image in activity_images:
+                if image.image_path and default_storage.exists(image.image_path.path):
+                    default_storage.delete(image.image_path.path)
+                image.delete()
+
+        activities.delete()
+        get_user.delete()
+        return JsonResponse({'message': 'User deleted successfully'}, status=200)
 
 class ViewManageActivity(View):
     def get(self, request):
