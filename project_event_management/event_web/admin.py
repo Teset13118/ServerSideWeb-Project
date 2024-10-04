@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import User, UserDetail, Category, Activity, UserCategory, Registration, ActivityImage, Review
+from .models import User, UserDetail, Activity, Review
 
 
 # User Admin
@@ -15,12 +15,6 @@ class UserDetailAdmin(admin.ModelAdmin):
     list_display = ('user', 'gender', 'age', 'birthday')
     search_fields = ('user__first_name', 'user__last_name')
     list_filter = ('gender',)
-
-# Category Admin
-@admin.register(Category)
-class CategoryAdmin(admin.ModelAdmin):
-    list_display = ('category_name',)
-    search_fields = ('category_name',)
 
 # Activity Admin
 @admin.register(Activity)
