@@ -144,7 +144,7 @@ class ViewActivity(View):
         })
     def post(self, request, activity_id):
         activity = Activity.objects.get(id=activity_id)
-        action = request.POST.get('action')
+        act = request.POST.get('act')
         comment = request.POST.get("comment")
         score = request.POST.get("score")
 
@@ -158,13 +158,13 @@ class ViewActivity(View):
         else:
             messages.error(request, "Comment and score are required.")
 
-        if action == 'register':
+        if act == 'register':
             Registration.objects.create(
                 activity_id=activity_id, 
                 participant_id=request.user.id
             )
             messages.success(request, "You have successfully registered for the activity.")
-        elif action == 'cancel':
+        elif act == 'cancel':
             Registration.objects.filter(
                 activity_id=activity_id, 
                 participant_id=request.user.id
@@ -307,6 +307,12 @@ class EditActivity(View):
                 'purpose': purpose,
                 'activity_images': activity_images
             })
+class DeleteActivity(View):
+    def get(self, request, activity_id):
+        Activity.objects.filter(
+            organizer_id = request.user.id,
+            id = activity_id).delete()
+        return redirect('url_o_homepage')
 
 class SelectCategory(View):
     def get(self, request):

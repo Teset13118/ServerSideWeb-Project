@@ -19,32 +19,37 @@ Activity
         <h2 class="ghost" style="color: white;">{{ activity.title }}</h2>
         <div class="ghost_ex" style="margin-top: 15px;">
             {% if user.role == "Participant" %}
-            {% if activity.close_register_date < current_time%} <button type="submit" class="btn_regis_activity"
-                style="background-color: gray;">ไม่สามารถลงทะเบียนกิจกรรมได้แล้ว</button>
+                {% if activity.close_register_date < current_time and not already_registration%} 
+                <button type="submit" class="btn_regis_activity" style="background-color: gray;">ไม่สามารถลงทะเบียนกิจกรรมได้แล้ว</button>
                 {% elif not already_registration%}
                 <form method="POST" action="{% url 'url_p_activitypage' activity.id %}">
                     {% csrf_token %}
-                    <input type="hidden" name="action" value="register">
+                    <input type="hidden" name="act" value="register">
                     <button type="submit" class="btn_regis_activity"
                         onclick="return confirm('คุณต้องการลงทะเบียนกิจกรรมนี้หรือไม่?');">ลงทะเบียนกิจกรรม</button>
                 </form>
-                {% elif already_registration%}
+                {% elif already_registration %}
                 <form method="POST" action="{% url 'url_p_activitypage' activity.id %}">
                     {% csrf_token %}
                     <!-- ช่วยให้รู้ว่าปุ่มที่กดไปคือจะทำอะไร -->
-                    <input type="hidden" name="action" value="cancel">
+                    <input type="hidden" name="act" value="cancel">
                     <button type="submit" class="btn_regis_activity" style="background-color: red;"
                         onclick="return confirm('คุณต้องการยกเลิกลงทะเบียนกิจกรรมนี้หรือไม่?');">ยกเลิกลงทะเบียนกิจกรรม</button>
                 </form>
                 {% endif %}
                 {% elif user.role == "Organizer" %}
-                <form method="GET" action="{% url 'url_mo_editactivity' activity.id %}">
-                    {% csrf_token %}
-                    <!-- ช่วยให้รู้ว่าปุ่มที่กดไปคือจะทำอะไร -->
-                    <input type="hidden" name="action" value="edit">
-                    <button type="submit" class="btn_regis_activity" style="background-color: yellow;"
-                        onclick="return confirm('คุณต้องการแก้ไขกิจกรรมนี้หรือไม่?');">แก้ไขกิจกรรม</button>
-                </form>
+                <div style="display: flex; gap: 10px;">
+                    <form method="GET" action="{% url 'url_mo_editactivity' activity.id %}">
+                        {% csrf_token %}
+                        <button type="submit" class="btn_regis_activity" style="background-color: yellow;"
+                            onclick="return confirm('คุณต้องการแก้ไขกิจกรรมนี้หรือไม่?');">แก้ไขกิจกรรม</button>
+                    </form>
+                    <form method="GET" action="{% url 'url_mo_deleteactivity' activity.id %}">
+                        {% csrf_token %}
+                        <button type="submit" class="btn_regis_activity" style="background-color: red;"
+                            onclick="return confirm('คุณต้องการลบกิจกรรมนี้หรือไม่?');">ลบกิจกรรม</button>
+                    </form>
+                </div>
                 {% endif %}
         </div>
     </div>
@@ -136,7 +141,8 @@ Activity
     </div>
     <div class="main_activity" style="justify-content: center;">
         {% if user.role == "Participant" %}
-        {% if activity.close_register_date < current_time%} <button type="submit" class="btn_regis_activity"
+            {% if activity.close_register_date < current_time and not already_registration %} 
+            <button type="submit" class="btn_regis_activity"
             style="padding: 20px; margin-top: 20px; text-align: center; background-color: gray;">
             ไม่สามารถลงทะเบียนกิจกรรมได้แล้ว</button>
             {% elif not already_registration%}
@@ -157,16 +163,7 @@ Activity
                     onclick="return confirm('คุณต้องการยกเลิกลงทะเบียนกิจกรรมนี้หรือไม่?');">ยกเลิกลงทะเบียนกิจกรรม</button>
             </form>
             {% endif %}
-            {% elif user.role == "Organizer" %}
-            <form method="GET" action="{% url 'url_mo_editactivity' activity.id %}">
-                {% csrf_token %}
-                <!-- ช่วยให้รู้ว่าปุ่มที่กดไปคือจะทำอะไร -->
-                <input type="hidden" name="action" value="edit">
-                <button type="submit" class="btn_regis_activity"
-                    style="padding: 20px; margin-top: 20px; text-align: center; background-color: yellow;"
-                    onclick="return confirm('คุณต้องการแก้ไขกิจกรรมนี้หรือไม่?');">แก้ไขกิจกรรม</button>
-            </form>
-            {% endif %}
+        {% endif %}
     </div>
 
 

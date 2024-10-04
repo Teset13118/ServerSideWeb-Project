@@ -18,6 +18,10 @@ Home
         {% for i in activity %}
         {% if i.organizer_id == user.id  %}
         <a class="block_event" href="{% url 'url_p_activitypage' i.id %}">
+            <div class="box_approve">
+                <p class="content_approve" style="background-color: white;">
+                    <b>{{ i.is_approve }}</b></p>
+            </div>
             {% if i.activityimage_set.all %}
                 <img src="{{ i.activityimage_set.first.image_path.url }}" alt="" class="small_pic">
             {% else %}
