@@ -30,7 +30,7 @@
                     {{ form.password }}
                 </div>
                 <button type="submit" class="btn_login">Submit</button>
-                <p>dont have account? <a href="{% url 'url_register' %}">register</a></p>
+                <p style="text-align: center; margin-top: 25px;">Don't have an account? <a href="{% url 'url_register' %}">Register</a></p>
                 {% if form.non_field_errors %}
                 <div class="login_error_box">
                     {{form.non_field_errors}}
