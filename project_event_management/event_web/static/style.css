@@ -92,6 +92,15 @@ body {
     height: 25px;
 }
 
+.login_error_box {
+    border: 1px solid red;
+    background-color: #ffe6e6;
+    color: red;
+    padding: 10px;
+    border-radius: 5px;
+    margin-bottom: 15px;
+}
+
 /* Profile */
 /* ---------------------------------------------- */
 .main_profile{

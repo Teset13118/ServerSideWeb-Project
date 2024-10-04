@@ -15,7 +15,7 @@
 </style>
 
 <body>
-    <a href="{% url 'url_p_homepage' %}" class="btn_back" style="margin-top: 20px;"><b>Back</b></a>
+    <a class="btn_back" style="margin-top: 20px;" onclick="history.back()"><b>Back</b></a>
     <div class="main_login">
         <div style="width: 100%; display: flex; justify-content: center;">
             <form method="POST" class="login_form">
@@ -31,8 +31,8 @@
                 </div>
                 <button type="submit" class="btn_login">Submit</button>
                 <p>dont have account? <a href="{% url 'url_register' %}">register</a></p>
-                <div style="color:red;">
-                    {{form.errors}}
+                <div class="login_error_box">
+                    {{form.non_field_errors}}
                 </div>
             </form>
         </div>
