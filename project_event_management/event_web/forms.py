@@ -9,6 +9,17 @@ class CustomUserCreationForm(UserCreationForm):
         model = User
         fields = ['username', 'email', 'role', 'phone_number','password1', 'password2']
 
+    def clean_phone_number(self):
+        phone_number = self.cleaned_data.get('phone_number')
+
+        if len(phone_number) < 10:
+            raise forms.ValidationError("Phone number must be at least 10 digits long.")
+
+        if not phone_number.isdigit():
+            raise forms.ValidationError("Phone number must contain only digits.")
+        
+        return phone_number
+
 class ProfileEditForm(ModelForm):
     class Meta:
         model = UserDetail

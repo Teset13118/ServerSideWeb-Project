@@ -46,7 +46,7 @@
             </div>
             <button type="submit" class="btn_register">Submit</button>
             <p>already have account? <a href="{% url 'url_login' %}">login</a></p>
-            <div style="color:red;">
+            <div class="login_error_box">
                 {{form.errors}}
             </div>
         </form>
