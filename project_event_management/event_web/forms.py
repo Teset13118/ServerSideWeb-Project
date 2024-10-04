@@ -57,3 +57,42 @@ class CreateActivity_Form(forms.ModelForm):
             'description': forms.Textarea(attrs={'class': 'form-control', 'rows': 3}),
             'contact': forms.Textarea(attrs={'class': 'form-control', 'rows': 2}),
         }
+    
+    def clean(self):
+        cleaned_data = super().clean()
+
+        close_register_date = cleaned_data.get('close_register_date')
+        start_date = cleaned_data.get('start_date')
+        due_date = cleaned_data.get('due_date')
+        # print(f"Close Register Date: {close_register_date}")
+        # print(f"Start Date: {start_date}")
+        # print(f"Due Date: {due_date}")
+
+        if close_register_date and close_register_date < timezone.now():
+            raise forms.ValidationError("Close register date cannot be in the past.")
+
+        if start_date and start_date < timezone.now():
+            raise forms.ValidationError("Start date cannot be in the past.")
+
+        if due_date and due_date < timezone.now():
+            raise forms.ValidationError("Due date cannot be in the past.")
+
+        # start_date ต้องไม่ก่อน close_register_date
+        if (close_register_date and start_date) and (start_date < close_register_date):
+            raise forms.ValidationError("Start date cannot be before close register date.")
+
+        # due_date ต้องไม่ก่อน close_register_date
+        if (close_register_date and due_date) and (due_date < close_register_date):
+            raise forms.ValidationError("Due date cannot be before close register date.")
+
+        # due_date ต้องไม่ก่อน start_date
+        if (start_date and due_date) and (due_date < start_date):
+            raise forms.ValidationError("Due date cannot be before start date.")
+        
+        # start_date ต้องไม่อยู่หลัง due_date
+        if (start_date and due_date) and (start_date > due_date):
+            raise forms.ValidationError("Start date cannot be after due date.") 
+
+        return cleaned_data
+
+
