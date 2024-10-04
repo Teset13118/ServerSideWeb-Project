@@ -576,6 +576,22 @@ body {
     flex-wrap: wrap;
     box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
 }
+.box_approve{
+    position: absolute; 
+    z-index: 1; 
+    width: 21.5%; 
+    display: flex; 
+    justify-content: right; 
+    margin-top: 3px;
+}
+.content_approve{
+    color: black;
+    width: fit-content; 
+    padding: 5px; 
+    border-radius: 10px;
+    border-style: solid;
+    border-width: 1px;
+}
 
 /* activity_comment_section */
 
