@@ -250,8 +250,6 @@ class View_CreateActivity(View):
                 ActivityImage.objects.create(activity=activity, image_path=image)
             return redirect('url_o_homepage')
         else:
-            print(form.errors)
-            form = CreateActivity_Form()
             return render(request, 'organizer/mo_ce_activity.html', {'form': form})
 
 class EditActivity(View):
