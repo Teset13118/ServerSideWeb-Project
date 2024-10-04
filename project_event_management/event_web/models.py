@@ -14,9 +14,6 @@ class User(AbstractUser):
     email = models.EmailField(unique=True)
     role = models.CharField(max_length=20, choices=ROLE_CHOICES)
 
-    def __str__(self):
-        return f"{self.first_name} {self.last_name}"
-
 # Updated UserDetail model with birthday field
 class UserDetail(models.Model):
     GENDER_CHOICES = [
@@ -48,9 +45,9 @@ class Activity(models.Model):
     ]
 
     APPROVAL_STATUS_CHOICES = [
-        ('approval', 'Approval'),
-        ('approved', 'Approved'),
-        ('reject', 'Reject'),
+        ('Approval', 'Approval'),
+        ('Approved', 'Approved'),
+        ('Reject', 'Reject'),
     ]
 
     organizer = models.ForeignKey(
