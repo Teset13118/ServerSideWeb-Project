@@ -128,15 +128,18 @@
                         {% endif %}
                     </div>
 
-                    {% if purpose == 'create' %}
-                        <button type="submit" onclick="return confirmSubmit('create');" class="btn btn-primary w-100">
-                            Submit Create Activity Request
-                        </button>
-                    {% else %}
-                        <button type="submit" onclick="return confirmSubmit('edit', '{{ activity.id }}');" class="btn btn-success w-100">
-                            Edit Activity
-                        </button>
-                    {% endif %}
+                    <div class="d-flex justify-content-between">
+                        <button type="submit" class="btn btn-secondary w-50 me-4" onclick="window.history.back()">Back</button>
+                        {% if purpose == 'create' %}
+                            <button type="submit" onclick="return confirmSubmit('create');" class="btn btn-success w-50">
+                                Submit Create Activity Request
+                            </button>
+                        {% else %}
+                            <button type="submit" onclick="return confirmSubmit('edit', '{{ activity.id }}');" class="btn btn-warning w-50">
+                                Edit Activity
+                            </button>
+                        {% endif %}
+                    </div>
                 </form>
             </div>
         </div>

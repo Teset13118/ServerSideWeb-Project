@@ -45,8 +45,8 @@
                 {{ form.password2 }}
             </div>
             <button type="submit" class="btn_register">Submit</button>
-            <p>already have account? <a href="{% url 'url_login' %}">login</a></p>
-            <div style="color:red;">
+            <p style="text-align: center; margin-top: 15px;">Already have an account? <a href="{% url 'url_login' %}">Login</a></p>
+            <div class="login_error_box">
                 {{form.errors}}
             </div>
         </form>

@@ -87,7 +87,7 @@ class ViewOrganizerHome(View):
     
 class ViewProfile(View):
     def get(self, request):
-        profile = UserDetail.objects.get(user_id=request.user.id)
+        profile = get_object_or_404(UserDetail, user_id=request.user.id)
         registration_activity = Registration.objects.filter(participant_id=request.user.id)
 
         return render(request, 'participants/p_profile.html', {
@@ -97,7 +97,7 @@ class ViewProfile(View):
     
 class ViewProfileEdit(View):
     def get(self, request):
-        userdetail = UserDetail.objects.get(user_id=request.user.id)
+        userdetail = get_object_or_404(UserDetail, user_id=request.user.id)
         user = User.objects.get(id=request.user.id)
         form1 = ProfileEditForm(instance = userdetail)
         form2 = UserEditForm(instance = user)
@@ -107,7 +107,7 @@ class ViewProfileEdit(View):
         })
     
     def post(self, request):
-        profile = UserDetail.objects.get(user_id=request.user.id)
+        profile = get_object_or_404(UserDetail, user_id=request.user.id)
         user = User.objects.get(id=request.user.id)
         form1 = ProfileEditForm(request.POST, instance=profile)
         form2 = UserEditForm(request.POST, instance=user)
@@ -125,7 +125,7 @@ class ViewProfileEdit(View):
 
 class ViewActivity(View):
     def get(self, request, activity_id):
-        activity = Activity.objects.get(id=activity_id)
+        activity = get_object_or_404(Activity, id=activity_id)
         activity_images = ActivityImage.objects.filter(activity=activity)
         current_time = timezone.now()
         reviews = Review.objects.filter(activity=activity)
@@ -146,7 +146,7 @@ class ViewActivity(View):
             'reviews': reviews,
         })
     def post(self, request, activity_id):
-        activity = Activity.objects.get(id=activity_id)
+        activity = get_object_or_404(Activity, id=activity_id)
         act = request.POST.get('act')
         comment = request.POST.get("comment")
         score = request.POST.get("score")
@@ -257,14 +257,14 @@ class View_CreateActivity(View):
 
 class EditActivity(View):
     def get(self, request, activity_id):
-        activity = Activity.objects.get(id=activity_id)
+        activity = get_object_or_404(Activity, id=activity_id)
         form = CreateActivity_Form(instance=activity)
         purpose = "edit"
         activity_images = ActivityImage.objects.filter(activity=activity)
         return render(request, 'organizer/mo_ce_activity.html', {'activity': activity, 'form': form, 'purpose': purpose, 'activity_images': activity_images})
     
     def post(self, request, activity_id):
-        activity = Activity.objects.get(id=activity_id)
+        activity = get_object_or_404(Activity, id=activity_id)
         form = CreateActivity_Form(request.POST, request.FILES, instance=activity)
 
         if form.is_valid():
@@ -308,6 +308,7 @@ class EditActivity(View):
                 'purpose': purpose,
                 'activity_images': activity_images
             })
+        
 class DeleteActivity(View):
     def get(self, request, activity_id):
         Activity.objects.filter(
