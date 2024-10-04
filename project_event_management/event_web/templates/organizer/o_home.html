@@ -16,7 +16,6 @@ Home
 <div class="main_home_org">
     <div class="activity_org">
         {% for i in activity %}
-        {% if i.organizer_id == user.id  %}
         <a class="block_event" href="{% url 'url_p_activitypage' i.id %}">
             <div class="box_approve">
                 <p class="content_approve" style="background-color: white;">
@@ -35,7 +34,6 @@ Home
                 <p class="short_description" style="font-size: 16px;"><b>{{ i.short_description }}</b></p>
             </div>
         </a>
-        {% endif %}
         {% empty %}
         <h2 style="align-self: center; margin-left: 45%;">ยังไม่มีกิจกรรม</h2>
         {% endfor %}

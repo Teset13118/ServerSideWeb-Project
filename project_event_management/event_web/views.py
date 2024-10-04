@@ -40,6 +40,7 @@ class LoginView(View):
     def post(self, request):
         form = AuthenticationForm(data=request.POST)
         if form.is_valid():
+            
             user = form.get_user() 
             login(request,user)
             if user.role == "Participant":
@@ -70,14 +71,16 @@ class ViewHome(View):
             activity = activity.filter(title__icontains=search)
 
         category = Category.objects.all()
+        current_time = timezone.now()
         return render(request, 'participants/p_home.html', {
             'activity': activity,
             'category': category,
              'search': search,
+             'current_time': current_time,
             })
 class ViewOrganizerHome(View):
     def get(self, request):
-        activity = Activity.objects.all()
+        activity = Activity.objects.filter(organizer_id = request.user.id).order_by('id')
         return render(request, 'organizer/o_home.html',{
             'activity': activity,
         })
