@@ -46,9 +46,11 @@
             </div>
             <button type="submit" class="btn_register">Submit</button>
             <p style="text-align: center; margin-top: 15px;">Already have an account? <a href="{% url 'url_login' %}">Login</a></p>
+            {% if form.errors %}
             <div class="login_error_box">
                 {{form.errors}}
             </div>
+            {% endif %}
         </form>
     </div>
 

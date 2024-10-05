@@ -2,6 +2,7 @@ from django import forms
 from .models import *
 from django.contrib.auth.forms import UserCreationForm
 from django.forms import ModelForm
+import datetime
 
 
 class CustomUserCreationForm(UserCreationForm):
@@ -12,13 +13,16 @@ class CustomUserCreationForm(UserCreationForm):
     def clean_phone_number(self):
         phone_number = self.cleaned_data.get('phone_number')
 
-        if len(phone_number) < 10:
+        if len(phone_number) < 10 and not phone_number.isdigit():
+            raise forms.ValidationError("Phone number must be at least 10 digits long and must contain only digits.")
+        elif len(phone_number) < 10:
             raise forms.ValidationError("Phone number must be at least 10 digits long.")
 
         if not phone_number.isdigit():
             raise forms.ValidationError("Phone number must contain only digits.")
         
         return phone_number
+    
 
 class ProfileEditForm(ModelForm):
     class Meta:
@@ -27,11 +31,45 @@ class ProfileEditForm(ModelForm):
         widgets = {
             'birthday': forms.DateInput(attrs={'type': 'date'}),
         }
+    def clean_birthday(self):
+        birthday = self.cleaned_data.get('birthday')
+
+        if birthday >= datetime.date.today():
+            raise forms.ValidationError("Birthday must not be in the future and pressent.")
+        
+        return birthday
+    
+    def clean(self):
+        cleaned_data = super().clean()
+        age = cleaned_data.get('age')
+        birthday = cleaned_data.get('birthday')
+
+        if birthday and age:
+            cal_age = datetime.date.today().year - birthday.year
+
+            if cal_age != age:
+                raise forms.ValidationError("The age and birthday are inconsistent.")
+
+        return cleaned_data
+
   
 class UserEditForm(ModelForm):
     class Meta:
         model = User
         fields = ['first_name', 'last_name', 'phone_number', 'email']
+
+    def clean_phone_number(self):
+        phone_number = self.cleaned_data.get('phone_number')
+
+        if len(phone_number) < 10 and not phone_number.isdigit():
+            raise forms.ValidationError("Phone number must be at least 10 digits long and must contain only digits.")
+        elif len(phone_number) < 10:
+            raise forms.ValidationError("Phone number must be at least 10 digits long.")
+
+        if not phone_number.isdigit():
+            raise forms.ValidationError("Phone number must contain only digits.")
+        
+        return phone_number
 
 
 class CreateActivity_Form(forms.ModelForm):

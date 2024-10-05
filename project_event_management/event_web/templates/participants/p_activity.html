@@ -7,7 +7,7 @@ Activity
 {% block content %}
 
 {% if user.role == "Participant"%}
-<a href="{% url 'url_p_homepage' %}" class="btn_back"><b>Back</b></a>
+<a onclick="history.back()" class="btn_back"><b>Back</b></a>
 {% elif user.role == 'Organizer'%}
 <a href="{% url 'url_o_homepage' %}" class="btn_back"><b>Back</b></a>
 {% else %}
@@ -155,29 +155,39 @@ Activity
         </div>
     </div>
     <div class="main_activity" style="justify-content: center;">
-        {% if user.role == "Participant" %}
-            {% if activity.close_register_date < current_time and not already_registration %} 
-            <button type="submit" class="btn_regis_activity"
-            style="padding: 20px; margin-top: 20px; text-align: center; background-color: gray;">
-            ไม่สามารถลงทะเบียนกิจกรรมได้แล้ว</button>
-            {% elif not already_registration%}
-            <form method="POST" action="{% url 'url_p_activitypage' activity.id %}">
-                {% csrf_token %}
-                <input type="hidden" name="action" value="register">
-                <button type="submit" class="btn_regis_activity"
-                    style=" padding: 20px; margin-top: 20px; text-align: center;"
-                    onclick="return confirm('คุณต้องการลงทะเบียนกิจกรรมนี้หรือไม่?');">ลงทะเบียนกิจกรรม</button>
-            </form>
-            {% elif already_registration%}
-            <form method="POST" action="{% url 'url_p_activitypage' activity.id %}">
-                {% csrf_token %}
-                <input type="hidden" name="action" value="cancel">
-                <button type="submit" class="btn_regis_activity"
-                    style="padding: 20px; margin-top: 20px; text-align: center; background-color: red;"
-                    onclick="return confirm('คุณต้องการยกเลิกลงทะเบียนกิจกรรมนี้หรือไม่?');">ยกเลิกลงทะเบียนกิจกรรม</button>
-            </form>
+            {% if user.role == "Participant" %}
+
+                <!-- หมดเวลาลงทะเบียนกิจกรรม และ ยังไม่ได้ลงทะเบียนกิจกรรมนี้ -->
+                {% if activity.close_register_date < current_time and not already_registration%} 
+                <button type="submit" class="btn_regis_activity" style="padding: 20px; margin-top: 20px; text-align: center; background-color: gray;">ไม่สามารถลงทะเบียนกิจกรรมได้แล้ว</button>
+
+                <!-- ยังไม่หมดเวลาลงทะเบียน และ ยังไม่ได้ลงทะเบียนกิจกรรมนี้ -->
+                {% elif not already_registration%}
+                <form method="POST" action="{% url 'url_p_activitypage' activity.id %}">
+                    {% csrf_token %}
+                    <input type="hidden" name="act" value="register">
+                    <button type="submit" class="btn_regis_activity"
+                        onclick="return confirm('คุณต้องการลงทะเบียนกิจกรรมนี้หรือไม่?');">ลงทะเบียนกิจกรรม</button>
+                </form>
+
+                <!-- กิจกรรมได้จบลงแล้ว และ ได้ลงทะเบียนกิจกรรมนี้ -->
+                {% elif already_registration and activity.due_date < current_time %}
+                <button type="submit" class="btn_regis_activity" style="padding: 20px; margin-top: 20px; text-align: center; background-color: gray;">กิจกรรมได้จบลงแล้ว</button>
+
+                <!-- กิจกรรมกำลังเริ่มอยู่ และ ได้ลงทะเบียนกิจกรรมนี้ -->
+                {% elif already_registration and activity.start_date < current_time %}
+                <button type="submit" class="btn_regis_activity" style="padding: 20px; margin-top: 20px; text-align: center; background-color: gray;">กิจกรรมกำลังดำเนินอยู่</button>
+
+                <!-- กิจกรรมยังไม่เริ่ม และ ได้ลงทะเบียนกิจกรรมนี้ -->
+                {% elif already_registration %}
+                <form method="POST" action="{% url 'url_p_activitypage' activity.id %}">
+                    {% csrf_token %}
+                    <input type="hidden" name="act" value="cancel">
+                    <button type="submit" class="btn_regis_activity" style="padding: 20px; margin-top: 20px; text-align: center; background-color: red;"
+                        onclick="return confirm('คุณต้องการยกเลิกลงทะเบียนกิจกรรมนี้หรือไม่?');">ยกเลิกลงทะเบียนกิจกรรม</button>
+                </form>
+                {% endif %}
             {% endif %}
-        {% endif %}
     </div>
 
 

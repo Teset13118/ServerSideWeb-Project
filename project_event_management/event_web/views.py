@@ -45,8 +45,10 @@ class LoginView(View):
             login(request,user)
             if user.role == "Participant":
                 return redirect('url_p_homepage')
-            else:
+            elif user.role == "Organizer":
                 return redirect('url_o_homepage')
+            else:
+                return redirect('url_m_manageactivities')
         else:
             messages.error(request, "Invalid username or password")
 
@@ -61,17 +63,17 @@ class ViewHome(View):
     def get(self, request):
         category_id = request.GET.get('category_id')
         search = request.GET.get('search', '')
+        current_time = timezone.datetime.now()
         
         if category_id:
-            activity = Activity.objects.filter(category_id=category_id)
+            activity = Activity.objects.filter(is_approve = "Approved", due_date__gt = current_time ,category_id=category_id)
         else:
-            activity = Activity.objects.all()
+            activity = Activity.objects.filter(is_approve = "Approved", due_date__gt = current_time)
 
         if search:
             activity = activity.filter(title__icontains=search)
 
         category = Category.objects.all()
-        current_time = timezone.now()
         return render(request, 'participants/p_home.html', {
             'activity': activity,
             'category': category,
@@ -127,7 +129,7 @@ class ViewActivity(View):
     def get(self, request, activity_id):
         activity = get_object_or_404(Activity, id=activity_id)
         activity_images = ActivityImage.objects.filter(activity=activity)
-        current_time = timezone.now()
+        current_time = timezone.datetime.now()
         reviews = Review.objects.filter(activity=activity)
         for review in reviews:
             review.star_list = ['★'] * review.score

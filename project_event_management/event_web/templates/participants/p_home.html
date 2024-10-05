@@ -33,7 +33,6 @@ Home
     </div>
     <div class="home">
         {% for i in activity %}
-            {% if i.is_approve == "Approved" and i.due_date > current_time%}
             <a class="block_event" href="{% url 'url_p_activitypage' i.id %}">
                 {% if i.activityimage_set.all %}
                     <img src="{{ i.activityimage_set.first.image_path.url }}" alt="" class="small_pic">
@@ -48,7 +47,6 @@ Home
                     <p class="short_description" style="font-size: 16px;"><b>{{ i.short_description }}</b></p>
                 </div>
             </a>
-            {% endif %}
         {% empty %}
         <h2 style="align-self: center;">ยังไม่มีกิจกรรม</h2>
         {% endfor %}
