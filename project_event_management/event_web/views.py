@@ -14,8 +14,9 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth import logout, login, authenticate
+from django.core.mail import send_mail
 from django.contrib import messages
-
+from django.conf import settings
 
 class RegisterView(View):
     def get(self, request):
@@ -225,7 +226,30 @@ class ViewManageActivity(View):
         if activity.is_approve == 'Approval':
             activity.is_approve = 'Approved'
             activity.save()
-            return JsonResponse({'message': 'Activity approved successfully'}, status=200)
+
+            # ดึงผู้ใช้ที่สนใจใน Category ของ Activity
+            interested_users = UserCategory.objects.filter(category=activity.category)
+
+            # ส่งอีเมลแจ้งผู้ใช้ที่สนใจใน Category นั้น
+            for user_category in interested_users:
+                participant = user_category.participant
+                send_mail(
+                    subject=f'New Activity Approved: {activity.title}',
+                    message = (
+                        f"Dear User,\n\n"
+                        f"We are pleased to inform you that the activity \"{activity.title}\" "
+                        f"you expressed interest in has been approved!\n"
+                        f"It is scheduled to start on {activity.start_date.strftime('%B %d, %Y')}.\n\n"
+                        f"Thank you for your interest, and we hope to see you there!\n\n"
+                        f"Best regards,\n"
+                        f"Website Management Team"
+                    ),
+                    from_email=settings.EMAIL_HOST_USER,
+                    recipient_list=[participant.email],
+                    fail_silently=False,
+                )
+
+            return JsonResponse({'message': 'Activity approved successfully and emails sent'}, status=200)
         return JsonResponse({'message': 'Activity not in approval status'}, status=400)
     
 class View_CreateActivity(View):
