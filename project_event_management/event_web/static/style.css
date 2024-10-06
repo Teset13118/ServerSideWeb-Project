@@ -10,14 +10,15 @@ body {
     background-attachment: fixed;
     background-size: 100%;
 }
-.btn_back{
+
+.btn_back {
     position: absolute;
     margin-top: 80px;
     margin-left: 30px;
     border-radius: 5px;
     background-color: #E67E22;
     padding: 7px;
-    z-index:1;
+    z-index: 1;
     text-decoration: none;
     color: white;
     border-radius: 10px;
@@ -28,14 +29,17 @@ body {
     border-color: black;
     box-shadow: rgba(0, 0, 0, 0.4) 0px 2px 4px, rgba(0, 0, 0, 0.3) 0px 7px 13px -3px, rgba(0, 0, 0, 0.2) 0px -3px 0px inset;
 }
-.btn_back:hover{
+
+.btn_back:hover {
     border-color: white;
     color: black;
 }
+
 /* register */
 /* login */
 /* ---------------------------------------------- */
-.main_login, .main_register{
+.main_login,
+.main_register {
     display: flex;
     justify-content: center;
     margin: auto;
@@ -45,25 +49,33 @@ body {
     background-color: white;
     box-shadow: rgba(52, 73, 94, 0.4) 5px 5px, rgba(41, 128, 185, 0.3) 10px 10px, rgba(127, 140, 141, 0.2) 15px 15px, rgba(236, 240, 241, 0.1) 20px 20px, rgba(189, 195, 199, 0.05) 25px 25px;
 }
-.main_login{
+
+.main_login {
     width: 25%;
     min-height: 300px;
 }
-.main_register{
+
+.main_register {
     width: 30%;
     min-height: 500px;
     margin-top: 10%;
 }
-.register_form{
+
+.register_form {
     width: 80%;
 }
-.login_form{
+
+.login_form {
     width: 70%;
 }
-.login_title, .register_title{
+
+.login_title,
+.register_title {
     text-align: center;
 }
-.box_login, .box_register{
+
+.box_login,
+.box_register {
     width: 100%;
     display: flex;
     justify-content: space-between;
@@ -74,7 +86,9 @@ body {
     background-color: white;
     font-size: 20px;
 }
-.btn_login, .btn_register{
+
+.btn_login,
+.btn_register {
     background-color: white;
     border-radius: 5px;
     padding: 5px;
@@ -82,13 +96,16 @@ body {
     width: 100%;
     border-width: 1px;
 }
-.btn_login:hover{
+
+.btn_login:hover {
     background-color: rgb(226, 226, 226);
 }
-.btn_register:hover{
+
+.btn_register:hover {
     background-color: rgb(226, 226, 226);
 }
-.regis_form{
+
+.regis_form {
     height: 25px;
 }
 
@@ -103,7 +120,7 @@ body {
 
 /* Profile */
 /* ---------------------------------------------- */
-.main_profile{
+.main_profile {
     padding-left: 25px;
     padding-right: 25px;
     padding-bottom: 25px;
@@ -113,7 +130,7 @@ body {
     color: black;
 }
 
-.profile{
+.profile {
     background-color: white;
     width: 40%;
     border-radius: 10px;
@@ -123,7 +140,8 @@ body {
     box-shadow: rgba(52, 73, 94, 0.4) 5px 5px, rgba(41, 128, 185, 0.3) 10px 10px, rgba(127, 140, 141, 0.2) 15px 15px, rgba(236, 240, 241, 0.1) 20px 20px, rgba(189, 195, 199, 0.05) 25px 25px;
 
 }
-.pic_box_profile{
+
+.pic_box_profile {
     width: 150px;
     height: 150px;
     overflow: hidden;
@@ -134,14 +152,17 @@ body {
     border-width: 2px;
     border-style: solid;
 }
-.profile_pic{
+
+.profile_pic {
     width: fit-content;
     height: auto;
 }
-.ex3{
+
+.ex3 {
     margin-top: 70px;
 }
-.profile_category{
+
+.profile_category {
     background-color: white;
     padding: 20px;
     display: flex;
@@ -152,7 +173,8 @@ body {
     border-left: 0px;
     border-right: 0px;
 }
-.profile_user_content{
+
+.profile_user_content {
     background-color: white;
     padding: 20px;
     border-radius: 10px;
@@ -162,7 +184,8 @@ body {
     display: flex;
     flex-direction: column;
 }
-.profile_activity_content{
+
+.profile_activity_content {
     background-color: white;
     padding: 20px;
     border-style: solid;
@@ -172,7 +195,8 @@ body {
     box-shadow: rgba(52, 73, 94, 0.4) 5px 5px, rgba(41, 128, 185, 0.3) 10px 10px, rgba(127, 140, 141, 0.2) 15px 15px, rgba(236, 240, 241, 0.1) 20px 20px, rgba(189, 195, 199, 0.05) 25px 25px;
 
 }
-.btn_edit_user{
+
+.btn_edit_user {
     text-decoration: none;
     padding: 7px;
     color: white;
@@ -184,17 +208,20 @@ body {
     border-color: black;
     box-shadow: rgba(0, 0, 0, 0.4) 0px 2px 4px, rgba(0, 0, 0, 0.3) 0px 7px 13px -3px, rgba(0, 0, 0, 0.2) 0px -3px 0px inset;
 }
-.btn_edit_user:hover{
+
+.btn_edit_user:hover {
     color: black;
     border-color: white;
 }
-.box1_profile{
+
+.box1_profile {
     display: flex;
     flex-direction: column;
     row-gap: 10px;
     margin-top: 20px;
 }
-.box2_profile{
+
+.box2_profile {
     background-color: white;
     border-radius: 10px;
     padding: 30px;
@@ -203,7 +230,8 @@ body {
     flex-wrap: wrap;
     gap: 20px;
 }
-.btn_profile{
+
+.btn_profile {
     border-radius: 10px;
     background-color: #E67E22;
     color: white;
@@ -213,15 +241,18 @@ body {
     border-color: black;
     box-shadow: rgba(0, 0, 0, 0.4) 0px 2px 4px, rgba(0, 0, 0, 0.3) 0px 7px 13px -3px, rgba(0, 0, 0, 0.2) 0px -3px 0px inset;
 }
-.btn_profile:hover{
+
+.btn_profile:hover {
     color: black;
     border-color: white;
 }
-.box_user{
+
+.box_user {
     display: flex;
     flex-direction: column;
 }
-.box_user_form{
+
+.box_user_form {
     border-style: solid;
     border-width: 1px;
     border-left: 0px;
@@ -229,9 +260,9 @@ body {
     border-top: 0px;
 }
 
-.profile_edit{
+.profile_edit {
     background-color: white;
-    width: 4    0%;
+    width: 4 0%;
     border-radius: 10px;
     padding: 20px;
     display: flex;
@@ -239,7 +270,8 @@ body {
     box-shadow: rgba(52, 73, 94, 0.4) 5px 5px, rgba(41, 128, 185, 0.3) 10px 10px, rgba(127, 140, 141, 0.2) 15px 15px, rgba(236, 240, 241, 0.1) 20px 20px, rgba(189, 195, 199, 0.05) 25px 25px;
 
 }
-.box_edit_user{
+
+.box_edit_user {
     width: 100%;
     display: flex;
     flex-direction: column;
@@ -250,6 +282,11 @@ body {
 /* ---------------------------------------------------------------------------- */
 
 /* main content */
+.bigbox{
+    /* background-color: rgba(0, 0, 0, 0.5); */
+    /* background: linear-gradient(to bottom, #3a2c49, #4f4b7e, #4e4e6d); */
+    background: linear-gradient(to bottom, #0f0c29, #302b63, #24243e);
+}
 .main_home {
     padding-left: 15px;
     padding-right: 35px;
@@ -257,7 +294,6 @@ body {
     display: grid;
     grid-template-columns: 20% 80%;
     gap: 20px;
-    background-color: white;
     margin: 0;
 }
 
@@ -276,10 +312,14 @@ body {
     width: fit-content;
     position: relative;
     color: black;
-    user-select: none; /* Standard browsers */
-    -webkit-user-select: none; /* Safari/Chrome */
-    -moz-user-select: none; /* Firefox */
-    -ms-user-select: none; /* IE/Edge */
+    user-select: none;
+    /* Standard browsers */
+    -webkit-user-select: none;
+    /* Safari/Chrome */
+    -moz-user-select: none;
+    /* Firefox */
+    -ms-user-select: none;
+    /* IE/Edge */
 }
 
 .ghost {
@@ -294,7 +334,6 @@ body {
     right: 20px;
 }
 
-
 .searchbar {
     border-style: hidden;
     height: 20px;
@@ -303,7 +342,6 @@ body {
     padding: 10px;
     height: 30px;
     width: 300px;
-    box-shadow: rgba(52, 73, 94, 0.4) 5px 5px, rgba(41, 128, 185, 0.3) 10px 10px, rgba(127, 140, 141, 0.2) 15px 15px, rgba(236, 240, 241, 0.1) 20px 20px, rgba(189, 195, 199, 0.05) 25px 25px;
 
 }
 
@@ -315,7 +353,6 @@ body {
     padding-right: 5px;
     border-top-right-radius: 10px;
     border-bottom-right-radius: 10px;
-    box-shadow: rgba(52, 73, 94, 0.4) 5px 5px, rgba(41, 128, 185, 0.3) 10px 10px, rgba(127, 140, 141, 0.2) 15px 15px, rgba(236, 240, 241, 0.1) 20px 20px, rgba(189, 195, 199, 0.05) 25px 25px;
 
 }
 
@@ -325,7 +362,7 @@ body {
 }
 
 .categories {
-    background-color: white;
+    background-color: #f5f5f5;
     height: fit-content;
     border-radius: 10px;
     padding: 20px;
@@ -335,7 +372,8 @@ body {
     gap: 20px;
     box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px, rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px, rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;
 }
-.home_category{
+
+.home_category {
     text-decoration: none;
     color: black;
     background-color: white;
@@ -343,7 +381,8 @@ body {
     text-align: left;
     width: fit-content;
 }
-.home_category_active{
+
+.home_category_active {
     text-decoration: none;
     background-color: white;
     color: black;
@@ -355,17 +394,19 @@ body {
     text-align: left;
 
 }
-.home_category:hover{
-    scale: 1.1;
-    color: black;
-}
-.home_category_active:hover{
+
+.home_category:hover {
     scale: 1.1;
     color: black;
 }
 
-.home{
-    background-color: white;
+.home_category_active:hover {
+    scale: 1.1;
+    color: black;
+}
+
+.home {
+    background-color: #f5f5f5;
     min-height: 350px;
     border-radius: 10px;
     padding: 30px;
@@ -388,12 +429,14 @@ body {
     border-color: black;
     text-decoration: none;
 }
-.small_pic{
+
+.small_pic {
     position: absolute;
     width: 316px;
     height: 396px;
     border-radius: 8px;
 }
+
 .card_content {
     border-radius: 10px;
     padding: 10px;
@@ -408,20 +451,41 @@ body {
     height: 100%;
     background-color: white;
     /* backdrop-filter: blur(15px); */
-    user-select: none; /* Standard browsers */
-    -webkit-user-select: none; /* Safari/Chrome */
-    -moz-user-select: none; /* Firefox */
-    -ms-user-select: none; /* IE/Edge */
+    user-select: none;
+    /* Standard browsers */
+    -webkit-user-select: none;
+    /* Safari/Chrome */
+    -moz-user-select: none;
+    /* Firefox */
+    -ms-user-select: none;
+    /* IE/Edge */
 }
-.block_event:hover .card_content{
+
+.block_event:hover .card_content {
     top: 30%;
 }
 
-
-.short_description{
-    height: 100px;
+.title_card{
+    text-decoration: none;
+    max-height: 50px;
+    overflow-y: scroll;
 }
-.smallbox{
+
+.title_card::-webkit-scrollbar {
+    display: none;
+  }
+
+
+.short_description {
+    max-height: 100px;
+    overflow-y: scroll;
+}
+
+/* .short_description::-webkit-scrollbar {
+    display: none;
+} */
+    
+.smallbox {
     display: flex;
 }
 
@@ -445,7 +509,7 @@ body {
     box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
 }
 
-.btn_regis_activity{
+.btn_regis_activity {
     font-size: 20px;
     text-decoration: none;
     padding: 7px;
@@ -463,7 +527,8 @@ body {
     color: black;
     border-color: white;
 }
-.pic_area{
+
+.pic_area {
     width: 100%;
     height: auto;
     align-self: center;
@@ -478,24 +543,26 @@ body {
     gap: 10px 10px;
 }
 
-.pic1{
+.pic1 {
     grid-row: 1/3;
 }
-.big_pic{
+
+.big_pic {
     border-radius: 30px;
     width: 100%;
     height: 100%;
     border-style: solid;
     border-width: 2px;
 }
-.medium_pic{
+
+.medium_pic {
     border-radius: 30px;
     border-style: solid;
     border-width: 2px;
 }
 
 
-.box1{
+.box1 {
     display: grid;
     grid-template-columns: auto auto auto;
     background-color: white;
@@ -506,7 +573,7 @@ body {
     margin-bottom: 20px;
 }
 
-.box_content{
+.box_content {
     border-radius: 15px;
     border-style: solid;
     border-width: 2px;
@@ -514,7 +581,7 @@ body {
     padding: 5px;
 }
 
-.box2{
+.box2 {
     border-style: solid;
     border-width: 2px;
     border-radius: 20px;
@@ -524,7 +591,7 @@ body {
     margin-bottom: 20px;
 }
 
-.box3{
+.box3 {
     border-style: solid;
     border-width: 2px;
     border-radius: 20px;
@@ -546,8 +613,10 @@ body {
     border: 1px solid #ddd;
     border-radius: 10px;
     padding: 20px;
-    height: 100%; /* กำหนดให้เต็มพื้นที่ */
-    width: 100%; /* กำหนดให้เต็มพื้นที่ */
+    height: 100%;
+    /* กำหนดให้เต็มพื้นที่ */
+    width: 100%;
+    /* กำหนดให้เต็มพื้นที่ */
     background-color: #fff;
 }
 
@@ -561,7 +630,7 @@ body {
     color: #6c757d;
 }
 
-.container .p_select_category_card input[type="checkbox"]:checked + .card {
+.container .p_select_category_card input[type="checkbox"]:checked+.card {
     border: 2px solid #007bff;
     background-color: #e7f1ff;
 }
@@ -587,17 +656,19 @@ body {
     flex-wrap: wrap;
     box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
 }
-.box_approve{
-    position: absolute; 
+
+.box_approve {
+    position: absolute;
     z-index: 1;
     padding-left: 10px;
-    display: flex; 
+    display: flex;
     margin-top: 3px;
 }
-.content_approve{
+
+.content_approve {
     color: black;
-    width: fit-content; 
-    padding: 5px; 
+    width: fit-content;
+    padding: 5px;
     border-radius: 10px;
     border-style: solid;
     border-width: 1px;
@@ -646,10 +717,11 @@ body {
     margin: auto;
     height: 100px;
     margin-top: 10px;
-    margin-bottom: 50px; /* เพิ่มพื้นที่ว่างด้านล่าง */
+    margin-bottom: 50px;
+    /* เพิ่มพื้นที่ว่างด้านล่าง */
 }
 
-.content-wrapper {  
+.content-wrapper {
     display: flex;
     flex-direction: column;
     width: 100%;
@@ -705,7 +777,7 @@ body {
     flex-direction: row-reverse;
     justify-content: center;
     font-size: 2rem;
-    padding: 10px;  
+    padding: 10px;
 }
 
 .star-rating input[type="radio"] {
@@ -714,7 +786,8 @@ body {
 
 .review_showstars {
     display: flex;
-    margin-left: auto; /* Align stars to the right */
+    margin-left: auto;
+    /* Align stars to the right */
 }
 
 .star {
@@ -723,21 +796,23 @@ body {
     transition: color 0.3s;
 }
 
-.gold_star{
+.gold_star {
     color: gold;
 }
+
 /* เมื่อดาวถูกเลือก */
 .star.selected {
     color: gold;
 }
 
 /* เมื่อ hover จะเปลี่ยนสีเหลืองชั่วคราว */
-.star:hover, .star:hover ~ .star {
+.star:hover,
+.star:hover~.star {
     color: gold;
 }
 
-.star-rating input[type="radio"]:checked + label.star, 
-.star-rating input[type="radio"]:checked + label.star ~ label.star {
+.star-rating input[type="radio"]:checked+label.star,
+.star-rating input[type="radio"]:checked+label.star~label.star {
     color: gold;
 }
 

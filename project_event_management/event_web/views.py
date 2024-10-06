@@ -67,7 +67,7 @@ class ViewHome(View):
     def get(self, request):
         category_id = request.GET.get('category_id')
         search = request.GET.get('search', '')
-        current_time = timezone.datetime.now()
+        current_time = timezone.now()
         
         if category_id:
             activity = Activity.objects.filter(is_approve = "Approved", due_date__gt = current_time ,category_id=category_id)
@@ -133,7 +133,7 @@ class ViewActivity(View):
     def get(self, request, activity_id):
         activity = get_object_or_404(Activity, id=activity_id)
         activity_images = ActivityImage.objects.filter(activity=activity)
-        current_time = timezone.datetime.now()
+        current_time = timezone.now()
         reviews = Review.objects.filter(activity=activity)
         for review in reviews:
             review.star_list = ['★'] * review.score
