@@ -242,7 +242,7 @@ class ViewManageActivity(View):
                         f"It is scheduled to start on {activity.start_date.strftime('%B %d, %Y')}.\n\n"
                         f"Thank you for your interest, and we hope to see you there!\n\n"
                         f"Best regards,\n"
-                        f"Website Management Team"
+                        f"Activity Hub Management Team"
                     ),
                     from_email=settings.EMAIL_HOST_USER,
                     recipient_list=[participant.email],
