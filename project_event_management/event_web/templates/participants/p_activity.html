@@ -191,12 +191,11 @@ Activity
     </div>
 
 
-    {% if current_time > activity.due_date %}
+    {% if current_time >= activity.start_date %}
     <!-- Comment Section -->
     <div class="comment-section">
         <h3 class="text-white">แสดงความคิดเห็น</h3>
 
-        <!-- Existing Comments -->
         {% for review in reviews %}
         <div class="comment-card">
             <div class="card-body">
@@ -226,6 +225,7 @@ Activity
         {% endfor %}
 
         <!-- แบบฟอร์มเพิ่มความคิดเห็น -->
+        {% if already_registration %}
         <div class="comment-input-container">
             <div class="content-wrapper">
                 <form method="post" action="" class="comment_form">
@@ -257,19 +257,21 @@ Activity
         </div>
         {% endif %}
 
-        {% endblock %}
+    {% endif %}
 
-        {% block script %}
-        <script>
-            document.addEventListener('DOMContentLoaded', function () {
-                const stars = document.querySelectorAll('.star-rating input[type="radio"]');
+{% endblock %}
 
-                stars.forEach(star => {
-                    star.addEventListener('click', function () {
-                        stars.forEach(s => s.classList.remove('selected'));
-                        this.classList.add('selected');
-                    });
-                });
+{% block script %}
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const stars = document.querySelectorAll('.star-rating input[type="radio"]');
+
+        stars.forEach(star => {
+            star.addEventListener('click', function () {
+                stars.forEach(s => s.classList.remove('selected'));
+                this.classList.add('selected');
             });
-        </script>
-        {% endblock %}
+        });
+    });
+</script>
+{% endblock %}
