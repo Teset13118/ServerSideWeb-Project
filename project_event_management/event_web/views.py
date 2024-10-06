@@ -17,6 +17,8 @@ from django.contrib.auth import logout, login, authenticate
 from django.core.mail import send_mail
 from django.contrib import messages
 from django.conf import settings
+from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
+from django.contrib.auth.models import Group
 
 class RegisterView(View):
     def get(self, request):
@@ -30,10 +32,18 @@ class RegisterView(View):
             UserDetail.objects.create(
                 user = usertxt 
             )
+
             if usertxt.role == 'Participant':
-                return redirect('url_p_select_category', user_id=usertxt.id) # ไปหน้าเลือก category
+                group = Group.objects.get(name='Participant')
+                usertxt.groups.add(group)
+                return redirect('url_p_select_category', user_id=usertxt.id)
+            elif usertxt.role == 'Organizer':
+                group = Group.objects.get(name='Organizer')
+                usertxt.groups.add(group)
+                return redirect('url_login')
             else:
                 return redirect('url_login')
+      
         return render(request, 'register.html', {"form": form}) 
     
 class LoginView(View):
@@ -88,14 +98,19 @@ class ViewHome(View):
              'search': search,
              'current_time': current_time,
             })
-class ViewOrganizerHome(View):
+
+class ViewOrganizerHome(LoginRequiredMixin, PermissionRequiredMixin, View):
+    permission_required = ["event_web.view_activity", "event_web.add_activity"]
+
     def get(self, request):
         activity = Activity.objects.filter(organizer_id = request.user.id).order_by('id')
         return render(request, 'organizer/o_home.html',{
             'activity': activity,
         })
     
-class ViewProfile(View):
+class ViewProfile(LoginRequiredMixin, PermissionRequiredMixin, View):
+    permission_required = ["event_web.view_userdetail"]
+
     def get(self, request):
         profile = get_object_or_404(UserDetail, user_id=request.user.id)
         registration_activity = Registration.objects.filter(participant_id=request.user.id)
@@ -105,7 +120,9 @@ class ViewProfile(View):
             'regis_activity': registration_activity
         })
     
-class ViewProfileEdit(View):
+class ViewProfileEdit(LoginRequiredMixin, PermissionRequiredMixin, View):
+    permission_required = ["event_web.view_userdetail", "event_web.change_userdetail"]
+
     def get(self, request):
         userdetail = get_object_or_404(UserDetail, user_id=request.user.id)
         user = User.objects.get(id=request.user.id)
@@ -185,7 +202,9 @@ class ViewActivity(View):
 
         return redirect('url_p_activitypage', activity_id=activity_id)
 
-class ViewManageUser(View):
+class ViewManageUser(LoginRequiredMixin, PermissionRequiredMixin, View):
+    permission_required = ["event_web.view_user", "event_web.delete_user"]
+
     def get(self, request):
         participants = User.objects.filter(role='Participant')
         organizers = User.objects.filter(role='Organizer')
@@ -198,21 +217,26 @@ class ViewManageUser(View):
     def delete(self, request, user_id):
         get_user = get_object_or_404(User, id=user_id)
 
+        user_groups = get_user.groups.all()  # ดึงกลุ่มที่ผู้ใช้เป็นสมาชิก
+        for group in user_groups:
+            get_user.groups.remove(group)  # ลบผู้ใช้จากกลุ่ม
+
         if get_user.role == 'Organizer':
             activities = Activity.objects.filter(organizer=get_user)
-
-        for activity in activities:
-            activity_images = ActivityImage.objects.filter(activity=activity)
-            for image in activity_images:
-                if image.image_path and default_storage.exists(image.image_path.path):
-                    default_storage.delete(image.image_path.path)
-                image.delete()
-
-        activities.delete()
+            for activity in activities:
+                activity_images = ActivityImage.objects.filter(activity=activity)
+                for image in activity_images:
+                    if image.image_path and default_storage.exists(image.image_path.path):
+                        default_storage.delete(image.image_path.path)
+                    image.delete()
+            activities.delete()
+            
         get_user.delete()
         return JsonResponse({'message': 'User deleted successfully'}, status=200)
 
-class ViewManageActivity(View):
+class ViewManageActivity(LoginRequiredMixin, PermissionRequiredMixin, View):
+    permission_required = ["event_web.change_activity", "event_web.delete_activity"]
+
     def get(self, request):
         activities = Activity.objects.all()
         context = {
@@ -256,7 +280,9 @@ class ViewManageActivity(View):
             return JsonResponse({'message': 'Activity approved successfully and emails sent'}, status=200)
         return JsonResponse({'message': 'Activity not in approval status'}, status=400)
     
-class View_CreateActivity(View):
+class View_CreateActivity(LoginRequiredMixin, PermissionRequiredMixin, View):
+    permission_required = ["event_web.view_activity", "event_web.add_activity"]
+
     def get(self, request):
         form = CreateActivity_Form()
         purpose = "create"
@@ -288,7 +314,9 @@ class View_CreateActivity(View):
         else:
             return render(request, 'organizer/mo_ce_activity.html', {'form': form})
 
-class EditActivity(View):
+class EditActivity(LoginRequiredMixin, PermissionRequiredMixin, View):
+    permission_required = ["event_web.view_activity", "event_web.change_activity"]
+
     def get(self, request, activity_id):
         activity = get_object_or_404(Activity, id=activity_id)
         form = CreateActivity_Form(instance=activity)
@@ -313,7 +341,7 @@ class EditActivity(View):
                     default_storage.delete(old_image.image_path.path)
                 old_image.delete()
 
-            # อัปเดตภาพเก่าเป็นใหม่
+            # เพิ่มภาพใหม่ ทับอันเก่า
             activity_images = ActivityImage.objects.filter(activity=activity)
             for remaining_image in activity_images:
                 uploaded_file = request.FILES.get(f'upload_image_{remaining_image.id}')
@@ -342,7 +370,9 @@ class EditActivity(View):
                 'activity_images': activity_images
             })
         
-class DeleteActivity(View):
+class DeleteActivity(LoginRequiredMixin, PermissionRequiredMixin, View):
+    permission_required = ["event_web.view_activity", "event_web.delete_activity"]
+
     def get(self, request, activity_id):
         Activity.objects.filter(
             organizer_id = request.user.id,
@@ -350,6 +380,7 @@ class DeleteActivity(View):
         return redirect('url_o_homepage')
 
 class SelectCategory(View):
+
     def get(self, request, user_id):
         user = get_object_or_404(User, id=user_id)
         return render(request, 'participants/p_select_category.html', {'user': user})
