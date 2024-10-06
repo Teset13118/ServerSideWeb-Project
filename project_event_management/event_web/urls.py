@@ -11,7 +11,7 @@ urlpatterns = [
     path("login/", LoginView.as_view(), name="url_login"),
     path("logout/", LogoutView.as_view(), name="url_logout"),
     path("register/", RegisterView.as_view(), name="url_register"),
-    path("selectcategory/", SelectCategory.as_view(), name="url_select_category"),
+    path("selectcategory/<int:user_id>", SelectCategory.as_view(), name="url_p_select_category"),
 
     path("profile/", ViewProfile.as_view(), name="url_profile"),
     path("profile_edit/", ViewProfileEdit.as_view(), name="url_profile_edit"),

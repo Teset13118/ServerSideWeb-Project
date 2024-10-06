@@ -29,7 +29,10 @@ class RegisterView(View):
             UserDetail.objects.create(
                 user = usertxt 
             )
-            return redirect('url_login')
+            if usertxt.role == 'Participant':
+                return redirect('url_p_select_category', user_id=usertxt.id) # ไปหน้าเลือก category
+            else:
+                return redirect('url_login')
         return render(request, 'register.html', {"form": form}) 
     
 class LoginView(View):
@@ -319,9 +322,29 @@ class DeleteActivity(View):
         return redirect('url_o_homepage')
 
 class SelectCategory(View):
-    def get(self, request):
-        return render(request, 'participants/p_select_category.html')
+    def get(self, request, user_id):
+        user = get_object_or_404(User, id=user_id)
+        return render(request, 'participants/p_select_category.html', {'user': user})
 
+    def post(self, request, user_id):
+        user = get_object_or_404(User, id=user_id)
+        selected_categories = request.POST.getlist('categories')
+
+        if selected_categories:
+            UserCategory.objects.filter(participant=user).delete()
+
+            for category_id in selected_categories:
+                category = get_object_or_404(Category, id=category_id)
+                UserCategory.objects.create(participant=user, category=category)
+
+            # Redirect ไปหน้าอื่นหลังจากบันทึกเสร็จ
+            return redirect('url_login')
+
+        # หากไม่มีหมวดหมู่ถูกเลือก ให้ส่ง error กลับไปที่ template
+        return render(request, 'participants/p_select_category.html', {
+            'error': 'Please select at least one category.',
+            'user': user
+        })
 
 
 # OLD CREATE AND EDIT ACTIVITY (INCASE_ERRORS NEEDED TO ROLL BACK)
