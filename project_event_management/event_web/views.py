@@ -47,6 +47,10 @@ class LoginView(View):
             
             user = form.get_user() 
             login(request,user)
+
+            if user.is_superuser:
+                return redirect('/admin/')
+            
             if user.role == "Participant":
                 return redirect('url_p_homepage')
             elif user.role == "Organizer":
