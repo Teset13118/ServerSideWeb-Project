@@ -1,13 +1,44 @@
 from django.contrib import admin
+from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
+from django.contrib.auth.models import Group
 from .models import User, UserDetail, Activity, Review
 
 
 # User Admin
 @admin.register(User)
-class UserAdmin(admin.ModelAdmin):
-    list_display = ('username', 'email', 'phone_number', 'role') 
+class CustomUserAdmin(BaseUserAdmin):
+    list_display = ('username', 'email', 'phone_number', 'role', 'is_staff', 'is_active')
     search_fields = ('username', 'email')
-    list_filter = ('role',)
+    list_filter = ('role', 'is_staff', 'is_active')
+
+    # ใช้สำหรับฟอร์มตอนแก้ไขข้อมูลผู้ใช้
+    fieldsets = (
+        (None, {
+            'fields': ('username', 'first_name', 'last_name', 'email', 'phone_number', 'groups'),
+        }),
+        ('Permissions', {
+            'fields': ('is_staff', 'is_active'),
+        }),
+        ('Password Reset', {
+            'fields': ('password',),
+        }),
+    )
+
+    # ใช้สำหรับฟอร์มตอนเพิ่มผู้ใช้ใหม่
+    add_fieldsets = (
+        (None, {
+            'classes': ('wide',),
+            'fields': ('username', 'first_name', 'last_name', 'email', 'phone_number', 'password1', 'password2'),
+        }),
+        ('Add Groups', {
+            'fields': ('groups',),
+        }),
+        ('Permissions', {
+            'fields': ('is_staff', 'is_active'),
+        }),
+    )
+
+    filter_horizontal = ('groups',)
 
 # UserDetail Admin
 @admin.register(UserDetail)

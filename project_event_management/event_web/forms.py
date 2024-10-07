@@ -143,5 +143,3 @@ class CreateActivity_Form(forms.ModelForm):
             raise forms.ValidationError("Start date cannot be after due date.") 
 
         return cleaned_data
-
-
