@@ -357,7 +357,11 @@ class EditActivity(LoginRequiredMixin, PermissionRequiredMixin, View):
             for new_image in new_images:
                 ActivityImage.objects.create(activity=activity, image_path=new_image)
 
-            return redirect('url_o_homepage')
+            # ตรวจสอบบทบาทของผู้ใช้
+            if request.user.role == "Organizer":
+                return redirect('url_o_homepage')
+            else:
+                return redirect('url_m_manageactivities') 
         
         else:
             form = CreateActivity_Form(request.POST, request.FILES, instance=activity)
