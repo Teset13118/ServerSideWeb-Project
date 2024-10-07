@@ -7,7 +7,7 @@ from .models import User, UserDetail, Activity, Review
 # User Admin
 @admin.register(User)
 class CustomUserAdmin(BaseUserAdmin):
-    list_display = ('username', 'email', 'phone_number', 'role', 'is_staff', 'is_active')
+    list_display = ('username', 'first_name', 'last_name', 'email', 'role', 'is_staff', 'is_active')
     search_fields = ('username', 'email')
     list_filter = ('role', 'is_staff', 'is_active')
 

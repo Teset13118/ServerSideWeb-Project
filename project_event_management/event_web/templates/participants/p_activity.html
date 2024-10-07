@@ -11,7 +11,7 @@ Activity
 {% elif user.role == 'Organizer'%}
 <a href="{% url 'url_o_homepage' %}" class="btn_back"><b>Back</b></a>
 {% else %}
-<a href="{% url 'url_p_homepage' %}" class="btn_back"><b>Back</b></a>
+<a onclick="history.back()" class="btn_back"><b>Back</b></a>
 {% endif %}
 
 <div class="main_activity">

@@ -30,11 +30,6 @@ urlpatterns = [
     path("manage/activities/approve/<int:activity_id>/", ViewManageActivity.as_view(), name="url_m_approve_activity"),
 ]
 
-# old
-    # path("create_activity/", View_CreateActivity.as_view(), name="url_o_activity_form"),
-    # path("edit_activity/<int:activity_id>", EditActivity.as_view(), name="url_mo_editactivity"),
-    # path("activity/<int:activity_id>", View_Activity.as_view(), name="url_p_activity_detail"),
-
 # setting for showing media on website
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
