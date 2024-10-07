@@ -113,25 +113,34 @@ class ChangePasswordView(LoginRequiredMixin, View):
 
 class ViewHome(View):
     def get(self, request):
-        category_id = request.GET.get('category_id')
-        search = request.GET.get('search', '')
         current_time = timezone.now()
-        
-        if category_id:
-            activity = Activity.objects.filter(is_approve = "Approved", due_date__gt = current_time ,category_id=category_id)
-        else:
-            activity = Activity.objects.filter(is_approve = "Approved", due_date__gt = current_time)
+        activity = Activity.objects.filter(is_approve = "Approved", due_date__gt = current_time).order_by('?')[:4]  # Randomly shuffle and limit to 5
 
-        if search:
-            activity = activity.filter(title__icontains=search)
-
-        category = Category.objects.all()
         return render(request, 'participants/p_home.html', {
             'activity': activity,
-            'category': category,
-             'search': search,
              'current_time': current_time,
             })
+class ViewHomeActivity(LoginRequiredMixin, View):
+        def get(self, request):
+            category_id = request.GET.get('category_id')
+            search = request.GET.get('search', '')
+            current_time = timezone.now()
+            
+            if category_id:
+                activity = Activity.objects.filter(is_approve = "Approved", due_date__gt = current_time ,category_id=category_id)
+            else:
+                activity = Activity.objects.filter(is_approve = "Approved", due_date__gt = current_time)
+
+            if search:
+                activity = activity.filter(title__icontains=search)
+
+            category = Category.objects.all()
+            return render(request, 'participants/p_home_activity.html', {
+                'activity': activity,
+                'category': category,
+                'search': search,
+                'current_time': current_time,
+                })
 
 class ViewOrganizerHome(LoginRequiredMixin, PermissionRequiredMixin, View):
     permission_required = ["event_web.view_activity", "event_web.add_activity"]
