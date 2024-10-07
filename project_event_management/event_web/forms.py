@@ -35,7 +35,7 @@ class ProfileEditForm(ModelForm):
         birthday = self.cleaned_data.get('birthday')
 
         if birthday >= datetime.date.today():
-            raise forms.ValidationError("Birthday must not be in the future and pressent.")
+            raise forms.ValidationError("Birthday must not be in the future and present.")
         
         return birthday
     

@@ -22,7 +22,7 @@ Activity
 
                 <!-- หมดเวลาลงทะเบียนกิจกรรม และ ยังไม่ได้ลงทะเบียนกิจกรรมนี้ -->
                 {% if activity.close_register_date < current_time and not already_registration%} 
-                <button type="submit" class="btn_regis_activity" style="background-color: gray;">ไม่สามารถลงทะเบียนกิจกรรมได้แล้ว</button>
+                <button type="submit" class="btn_regis_activity" style="background-color: gray;">Unable to register acticity</button>
 
                 <!-- ยังไม่หมดเวลาลงทะเบียน และ ยังไม่ได้ลงทะเบียนกิจกรรมนี้ -->
                 {% elif not already_registration%}
@@ -30,16 +30,16 @@ Activity
                     {% csrf_token %}
                     <input type="hidden" name="act" value="register">
                     <button type="submit" class="btn_regis_activity"
-                        onclick="return confirm('คุณต้องการลงทะเบียนกิจกรรมนี้หรือไม่?');">ลงทะเบียนกิจกรรม</button>
+                        onclick="return confirm('คุณต้องการลงทะเบียนกิจกรรมนี้หรือไม่?');">Register activity</button>
                 </form>
 
                 <!-- กิจกรรมได้จบลงแล้ว และ ได้ลงทะเบียนกิจกรรมนี้ -->
                 {% elif already_registration and activity.due_date < current_time %}
-                <button type="submit" class="btn_regis_activity" style="background-color: gray;">กิจกรรมได้จบลงแล้ว</button>
+                <button type="submit" class="btn_regis_activity" style="background-color: gray;">activity has ended</button>
 
                 <!-- กิจกรรมกำลังเริ่มอยู่ และ ได้ลงทะเบียนกิจกรรมนี้ -->
                 {% elif already_registration and activity.start_date < current_time %}
-                <button type="submit" class="btn_regis_activity" style="background-color: gray;">กิจกรรมกำลังดำเนินอยู่</button>
+                <button type="submit" class="btn_regis_activity" style="background-color: gray;">activity is ongoing</button>
 
                 <!-- กิจกรรมยังไม่เริ่ม และ ได้ลงทะเบียนกิจกรรมนี้ -->
                 {% elif already_registration %}
@@ -47,7 +47,7 @@ Activity
                     {% csrf_token %}
                     <input type="hidden" name="act" value="cancel">
                     <button type="submit" class="btn_regis_activity" style="background-color: red;"
-                        onclick="return confirm('คุณต้องการยกเลิกลงทะเบียนกิจกรรมนี้หรือไม่?');">ยกเลิกลงทะเบียนกิจกรรม</button>
+                        onclick="return confirm('คุณต้องการยกเลิกลงทะเบียนกิจกรรมนี้หรือไม่?');">Cancel activity registration</button>
                 </form>
                 {% endif %}
 
@@ -56,13 +56,13 @@ Activity
                 <div style="display: flex; gap: 10px;">
                     <form method="GET" action="{% url 'url_mo_editactivity' activity.id %}">
                         {% csrf_token %}
-                        <button type="submit" class="btn_regis_activity" style="background-color: yellow;"
-                            onclick="return confirm('คุณต้องการแก้ไขกิจกรรมนี้หรือไม่?');">แก้ไขกิจกรรม</button>
+                        <button type="submit" class="btn_regis_activity" style="background-color: rgba(255, 255, 0, 0.87);"
+                            onclick="return confirm('คุณต้องการแก้ไขกิจกรรมนี้หรือไม่?');">Edit activity</button>
                     </form>
                     <form method="GET" action="{% url 'url_mo_deleteactivity' activity.id %}">
                         {% csrf_token %}
                         <button type="submit" class="btn_regis_activity" style="background-color: red;"
-                            onclick="return confirm('คุณต้องการลบกิจกรรมนี้หรือไม่?');">ลบกิจกรรม</button>
+                            onclick="return confirm('คุณต้องการลบกิจกรรมนี้หรือไม่?');">Delete activity</button>
                     </form>
                 </div>
             {% endif %}
@@ -117,30 +117,30 @@ Activity
             </div>
             <div class="box1">
                 <div class="box_content">
-                    <h5>เวลาปิดลงทะเบียนกิจกรรม: {{ activity.close_register_date|date:"d M Y H:i A" }}</h5>
+                    <h5>Event registration closing time: {{ activity.close_register_date|date:"d M Y H:i A" }}</h5>
                 </div>
                 <div class="box_content">
-                    <h5>เวลาเริ่มกิจกรรม: {{ activity.start_date|date:"d M Y H:i A" }}</h5>
+                    <h5>Activity start time: {{ activity.start_date|date:"d M Y H:i A" }}</h5>
                 </div>
                 <div class="box_content">
-                    <h5>เวลาจบกิจกรรม: {{ activity.due_date|date:"d M Y H:i A" }}</h5>
+                    <h5>End of activity time: {{ activity.due_date|date:"d M Y H:i A" }}</h5>
                 </div>
 
                 <!-- activity type -->
                 {% if activity.activity_type == 'hybrid' %}
                 <div class="box_content">
-                    <h5>แพลตฟอร์มที่จัดกิจกรรม: {{ activity.platform }}</h5>
+                    <h5>Platform: {{ activity.platform }}</h5>
                 </div>
                 <div class="box_content">
-                    <h5>สถานที่จัดกิจกรรม: {{ activity.location }}</h5>
+                    <h5>Location: {{ activity.location }}</h5>
                 </div>
                 {% elif activity.activity_type == 'online' %}
                 <div class="box_content">
-                    <h5>แพลตฟอร์มที่จัดกิจกรรม: {{ activity.platform }}</h5>
+                    <h5>Platform: {{ activity.platform }}</h5>
                 </div>
                 {% elif activity.activity_type == 'onsite' %}
                 <div class="box_content">
-                    <h5>สถานที่จัดกิจกรรม: {{ activity.location }}</h5>
+                    <h5>Location: {{ activity.location }}</h5>
                 </div>
                 {% endif %}
 
@@ -150,7 +150,7 @@ Activity
             </div>
             <div class="box3">
                 <p>
-                <h5>ช่องทางการติดต่อ: </h5>{{ activity.contact }}</p>
+                <h5>Contact: </h5>{{ activity.contact }}</p>
             </div>
         </div>
     </div>
@@ -159,7 +159,7 @@ Activity
 
                 <!-- หมดเวลาลงทะเบียนกิจกรรม และ ยังไม่ได้ลงทะเบียนกิจกรรมนี้ -->
                 {% if activity.close_register_date < current_time and not already_registration%} 
-                <button type="submit" class="btn_regis_activity" style="padding: 20px; margin-top: 20px; text-align: center; background-color: gray;">ไม่สามารถลงทะเบียนกิจกรรมได้แล้ว</button>
+                <button type="submit" class="btn_regis_activity" style="padding: 20px; margin-top: 20px; text-align: center; background-color: gray;">Unable to register acticity</button>
 
                 <!-- ยังไม่หมดเวลาลงทะเบียน และ ยังไม่ได้ลงทะเบียนกิจกรรมนี้ -->
                 {% elif not already_registration%}
@@ -167,16 +167,16 @@ Activity
                     {% csrf_token %}
                     <input type="hidden" name="act" value="register">
                     <button type="submit" class="btn_regis_activity"
-                        onclick="return confirm('คุณต้องการลงทะเบียนกิจกรรมนี้หรือไม่?');">ลงทะเบียนกิจกรรม</button>
+                        onclick="return confirm('คุณต้องการลงทะเบียนกิจกรรมนี้หรือไม่?');">Register activity</button>
                 </form>
 
                 <!-- กิจกรรมได้จบลงแล้ว และ ได้ลงทะเบียนกิจกรรมนี้ -->
                 {% elif already_registration and activity.due_date < current_time %}
-                <button type="submit" class="btn_regis_activity" style="padding: 20px; margin-top: 20px; text-align: center; background-color: gray;">กิจกรรมได้จบลงแล้ว</button>
+                <button type="submit" class="btn_regis_activity" style="padding: 20px; margin-top: 20px; text-align: center; background-color: gray;">activity has ended</button>
 
                 <!-- กิจกรรมกำลังเริ่มอยู่ และ ได้ลงทะเบียนกิจกรรมนี้ -->
                 {% elif already_registration and activity.start_date < current_time %}
-                <button type="submit" class="btn_regis_activity" style="padding: 20px; margin-top: 20px; text-align: center; background-color: gray;">กิจกรรมกำลังดำเนินอยู่</button>
+                <button type="submit" class="btn_regis_activity" style="padding: 20px; margin-top: 20px; text-align: center; background-color: gray;">activity is ongoing</button>
 
                 <!-- กิจกรรมยังไม่เริ่ม และ ได้ลงทะเบียนกิจกรรมนี้ -->
                 {% elif already_registration %}
@@ -184,7 +184,7 @@ Activity
                     {% csrf_token %}
                     <input type="hidden" name="act" value="cancel">
                     <button type="submit" class="btn_regis_activity" style="padding: 20px; margin-top: 20px; text-align: center; background-color: red;"
-                        onclick="return confirm('คุณต้องการยกเลิกลงทะเบียนกิจกรรมนี้หรือไม่?');">ยกเลิกลงทะเบียนกิจกรรม</button>
+                        onclick="return confirm('คุณต้องการยกเลิกลงทะเบียนกิจกรรมนี้หรือไม่?');">Cancel activity registration</button>
                 </form>
                 {% endif %}
             {% endif %}
@@ -194,7 +194,7 @@ Activity
     {% if current_time >= activity.start_date %}
     <!-- Comment Section -->
     <div class="comment-section">
-        <h3 class="text-white">แสดงความคิดเห็น</h3>
+        <h3 class="text-white">Comment</h3>
 
         {% for review in reviews %}
         <div class="comment-card">
@@ -225,7 +225,7 @@ Activity
         {% endfor %}
 
         <!-- แบบฟอร์มเพิ่มความคิดเห็น -->
-        {% if already_registration %}
+        {% if already_registration and user.role == "Participant"%}
         <div class="comment-input-container">
             <div class="content-wrapper">
                 <form method="post" action="" class="comment_form">

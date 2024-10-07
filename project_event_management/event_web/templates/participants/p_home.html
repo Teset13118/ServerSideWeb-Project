@@ -25,15 +25,15 @@ Home
             <div class="ghost_ex">
                 <form method="GET" action="{% url 'url_p_homepage' %}" class="search_form">
                     {% csrf_token %}
-                    <input class="searchbar" type="text" name="search" placeholder="ค้นหา.." value="{{ search }}">
-                    <button class="btn_search"><i class="fa fa-search"> ค้นหา</i></button>
+                    <input class="searchbar" type="text" name="search" placeholder="Search.." value="{{ search }}">
+                    <button class="btn_search"><i class="fa fa-search"> Search</i></button>
                 </form>
             </div>
         </div>
     </div>
     <div class="main_home">
         <div class="categories">
-            <a href="{% url 'url_p_homepage' %}" class="home_category">ทั้งหมด</a>
+            <a href="{% url 'url_p_homepage' %}" class="home_category">All</a>
     
             {% for j in category %}
             <form method="GET" action="{% url 'url_p_homepage'%}">
@@ -61,7 +61,7 @@ Home
                 </div>
             </a>
             {% empty %}
-            <h2 style="align-self: center;">ยังไม่มีกิจกรรม</h2>
+            <h2 style="align-self: center;">There are no activities yet.</h2>
             {% endfor %}
         </div>
     </div>

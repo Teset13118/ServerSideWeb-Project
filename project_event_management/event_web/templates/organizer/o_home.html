@@ -7,9 +7,9 @@ Home
 {% block content %}
 <div class="main_home_org">
     <div class="ex2" style="margin-top: 110px;">
-        <h2 class="ghost" style="color: white;">กิจกรรมที่สร้าง</h2>
+        <h2 class="ghost" style="color: white;">Activities created</h2>
         <div class="ghost_ex" style="margin-top: 15px;">
-            <a class="btn_regis_activity" href="{% url 'url_o_createactivity'%}">สร้างกิจกรรม</a>
+            <a class="btn_regis_activity" href="{% url 'url_o_createactivity'%}">Create Activity</a>
         </div>
     </div>
 </div>
@@ -35,7 +35,7 @@ Home
             </div>
         </a>
         {% empty %}
-        <h2 style="align-self: center; margin-left: 45%;">ยังไม่มีกิจกรรม</h2>
+        <h2 style="align-self: center; margin-left: 45%;">There are no activities yet.</h2>
         {% endfor %}
     </div>
 </div>

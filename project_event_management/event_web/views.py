@@ -11,9 +11,9 @@ import datetime
 
 from django.core.files.storage import default_storage
 from django.contrib.auth.forms import UserCreationForm
-from django.contrib.auth.forms import AuthenticationForm
+from django.contrib.auth.forms import AuthenticationForm, PasswordChangeForm
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.contrib.auth import logout, login, authenticate
+from django.contrib.auth import logout, login, authenticate, update_session_auth_hash
 from django.core.mail import send_mail
 from django.contrib import messages
 from django.conf import settings
@@ -76,6 +76,18 @@ class LogoutView(View):
     def get(self, request):
         logout(request)
         return redirect('url_login')
+    
+class ChangePasswordView(LoginRequiredMixin, View):
+    def get(self, request):
+        form = PasswordChangeForm(user=request.user)
+        return render(request, 'changepassword.html', {'form': form})
+    def post(self, request):
+        form = PasswordChangeForm(user=request.user, data=request.POST)
+        if form.is_valid():
+            user = form.save()
+            update_session_auth_hash(request, user) #keeping the user logged in
+            return redirect('url_profile')
+        return render(request, 'changepassword.html', {'form': form})
 
 class ViewHome(View):
     def get(self, request):

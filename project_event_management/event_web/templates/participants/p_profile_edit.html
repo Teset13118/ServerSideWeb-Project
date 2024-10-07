@@ -47,8 +47,10 @@ Profile_edit
                     {{ form1.birthday }}
                 </div>
             </div>
-            {{form1.errors}}
-            {{form2.errors}}
+            <div class="login_error_box">
+                {{form1.errors}}
+                {{form2.errors}}
+            </div>
             <div style="margin-top: 20px; text-align: right;">
                 <button type="submit" class="btn_profile" style="margin-right: 10px;" onclick="return confirm('คุณต้องการแก้ไขข้อมูลนี้หรือไม่?');"><b>Save Changes</b></button>
                 <a href="{% url 'url_profile'%}" class="btn_edit_user" style="padding: 9px;"><b>Cancel</b></a>

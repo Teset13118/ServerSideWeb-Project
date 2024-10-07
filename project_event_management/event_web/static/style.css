@@ -37,9 +37,11 @@ body {
 
 /* register */
 /* login */
+/* Changepass */
 /* ---------------------------------------------- */
 .main_login,
-.main_register {
+.main_register,
+.main_changepass {
     display: flex;
     justify-content: center;
     margin: auto;
@@ -60,6 +62,10 @@ body {
     min-height: 500px;
     margin-top: 10%;
 }
+.main_changepass{
+    width: 30%;
+    min-height: 320px;
+}
 
 .register_form {
     width: 80%;
@@ -70,12 +76,14 @@ body {
 }
 
 .login_title,
-.register_title {
+.register_title,
+.changepass_title {
     text-align: center;
 }
 
 .box_login,
-.box_register {
+.box_register,
+.box_changepass {
     width: 100%;
     display: flex;
     justify-content: space-between;

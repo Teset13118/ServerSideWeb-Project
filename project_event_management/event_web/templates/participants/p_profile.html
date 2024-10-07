@@ -12,7 +12,7 @@ Profile
 {% endif %}
 <div class="main_profile">
     <div class="ex3">
-        <h2 class="ghost" style="color: white;">โปรไฟล์ของคุณ</h2>
+        <h2 class="ghost" style="color: white;">Your Profile</h2>
     </div>
 </div>
 <div class="main_profile">
@@ -23,39 +23,40 @@ Profile
             </div>
             <div style="align-self: end; padding-bottom: 20px;">
                 <h3>{{ user.username }}</h3>
-                <h6 style="font-size: 12px;">วันที่เข้าร่วม: {{ user.date_joined |date:"d M Y"}}</h6>
+                <h6 style="font-size: 12px;">Date of joining: {{ user.date_joined |date:"d M Y"}}</h6>
             </div>
         </div>
         <div class="profile_category">
-            <button onclick="SwapUserDetail()" class="btn_profile"><b>ข้อมูลส่วนตัว</b></button>
+            <button onclick="SwapUserDetail()" class="btn_profile"><b>Profile Information</b></button>
             {% if user.role == "Participant"%}
-            <button onclick="SwapActivityDetail()" class="btn_profile"><b>กิจกรรมที่ลงทะเบียน</b></button>
+            <button onclick="SwapActivityDetail()" class="btn_profile"><b>Registered Activities</b></button>
             {% endif %}
         </div>
     </div>
 </div>
 <div class="main_profile" id="userDetails" style="display: flex; flex-direction: column; align-items: center;">
     <div class="ex3" style="margin-top: 10px; color: white; display: flex;">
-        <h3 style="text-align: center;">ข้อมูลส่วนตัว</h3>
+        <h3 style="text-align: center;">Profile Information</h3>
         <div style="position: absolute; left: 60%;">
-            <a href="{% url 'url_profile_edit' %}" class="btn_edit_user"><b>แก้ไขข้อมูล</b></a>
+            <a href="{% url 'url_profile_edit' %}" class="btn_edit_user"><b>Edit Profile</b></a>
+            <a href="{% url 'url_changepassword' %}" class="btn_edit_user"><b>ChangePassword</b></a>
         </div>
     </div>
     <div class="profile_user_content">
         <div class="box1_profile">
             <div style="display: flex; justify-content: space-between;">
                 <div class="box_user" style="flex: 50%;">
-                    <h5>ชื่อ :</h5>
+                    <h5>First Name :</h5>
                     {% if user.first_name == null %}
-                    <p>ยังไม่มีข้อมูล</p>
+                    <p>No information yet</p>
                     {% else %}
                     {{ user.first_name}}
                     {% endif %}
                 </div>
                 <div class="box_user" style="flex: 50%;">
-                    <h5>นามสกุล :</h5>
+                    <h5>Last Name :</h5>
                     {% if user.last_name == null %}
-                    <p>ยังไม่มีข้อมูล</p>
+                    <p>No information yet</p>
                     {% else %}
                     {{ user.last_name}}
                     {% endif %}
@@ -66,34 +67,34 @@ Profile
                 {{ user.email }}
             </div>
             <div class="box_user">
-                <h5>เบอร์ติดต่อ :</h5>
+                <h5>PhoneNumber :</h5>
                 {{ user.phone_number }}
             </div>
             <div class="box_user">
-                <h5>เพศ</h5>
+                <h5>Gender</h5>
                 {% if profile.gender == "M" %}
-                <p>ชาย</p>
+                <p>Male</p>
                 {% elif profile.gender == "F" %}
-                <p>หญิง</p>
+                <p>Female</p>
                 {% elif profile.gender == "O" %}
                 <p>LGBT</p>
                 {% else %}
-                <p>ยังไม่มีข้อมูล</p>
+                <p>No information yet</p>
                 {% endif %}
             </div>
             <div style="display: flex; justify-content: space-between;">
                 <div class="box_user" style="flex: 50%;">
-                    <h5>อายุ</h5>
+                    <h5>Age</h5>
                     {% if profile.age == null %}
-                    <p>ยังไม่มีข้อมูล</p>
+                    <p>No information yet</p>
                     {% else %}
                     {{ profile.age }}
                     {% endif %}
                 </div>
                 <div class="box_user" style="flex: 50%;">
-                    <h5>วันเกิด</h5>
+                    <h5>Birthday</h5>
                     {% if profile.birthday == null %}
-                    <p>ยังไม่มีข้อมูล</p>
+                    <p>No information yet</p>
                     {% else %}
                     {{ profile.birthday }}
                     {% endif %}
@@ -104,7 +105,7 @@ Profile
 </div>
 <div class="main_profile" id="activityDetails" style="display: none; flex-direction: column; align-items: center;">
     <div class="ex3" style="margin-top: 10px; color: white; display: flex;">
-        <h3 style="text-align: center;">กิจกรรมของฉัน</h3>
+        <h3 style="text-align: center;">My Registered Activities</h3>
     </div>
     <div class="profile_activity_content">
         <div class="box2_profile">
@@ -124,7 +125,7 @@ Profile
                 </div>
             </a>
             {% empty %}
-            <h2>ยังไม่มีกิจกรรมที่ลงทะเบียน</h2>
+            <h2>You don't have any registered activities yet.</h2>
             {% endfor %} 
         </div>
     </div>
