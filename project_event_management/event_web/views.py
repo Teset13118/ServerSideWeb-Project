@@ -22,6 +22,17 @@ from django.contrib.auth.models import Group
 
 class RegisterView(View):
     def get(self, request):
+        if request.user.is_authenticated:
+            if request.user.is_superuser:
+                return redirect('/admin/')
+            
+            if request.user.role == "Participant":
+                return redirect('url_p_homepage')
+            elif request.user.role == "Organizer":
+                return redirect('url_o_homepage')
+            else:
+                return redirect('url_m_manageactivities')
+
         form = CustomUserCreationForm()
         return render(request, 'register.html', {"form": form})
     
@@ -48,6 +59,17 @@ class RegisterView(View):
     
 class LoginView(View):
     def get(self, request):
+        if request.user.is_authenticated:
+            if request.user.is_superuser:
+                return redirect('/admin/')
+            
+            if request.user.role == "Participant":
+                return redirect('url_p_homepage')
+            elif request.user.role == "Organizer":
+                return redirect('url_o_homepage')
+            else:
+                return redirect('url_m_manageactivities')
+
         form = AuthenticationForm()
         return render(request, 'login.html', {"form": form})
     
@@ -384,7 +406,6 @@ class DeleteActivity(LoginRequiredMixin, PermissionRequiredMixin, View):
         return redirect('url_o_homepage')
 
 class SelectCategory(View):
-
     def get(self, request, user_id):
         user = get_object_or_404(User, id=user_id)
         return render(request, 'participants/p_select_category.html', {'user': user})
