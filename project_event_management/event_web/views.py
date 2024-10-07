@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from django.http import HttpResponse, Http404, JsonResponse
+from django.http import HttpResponse, Http404, JsonResponse, HttpResponseForbidden
 from django.views import View
 from django.db import transaction
 from .forms import *
@@ -269,14 +269,17 @@ class ViewManageUser(LoginRequiredMixin, PermissionRequiredMixin, View):
         return JsonResponse({'message': 'User deleted successfully'}, status=200)
 
 class ViewManageActivity(LoginRequiredMixin, PermissionRequiredMixin, View):
-    permission_required = ["event_web.change_activity", "event_web.delete_activity"]
+    permission_required = ["event_web.view_activity", "event_web.change_activity", "event_web.delete_activity"]
 
     def get(self, request):
-        activities = Activity.objects.all()
-        context = {
-            'activities': activities,
-        }
-        return render(request, 'manager/m_manage_activity.html', context)
+        if request.user.role == "Organizer" or request.user.role == "Participant" :
+            return HttpResponseForbidden('<h1>403 Forbidden</h1><p>Access denied.</p>')
+        else:
+            activities = Activity.objects.all()
+            context = {
+                'activities': activities,
+            }
+            return render(request, 'manager/m_manage_activity.html', context)
     
     def delete(self, request, activity_id):
         activity = get_object_or_404(Activity, id=activity_id)
