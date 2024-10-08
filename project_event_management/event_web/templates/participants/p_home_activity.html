@@ -24,10 +24,10 @@ Home
     </div>
     <div class="main_home">
         <div class="categories">
-            <a href="{% url 'url_p_homepage' %}" class="home_category">All</a>
+            <a href="{% url 'url_p_homepage_activity' %}" class="home_category">All</a>
     
             {% for j in category %}
-            <form method="GET" action="{% url 'url_p_homepage'%}">
+            <form method="GET" action="{% url 'url_p_homepage_activity'%}">
                 <input type="hidden" name="category_id" value="{{ j.id }}">
                 <button class="home_category">{{ j.category_name }}</button>
             </form>

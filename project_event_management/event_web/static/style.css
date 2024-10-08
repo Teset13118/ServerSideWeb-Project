@@ -62,7 +62,8 @@ body {
     min-height: 500px;
     margin-top: 10%;
 }
-.main_changepass{
+
+.main_changepass {
     width: 30%;
     min-height: 320px;
 }
@@ -290,11 +291,12 @@ body {
 /* ---------------------------------------------------------------------------- */
 
 /* main content */
-.bigbox{
+.bigbox {
     /* background-color: rgba(0, 0, 0, 0.5); */
     /* background: linear-gradient(to bottom, #3a2c49, #4f4b7e, #4e4e6d); */
     background: linear-gradient(to bottom, #0f0c29, #302b63, #24243e);
 }
+
 .main_home {
     padding-left: 15px;
     padding-right: 35px;
@@ -303,6 +305,11 @@ body {
     grid-template-columns: 20% 80%;
     gap: 20px;
     margin: 0;
+}
+
+.main_home_ex {
+    padding: 20px;
+    padding-top: 30px;
 }
 
 .ex1,
@@ -426,6 +433,18 @@ body {
     box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px, rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px, rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;
 }
 
+.home_ex {
+    min-height: 350px;
+    border-radius: 10px;
+    padding: 30px;
+    padding-top: 40px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    padding-left: 65px;
+    gap: 30px;
+}
+
 .block_event {
     overflow: hidden;
     margin-bottom: 20px;
@@ -473,7 +492,7 @@ body {
     top: 30%;
 }
 
-.title_card{
+.title_card {
     text-decoration: none;
     max-height: 50px;
     overflow-y: scroll;
@@ -481,7 +500,7 @@ body {
 
 .title_card::-webkit-scrollbar {
     display: none;
-  }
+}
 
 
 .short_description {
@@ -492,9 +511,27 @@ body {
 /* .short_description::-webkit-scrollbar {
     display: none;
 } */
-    
+
 .smallbox {
     display: flex;
+}
+
+.btn_view_all_act {
+    text-decoration: none;
+    padding: 7px;
+    color: white;
+    align-self: center;
+    border-radius: 10px;
+    background-color: #E67E22;
+    border-style: solid;
+    border-width: 2px;
+    border-color: black;
+    box-shadow: rgba(0, 0, 0, 0.4) 0px 2px 4px, rgba(0, 0, 0, 0.3) 0px 7px 13px -3px, rgba(0, 0, 0, 0.2) 0px -3px 0px inset;
+}
+
+.btn_view_all_act:hover {
+    color: black;
+    border-color: white;
 }
 
 /* p_activity */
