@@ -9,6 +9,14 @@ class CustomUserCreationForm(UserCreationForm):
     class Meta:
         model = User
         fields = ['username', 'email', 'role', 'phone_number','password1', 'password2']
+        widgets = {
+            'username': forms.TextInput(attrs={'class': 'formbox'}),
+            'email': forms.EmailInput(attrs={'class': 'formbox'}),
+            'role': forms.Select(attrs={'class': 'formbox'}),  # Dropdown for role
+            'phone_number': forms.TextInput(attrs={'class': 'formbox'}),
+            'password1': forms.PasswordInput(attrs={'class': 'formbox'}),  # Password input for password1
+            'password2': forms.PasswordInput(attrs={'class': 'formbox'}),  # Password input for password2
+        }
 
     def clean_phone_number(self):
         phone_number = self.cleaned_data.get('phone_number')

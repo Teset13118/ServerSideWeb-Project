@@ -39,6 +39,12 @@ body {
 /* login */
 /* Changepass */
 /* ---------------------------------------------- */
+.formbox{
+    height: 25px;
+    width: 250px;
+    font-size: 16px;
+}
+
 .main_login,
 .main_register,
 .main_changepass {

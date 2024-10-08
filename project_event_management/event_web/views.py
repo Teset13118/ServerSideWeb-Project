@@ -120,7 +120,7 @@ class ViewHome(View):
             'activity': activity,
              'current_time': current_time,
             })
-class ViewHomeActivity(LoginRequiredMixin, View):
+class ViewHomeActivity(View):
         def get(self, request):
             category_id = request.GET.get('category_id')
             search = request.GET.get('search', '')
