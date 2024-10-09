@@ -20,6 +20,7 @@ urlpatterns = [
 
     path("activity/<int:activity_id>", ViewActivity.as_view(), name="url_p_activitypage"),
     path("create_activity/", View_CreateActivity.as_view(), name="url_o_createactivity"),
+    path("registration_list/<int:activity_id>", ViewRegistrationUserList.as_view(), name="url_registration_list"),
     path("edit_activity/<int:activity_id>", EditActivity.as_view(), name="url_mo_editactivity"),
     path("delete_activity/<int:activity_id>", DeleteActivity.as_view(), name="url_mo_deleteactivity"),
     

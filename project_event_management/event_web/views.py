@@ -197,6 +197,7 @@ class ViewActivity(View):
     def get(self, request, activity_id):
         activity = get_object_or_404(Activity, id=activity_id)
         activity_images = ActivityImage.objects.filter(activity=activity)
+        registration = Registration.objects.filter(activity_id=activity_id)
         current_time = timezone.now()
         reviews = Review.objects.filter(activity=activity)
         for review in reviews:
@@ -214,6 +215,7 @@ class ViewActivity(View):
             'already_registration': already_registration,
             'current_time': current_time,
             'reviews': reviews,
+            'registration': registration,
         })
     def post(self, request, activity_id):
         activity = get_object_or_404(Activity, id=activity_id)
@@ -244,6 +246,15 @@ class ViewActivity(View):
             ).delete()
 
         return redirect('url_p_activitypage', activity_id=activity_id)
+    
+class ViewRegistrationUserList(View):
+    def get(self, request, activity_id):
+        list = Registration.objects.filter(activity_id=activity_id)
+        context = {
+            'list': list,
+        }
+
+        return render(request, 'organizer/o_regis_list.html', context)
 
 class ViewManageUser(LoginRequiredMixin, PermissionRequiredMixin, View):
     permission_required = ["event_web.view_user", "event_web.delete_user"]
