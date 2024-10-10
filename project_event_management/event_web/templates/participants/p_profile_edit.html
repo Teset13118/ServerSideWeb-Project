@@ -13,7 +13,7 @@ Profile_edit
 </div>
 <div class="main_profile">
     <div class="profile_edit">
-        <form method="POST">
+        <form method="POST" enctype="multipart/form-data">
             {% csrf_token %}
             <div style="display: flex;">
                 <div class="box_edit_user">
@@ -45,6 +45,11 @@ Profile_edit
                 <div class="box_edit_user">
                     <h5>วันเกิด :</h5>
                     {{ form1.birthday }}
+                </div>
+                <div class="box_edit_user">
+                    <label for="id_upload_image" class="form-label">Upload Profile Image</label>
+                    <input class="form-control" type="file" id="id_upload_image" name="upload_profile"/>
+                    <div class="form-text">You can upload only 1 image.</div>
                 </div>
             </div>
             {% if form.errors %}

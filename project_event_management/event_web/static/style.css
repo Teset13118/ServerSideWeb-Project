@@ -169,8 +169,11 @@ body {
 }
 
 .profile_pic {
-    width: fit-content;
-    height: auto;
+    width: 200px;
+    height: 200px;
+    border-radius: 50%;
+    overflow: hidden;
+    object-fit: cover;
 }
 
 .ex3 {

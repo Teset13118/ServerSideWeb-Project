@@ -1,4 +1,5 @@
 {% extends "layout.html" %}
+{% load static %}
 
 {% block title %}
 Profile
@@ -19,7 +20,11 @@ Profile
     <div class="profile">
         <div style="display: flex; gap: 15px;">
             <div class="pic_box_profile">
-                <img src="/static/pic/dog.jpg" alt="" class="profile_pic">
+                {% if profile.image_path %}
+                    <img src="{{ profile.image_path.url }}" alt="Profile Picture" class="profile_pic">
+                {% else %}
+                    <img src="{% static 'pic/anonymous-user.webp' %}" alt="Anonymous User" class="profile_pic">
+                {% endif %}
             </div>
             <div style="align-self: end; padding-bottom: 20px;">
                 <h3>{{ user.username }}</h3>

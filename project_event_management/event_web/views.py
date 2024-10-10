@@ -179,12 +179,17 @@ class ViewProfileEdit(LoginRequiredMixin, PermissionRequiredMixin, View):
     def post(self, request):
         profile = get_object_or_404(UserDetail, user_id=request.user.id)
         user = User.objects.get(id=request.user.id)
-        form1 = ProfileEditForm(request.POST, instance=profile)
-        form2 = UserEditForm(request.POST, instance=user)
+        form1 = ProfileEditForm(request.POST, request.FILES, instance=profile)
+        form2 = UserEditForm(request.POST, request.FILES, instance=user)
 
         if form1.is_valid() and form2.is_valid():
+            if 'upload_profile' in request.FILES:
+                if profile.image_path:
+                    default_storage.delete(profile.image_path.path)
+                profile.image_path = request.FILES['upload_profile']
             form1.save()
             form2.save()
+            profile.save()  # บันทึกข้อมูลโปรไฟล์ที่รวมถึงภาพ
             return redirect('url_profile')
 
         return render(request, 'participants/p_profile_edit.html', {

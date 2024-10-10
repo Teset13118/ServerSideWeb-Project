@@ -39,6 +39,7 @@ class ProfileEditForm(ModelForm):
         widgets = {
             'birthday': forms.DateInput(attrs={'type': 'date'}),
         }
+
     def clean_birthday(self):
         birthday = self.cleaned_data.get('birthday')
 
@@ -60,7 +61,6 @@ class ProfileEditForm(ModelForm):
 
         return cleaned_data
 
-  
 class UserEditForm(ModelForm):
     class Meta:
         model = User
