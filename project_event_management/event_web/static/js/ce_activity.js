@@ -25,7 +25,7 @@ document.addEventListener("DOMContentLoaded", function () {
   // เลือกฟิลด์สำหรับการอัปโหลดไฟล์
   const uploadInput = document.getElementById("id_upload_image");
   const maxImages = 3; // จำนวนไฟล์สูงสุดที่อนุญาต
-  const allowedTypes = ["image/jpeg", "image/png", "image/gif", "image/webp"]; // ประเภทไฟล์ที่อนุญาต
+  const allowedTypes = ["image/jpeg", "image/png", "image/gif", "image/webp", "image/jpg"]; // ประเภทไฟล์ที่อนุญาต
 
   // ตรวจสอบการเลือกไฟล์ใหม่
   uploadInput.addEventListener("change", function (event) {

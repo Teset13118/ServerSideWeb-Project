@@ -171,7 +171,6 @@ body {
 .profile_pic {
     width: 200px;
     height: 200px;
-    border-radius: 50%;
     overflow: hidden;
     object-fit: cover;
 }
