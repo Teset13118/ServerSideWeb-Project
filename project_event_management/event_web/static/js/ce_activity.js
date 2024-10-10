@@ -22,10 +22,12 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   });
 
-  // ตรวจสอบการเลือกไฟล์ใหม่
+  // เลือกฟิลด์สำหรับการอัปโหลดไฟล์
   const uploadInput = document.getElementById("id_upload_image");
-  const maxImages = 3;
+  const maxImages = 3; // จำนวนไฟล์สูงสุดที่อนุญาต
+  const allowedTypes = ["image/jpeg", "image/png", "image/gif", "image/webp"]; // ประเภทไฟล์ที่อนุญาต
 
+  // ตรวจสอบการเลือกไฟล์ใหม่
   uploadInput.addEventListener("change", function (event) {
     // นับจำนวนไฟล์ที่ผู้ใช้เลือก
     const selectedFilesCount = uploadInput.files.length;
@@ -34,10 +36,24 @@ document.addEventListener("DOMContentLoaded", function () {
     // ตรวจสอบว่าไฟล์ที่เลือกจะทำให้รวมกับรูปเดิมเกิน 3 หรือไม่
     if (totalUploadedImages > maxImages) {
       alert(
-        `You uploaded ${totalUploadedImages} images but You can only upload a maximum of ${maxImages} images in total.`
+        `You uploaded ${totalUploadedImages} images but you can only upload a maximum of ${maxImages} images in total.`
       );
       // Reset การเลือกไฟล์เพื่อไม่ให้เกิน
       uploadInput.value = "";
+      return; // ยกเลิกการทำงานต่อไป
+    }
+
+    // ตรวจสอบ MIME type ของไฟล์
+    for (let i = 0; i < selectedFilesCount; i++) {
+      const file = uploadInput.files[i]; // เข้าถึงไฟล์ที่อัปโหลด
+
+      if (!allowedTypes.includes(file.type)) {
+        alert(
+          "File type is not supported. Please upload JPEG, PNG, GIF, or WEBP files."
+        );
+        uploadInput.value = ""; // ล้างค่าไฟล์ที่ไม่ถูกต้อง
+        return; // ยกเลิกการทำงานต่อไป
+      }
     }
   });
 

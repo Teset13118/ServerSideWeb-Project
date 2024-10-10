@@ -66,3 +66,33 @@ Profile_edit
     </div>
 </div>
 {% endblock %}
+
+{% block script %}
+<script>
+    document
+    .getElementById("id_upload_image")
+    .addEventListener("change", function (event) {
+      const uploadField = document.getElementById("id_upload_image"); // เลือกฟิลด์สำหรับการอัปโหลดไฟล์
+      const allowedTypes = [
+        "image/jpeg",
+        "image/png",
+        "image/gif",
+        "image/webp",
+      ]; // ประเภทไฟล์ที่อนุญาต
+
+      // ตรวจสอบว่าผู้ใช้อัปโหลดไฟล์หรือไม่
+      if (uploadField.files.length > 0) {
+        const file = uploadField.files[0]; // เข้าถึงไฟล์ที่อัปโหลด
+
+        // ตรวจสอบ MIME type ของไฟล์
+        if (!allowedTypes.includes(file.type)) {
+          alert(
+            "File type is not supported. Please upload JPEG, PNG, GIF, or WEBP files."
+          );
+          uploadField.value = ""; // ล้างค่าไฟล์ที่ไม่ถูกต้อง
+          return false;
+        }
+      }
+    });
+</script>
+{% endblock %}

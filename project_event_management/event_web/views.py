@@ -20,6 +20,7 @@ from django.conf import settings
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from django.contrib.auth.models import Group
 
+
 class RegisterView(View):
     def get(self, request):
         if request.user.is_authenticated:
