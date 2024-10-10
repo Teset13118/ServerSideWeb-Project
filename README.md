@@ -37,6 +37,7 @@ pip install django
 pip install psycopg2
 pip install pillow
 pip install python-decouple
+pip install django-widget-tweaks
 ```
 
 ### 5. Migrate Database
