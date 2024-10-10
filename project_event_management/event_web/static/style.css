@@ -41,7 +41,7 @@ body {
 /* ---------------------------------------------- */
 .formbox{
     height: 25px;
-    width: 250px;
+    width: 210px;
     font-size: 16px;
 }
 
@@ -59,7 +59,7 @@ body {
 }
 
 .main_login {
-    width: 25%;
+    width: 28%;
     min-height: 300px;
 }
 
@@ -70,8 +70,8 @@ body {
 }
 
 .main_changepass {
-    width: 30%;
-    min-height: 320px;
+    width: 33%;
+    min-height: 340px;
 }
 
 .register_form {
@@ -280,7 +280,7 @@ body {
 
 .profile_edit {
     background-color: white;
-    width: 4 0%;
+    width: 30%;
     border-radius: 10px;
     padding: 20px;
     display: flex;

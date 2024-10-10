@@ -1,4 +1,5 @@
 {% load static %}
+{% load widget_tweaks %}
 <!DOCTYPE html>
 <html lang="en">
 
@@ -23,11 +24,11 @@
                 <h1 class="login_title">login</h1>
                 <div class="box_login">
                     <label for="username">Username: </label>
-                    {{ form.username }}
+                    {{ form.username|add_class:'formbox' }}
                 </div>
                 <div class="box_login">
                     <label for="password">Password: </label>
-                    {{ form.password }}
+                    {{ form.password|add_class:'formbox' }}
                 </div>
                 <button type="submit" class="btn_login">Submit</button>
                 <p style="text-align: center; margin-top: 25px;">Don't have an account? <a href="{% url 'url_register' %}">Register</a></p>
