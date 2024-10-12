@@ -30,6 +30,8 @@ urlpatterns = [
     path("manage/activities/", ViewManageActivity.as_view(), name="url_m_manageactivities"),
     path("manage/activities/delete/<int:activity_id>/", ViewManageActivity.as_view(), name="url_m_deleteactivities"),
     path("manage/activities/approve/<int:activity_id>/", ViewManageActivity.as_view(), name="url_m_approve_activity"),
+    path("manage/reviews/", ViewManageReview.as_view(), name="url_m_managereviews"),
+    path("manage/reviews/delete/<int:review_id>/", ViewManageReview.as_view(), name="url_m_deletereview"),
 ]
 
 # setting for showing media on website

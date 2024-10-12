@@ -54,3 +54,25 @@ function deleteUser(userId, csrf_token) {
     });
   }
 }
+
+function deleteReview(reviewId, csrf_token) {
+  if (confirm("Are you sure you want to delete this review?")) {
+      fetch(`/manage/reviews/delete/${reviewId}/`, {
+      method: "DELETE",
+      headers: {
+          "Content-Type": "application/json",
+          "X-CSRFToken": csrf_token,
+      },
+      })
+      .then((response) => {
+      if (response.ok) {
+          alert("Review deleted successfully");
+          window.location.reload();
+      } else {
+          alert("Error deleting review");
+      }
+      })
+      .catch((error) => {
+      });
+  }
+}

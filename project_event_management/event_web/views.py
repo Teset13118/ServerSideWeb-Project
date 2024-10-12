@@ -224,7 +224,9 @@ class ViewActivity(View):
             'reviews': reviews,
             'has_reviewed': has_reviewed,
             'registration': registration,
+            'user': request.user,
         })
+    
     def post(self, request, activity_id):
         activity = get_object_or_404(Activity, id=activity_id)
         act = request.POST.get('act')
@@ -479,3 +481,24 @@ class SelectCategory(View):
             'error': 'Please select at least one category.',
             'user': user
         })
+    
+class ViewManageReview(LoginRequiredMixin, PermissionRequiredMixin, View):
+    permission_required = ["event_web.view_review", "event_web.delete_review"]
+
+    def get(self, request):
+        if request.user.role == "Organizer" or request.user.role == "Participant":
+            return HttpResponseForbidden('<h1>403 Forbidden</h1><p>Access denied.</p>')
+
+        reviews = Review.objects.all()
+        context = {
+            'reviews': reviews,
+        }
+        return render(request, 'manager/m_manage_reviews.html', context)
+
+    def delete(self, request, review_id):
+        if request.method == 'DELETE':
+            review = get_object_or_404(Review, id=review_id)
+            review.delete()
+            return JsonResponse({'message': 'Review deleted successfully'}, status=200)
+        return JsonResponse({'error': 'Invalid request method'}, status=400)
+    
