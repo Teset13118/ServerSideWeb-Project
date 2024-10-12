@@ -45,8 +45,10 @@
                 <label for="">Confirm Password:</label>
                 {{ form.password2|add_class:'formbox' }}
             </div>
-            <button type="submit" class="btn_register">Submit</button>
-            <p style="text-align: center; margin-top: 15px;">Already have an account? <a href="{% url 'url_login' %}">Login</a></p>
+            <div style="text-align: center;">
+                <button type="submit" class="btn_register"><b>Submit</b></button>
+            </div>
+            <p style="text-align: center; margin-top: 15px;">Already have an account? <a href="{% url 'url_login' %}" style="color: lightblue;">Login</a></p>
             {% if form.errors %}
             <div class="login_error_box">
                 {{form.errors}}

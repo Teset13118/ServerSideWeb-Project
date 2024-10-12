@@ -40,9 +40,11 @@ body {
 /* Changepass */
 /* ---------------------------------------------- */
 .formbox{
-    height: 25px;
+    height: 30px;
     width: 210px;
-    font-size: 16px;
+    font-size: 18px;
+    background-color: #29303d;
+    color: white;
 }
 
 .main_login,
@@ -54,8 +56,9 @@ body {
     margin-top: 15%;
     padding: 10px;
     border-radius: 20px;
-    background-color: white;
-    box-shadow: rgba(52, 73, 94, 0.4) 5px 5px, rgba(41, 128, 185, 0.3) 10px 10px, rgba(127, 140, 141, 0.2) 15px 15px, rgba(236, 240, 241, 0.1) 20px 20px, rgba(189, 195, 199, 0.05) 25px 25px;
+    background-color: #1f2937;
+    color: white;
+    box-shadow: rgba(255, 255, 255, 0.35) 0px 5px 15px;
 }
 
 .main_login {
@@ -98,26 +101,32 @@ body {
     padding: 10px;
     padding-left: 0px;
     padding-right: 20px;
-    background-color: white;
+    background-color: #1f2937;
     font-size: 20px;
 }
 
 .btn_login,
 .btn_register {
-    background-color: white;
+    color: white;
+    background-color: #E67E22;
     border-radius: 5px;
     padding: 5px;
     margin-top: 20px;
-    width: 100%;
+    width: 40%;
     border-width: 1px;
+    border-color: black;
+    justify-content: center;
+    font-size: 18px;
 }
 
 .btn_login:hover {
-    background-color: rgb(226, 226, 226);
+    color: black;
+    border-color: white;
 }
 
 .btn_register:hover {
-    background-color: rgb(226, 226, 226);
+    color: black;
+    border-color: white;
 }
 
 .regis_form {
@@ -142,17 +151,17 @@ body {
     display: flex;
     justify-content: center;
     position: relative;
-    color: black;
+    color: white;
 }
 
 .profile {
-    background-color: white;
+    background-color: #1f2937;
     width: 40%;
     border-radius: 10px;
     padding: 2px;
     display: flex;
     flex-direction: column;
-    box-shadow: rgba(52, 73, 94, 0.4) 5px 5px, rgba(41, 128, 185, 0.3) 10px 10px, rgba(127, 140, 141, 0.2) 15px 15px, rgba(236, 240, 241, 0.1) 20px 20px, rgba(189, 195, 199, 0.05) 25px 25px;
+    box-shadow: rgba(255, 255, 255, 0.35) 0px 5px 15px;
 
 }
 
@@ -180,7 +189,7 @@ body {
 }
 
 .profile_category {
-    background-color: white;
+    background-color: #29303d;
     padding: 20px;
     display: flex;
     gap: 20px;
@@ -192,24 +201,25 @@ body {
 }
 
 .profile_user_content {
-    background-color: white;
+    background-color: #29303d;
     padding: 20px;
     border-radius: 10px;
     width: 30%;
-    box-shadow: rgba(52, 73, 94, 0.4) 5px 5px, rgba(41, 128, 185, 0.3) 10px 10px, rgba(127, 140, 141, 0.2) 15px 15px, rgba(236, 240, 241, 0.1) 20px 20px, rgba(189, 195, 199, 0.05) 25px 25px;
+    box-shadow: rgba(255, 255, 255, 0.35) 0px 5px 15px;
 
     display: flex;
     flex-direction: column;
 }
 
 .profile_activity_content {
-    background-color: white;
+    background-color: #29303d;
     padding: 20px;
     border-style: solid;
     border-width: 2px;
     border-radius: 10px;
     width: 100%;
-    box-shadow: rgba(52, 73, 94, 0.4) 5px 5px, rgba(41, 128, 185, 0.3) 10px 10px, rgba(127, 140, 141, 0.2) 15px 15px, rgba(236, 240, 241, 0.1) 20px 20px, rgba(189, 195, 199, 0.05) 25px 25px;
+    border-color: black;
+    box-shadow: rgba(255, 255, 255, 0.35) 0px 5px 15px;
 
 }
 
@@ -239,7 +249,7 @@ body {
 }
 
 .box2_profile {
-    background-color: white;
+    background-color: #29303d;
     border-radius: 10px;
     padding: 30px;
     padding-top: 40px;
@@ -278,14 +288,21 @@ body {
 }
 
 .profile_edit {
-    background-color: white;
+    color: white;
+    background-color: #1f2937;
     width: 30%;
     border-radius: 10px;
     padding: 20px;
     display: flex;
     flex-direction: column;
-    box-shadow: rgba(52, 73, 94, 0.4) 5px 5px, rgba(41, 128, 185, 0.3) 10px 10px, rgba(127, 140, 141, 0.2) 15px 15px, rgba(236, 240, 241, 0.1) 20px 20px, rgba(189, 195, 199, 0.05) 25px 25px;
+    box-shadow: rgba(255, 255, 255, 0.35) 0px 5px 15px;
 
+}
+.form_profile_edit{
+    color: white;
+    background-color: #29303d;
+    height: 40px;
+    font-size: 18px;
 }
 
 .box_edit_user {
@@ -299,11 +316,12 @@ body {
 /* ---------------------------------------------------------------------------- */
 
 /* main content */
-.bigbox {
+.bigbox1 {
     /* background-color: rgba(0, 0, 0, 0.5); */
     /* background: linear-gradient(to bottom, #3a2c49, #4f4b7e, #4e4e6d); */
     background: linear-gradient(to bottom, #0f0c29, #302b63, #24243e);
 }
+
 
 .main_home {
     padding-left: 15px;
@@ -384,7 +402,7 @@ body {
 }
 
 .categories {
-    background-color: #f5f5f5;
+    background-color: #1f2937;
     height: fit-content;
     border-radius: 10px;
     padding: 20px;
@@ -392,43 +410,28 @@ body {
     display: flex;
     flex-direction: column;
     gap: 20px;
-    box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px, rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px, rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;
+    box-shadow: rgba(255, 255, 255, 0.35) 0px 5px 15px;
 }
 
 .home_category {
     text-decoration: none;
-    color: black;
-    background-color: white;
+    color: white;
+    background-color: #1f2937;
+    padding: 5px;
     border-style: none;
     text-align: left;
     width: fit-content;
-}
-
-.home_category_active {
-    text-decoration: none;
-    background-color: white;
-    color: black;
-    width: fit-content;
-    border-style: solid;
-    border-top: 0px;
-    border-left: 0px;
-    border-right: 0px;
-    text-align: left;
-
+    margin-bottom: 5px;
 }
 
 .home_category:hover {
     scale: 1.1;
-    color: black;
-}
-
-.home_category_active:hover {
-    scale: 1.1;
-    color: black;
+    color: white;
+    text-decoration: underline;
 }
 
 .home {
-    background-color: #f5f5f5;
+    background-color: #1f2937;
     min-height: 350px;
     border-radius: 10px;
     padding: 30px;
@@ -437,7 +440,7 @@ body {
     flex-wrap: wrap;
     padding-left: 65px;
     gap: 30px;
-    box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px, rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px, rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;
+    box-shadow: rgba(255, 255, 255, 0.35) 0px 5px 15px;
 }
 
 .home_ex {
@@ -474,7 +477,7 @@ body {
 .card_content {
     border-radius: 10px;
     padding: 10px;
-    color: black;
+    color: white;
     position: relative;
     top: 89%;
     width: auto;
@@ -483,7 +486,7 @@ body {
     flex-direction: column;
     transition: 0.3s;
     height: 100%;
-    background-color: white;
+    background-color: #374151;
     /* backdrop-filter: blur(15px); */
     user-select: none;
     /* Standard browsers */
@@ -548,11 +551,12 @@ body {
     padding-right: 25px;
     padding-bottom: 25px;
     display: grid;
+    color: white;
 }
 
 .activity {
     min-height: 1000px;
-    background-color: white;
+    background-color: #1f2937;
     border-radius: 10px;
     padding: 30px;
     padding-top: 40px;
@@ -617,9 +621,9 @@ body {
 .box1 {
     display: grid;
     grid-template-columns: auto auto auto;
-    background-color: white;
+    background-color: #374151;
     border-style: solid;
-    border-width: 2px;
+    border-width:1.5px;
     border-radius: 20px;
     padding: 10px;
     margin-bottom: 20px;
@@ -628,27 +632,63 @@ body {
 .box_content {
     border-radius: 15px;
     border-style: solid;
-    border-width: 2px;
+    border-width: 1px;
     margin: 5px;
     padding: 5px;
 }
 
 .box2 {
     border-style: solid;
-    border-width: 2px;
+    border-width: 1px;
     border-radius: 20px;
     padding: 30px;
     min-height: 300px;
-    text-indent: 80px;
     margin-bottom: 20px;
+    background-color: #374151;
 }
 
 .box3 {
     border-style: solid;
-    border-width: 2px;
+    border-width: 1px;
     border-radius: 20px;
     padding: 10px;
     width: 25%;
+    background-color: #374151;
+}
+
+/* o_regis_list */
+.table_list_user {
+    margin: 50px auto;
+    width: 80%;
+    border-collapse: collapse;
+    font-size: 1em;
+    font-family: sans-serif;
+    color: #ffffff;
+    background-color: #1f2937;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+}
+
+.table_list_user thead tr {
+    background-color: #374151;
+    text-align: left;
+}
+
+.table_list_user th,
+.table_list_user td {
+    padding: 12px 15px;
+}
+
+.table_list_user tbody tr {
+    border-bottom: 1px solid #dddddd;
+}
+
+.table_list_user tbody tr:nth-of-type(even) {
+    background-color: #29303d;
+}
+
+
+.table_list_user tbody tr:last-of-type {
+    border-bottom: 2px solid #374151;
 }
 
 /* p_select_category */
@@ -698,7 +738,7 @@ body {
 
 .activity_org {
     min-height: 500px;
-    background-color: white;
+    background-color: #1f2937;  
     border-radius: 10px;
     padding: 30px;
     padding-top: 40px;
@@ -718,7 +758,8 @@ body {
 }
 
 .content_approve {
-    color: black;
+    color: White;
+    border-color: black;
     width: fit-content;
     padding: 5px;
     border-radius: 10px;

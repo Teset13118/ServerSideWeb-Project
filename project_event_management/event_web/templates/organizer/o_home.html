@@ -18,8 +18,11 @@ Home
         {% for i in activity %}
         <a class="block_event" href="{% url 'url_p_activitypage' i.id %}">
             <div class="box_approve">
-                <p class="content_approve" style="background-color: white;">
-                    <b>{{ i.is_approve }}</b></p>
+                {% if i.is_approve == "Approved" %}
+                <p class="content_approve" style="background-color: green;"><b>{{ i.is_approve }}</b></p>
+                {% else %}
+                <p class="content_approve" style="background-color: red;"><b>{{ i.is_approve }}</b></p>
+                {% endif %}
             </div>
             {% if i.activityimage_set.all %}
                 <img src="{{ i.activityimage_set.first.image_path.url }}" alt="" class="small_pic">

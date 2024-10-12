@@ -267,8 +267,10 @@ class ViewActivity(View):
 class ViewRegistrationUserList(View):
     def get(self, request, activity_id):
         list = Registration.objects.filter(activity_id=activity_id)
+        activity = Activity.objects.get(id=activity_id)
         context = {
             'list': list,
+            'activity': activity,
         }
 
         return render(request, 'organizer/o_regis_list.html', context)

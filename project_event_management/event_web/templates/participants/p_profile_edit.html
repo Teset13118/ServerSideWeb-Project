@@ -21,41 +21,41 @@ Profile_edit
                     <div class="col">
                         <div class="box_edit_user">
                             <h5>First Name :</h5>
-                            {{ form2.first_name }}
+                            {{ form2.first_name|add_class:'form_profile_edit' }}
                         </div>
                     </div>
                     <div class="col">
                         <div class="box_edit_user">
                             <h5>Last Name :</h5>
-                            {{ form2.last_name }}
+                            {{ form2.last_name|add_class:'form_profile_edit' }}
                         </div>
                     </div>
                 </div>
             </div>
             <div class="mb-3 box_edit_user">
                 <h5>Email :</h5>
-                {{ form2.email }}
+                {{ form2.email|add_class:'form_profile_edit' }}
             </div>
             <div class="mb-3 box_edit_user">
                 <h5>Phone :</h5>
-                {{ form2.phone_number }}
+                {{ form2.phone_number|add_class:'form_profile_edit' }}
             </div>
             <div class="mb-3 box_edit_user">
                 <h5>Gender :</h5>
-                {{ form1.gender }}
+                {{ form1.gender|add_class:'form_profile_edit' }}
             </div>
             <div class="mb-3">
                 <div class="row">
                     <div class="col">
                         <div class="box_edit_user">
                             <h5>Age :</h5>
-                            {{ form1.age }}
+                            {{ form1.age|add_class:'form_profile_edit' }}
                         </div>
                     </div>
                     <div class="col">
                         <div class="box_edit_user">
                             <h5>Birthday :</h5>
-                            {{ form1.birthday }}
+                            {{ form1.birthday|add_class:'form_profile_edit' }}
                         </div>
                     </div>
                 </div>
