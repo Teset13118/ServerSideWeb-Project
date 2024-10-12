@@ -209,13 +209,13 @@ Activity
     </div>
 
 
-    {% if current_time >= activity.start_date %}
+    {% if current_time < activity.start_date %}
     <!-- Comment Section -->
     <div class="comment-section">
         <h3 class="text-white">Comment</h3>
 
         {% for review in reviews %}
-        <div class="comment-card">
+        <div class="comment-card" data-review-id="{{ review.id }}">
             <div class="card-body">
                 <div class="d-flex align-items-center user-info">
                     {% if review.participant.userdetail.image_path %}
@@ -236,14 +236,21 @@ Activity
                     </div>
                 </div>
                 <p class="card-text mt-3 review-content">{{ review.description }}</p>
+        
+                <!-- Delete Buttons (แสดงเฉพาะเจ้าของความคิดเห็น) -->
+                {% if request.user == review.participant %}
+                <button class="btn btn-sm btn-danger delete-btn" onclick="deleteReview('{{ review.id }}', '{{ csrf_token }}')">Delete</button>
+                {% endif %}
             </div>
         </div>
         {% empty %}
-        <p>No reviews yet.</p>
+        <div class="alert alert-info text-center" role="alert">
+            <i class="bi bi-info-circle-fill"></i> No reviews yet.
+        </div>
         {% endfor %}
 
         <!-- แบบฟอร์มเพิ่มความคิดเห็น -->
-        {% if already_registration and user.role == "Participant"%}
+        {% if already_registration and user.role == "Participant" and not has_reviewed %}
         <div class="comment-input-container">
             <div class="content-wrapper">
                 <form method="post" action="" class="comment_form">
@@ -291,5 +298,32 @@ Activity
                     });
                 });
             });
+
+            function deleteReview(reviewId, csrf_token) {
+                console.log("Review ID:", reviewId);  // Log reviewId to the console
+                console.log("CSRF Token:", csrf_token);  // Log csrf_token to the console
+                if (confirm("Are you sure you want to delete this review?")) {
+                    fetch(`/activity/reviews/delete/${reviewId}/`, {
+                    method: "DELETE",
+                    headers: {
+                        "Content-Type": "application/json",
+                        "X-CSRFToken": csrf_token,
+                    },
+                    })
+                    .then((response) => {
+                    if (response.ok) {
+                        alert("Review deleted successfully");
+                        window.location.reload();
+                    } else {
+                        alert("Error deleting review");
+                        console.error("Server response error:", response); // Log server response if there's an error
+                    }
+                    })
+                    .catch((error) => {
+                    console.error("Fetch error:", error); // Log any fetch-related errors
+                    });
+                }
+            }
+
         </script>
         {% endblock %}

@@ -7,61 +7,73 @@ Profile_edit
 
 {% block content %}
 <a href="{% url 'url_profile' %}" class="btn_back"><b>Back</b></a>
-<div class="main_profile">
+<div class="main_profile text-center">
     <div class="ex3">
-        <h2 class="ghost" style="color: white;">Edit Profile</h2>
+        <h2 class="ghost text-center mt-4" style="color: white;">Edit Profile</h2>
     </div>
 </div>
-<div class="main_profile">
-    <div class="profile_edit">
+<div class="d-flex justify-content-center">
+    <div class="profile_edit mb-5" style="width: 100%; max-width: 600px;">
         <form method="POST" enctype="multipart/form-data">
             {% csrf_token %}
-            <div style="display: flex;">
-                <div class="box_edit_user">
-                    <h5>First Name :</h5>
-                    {{ form2.first_name }}
-                </div>
-                <div class="box_edit_user">
-                    <h5>Last Name :</h5>
-                    {{ form2.last_name }}
+            <div class="mb-3">
+                <div class="row">
+                    <div class="col">
+                        <div class="box_edit_user">
+                            <h5>First Name :</h5>
+                            {{ form2.first_name }}
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="box_edit_user">
+                            <h5>Last Name :</h5>
+                            {{ form2.last_name }}
+                        </div>
+                    </div>
                 </div>
             </div>
-            <div class="box_edit_user">
+            <div class="mb-3 box_edit_user">
                 <h5>Email :</h5>
-                {{ form2.email}}
+                {{ form2.email }}
             </div>
-            <div class="box_edit_user">
+            <div class="mb-3 box_edit_user">
                 <h5>Phone :</h5>
-                {{ form2.phone_number}}
+                {{ form2.phone_number }}
             </div>
-            <div class="box_edit_user">
+            <div class="mb-3 box_edit_user">
                 <h5>Gender :</h5>
-                {{ form1.gender}}
+                {{ form1.gender }}
             </div>
-            <div style="display: flex;">
-                <div class="box_edit_user">
-                    <h5>Age :</h5>
-                    {{ form1.age }}
-                </div>
-                <div class="box_edit_user">
-                    <h5>Birthday :</h5>
-                    {{ form1.birthday}}
+            <div class="mb-3">
+                <div class="row">
+                    <div class="col">
+                        <div class="box_edit_user">
+                            <h5>Age :</h5>
+                            {{ form1.age }}
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="box_edit_user">
+                            <h5>Birthday :</h5>
+                            {{ form1.birthday }}
+                        </div>
+                    </div>
                 </div>
             </div>
-            <div class="box_edit_user">
+            <div class="mb-3 box_edit_user">
                 <label for="id_upload_image" class="form-label">Upload Profile Image</label>
                 <input class="form-control" type="file" id="id_upload_image" name="upload_profile"/>
                 <div class="form-text">You can upload only 1 image.</div>
             </div>
             {% if form.errors %}
             <div class="login_error_box">
-                {{form1.errors}}
-                {{form2.errors}}
+                {{ form1.errors }}
+                {{ form2.errors }}
             </div>
             {% endif %}
-            <div style="margin-top: 20px; text-align: right;">
-                <button type="submit" class="btn_profile" style="margin-right: 10px;" onclick="return confirm('คุณต้องการแก้ไขข้อมูลนี้หรือไม่?');"><b>Save Changes</b></button>
-                <a href="{% url 'url_profile'%}" class="btn_edit_user" style="padding: 9px;"><b>Cancel</b></a>
+            <div class="mt-4 text-end">
+                <button type="submit" class="btn_profile me-2" onclick="return confirm('คุณต้องการแก้ไขข้อมูลนี้หรือไม่?');"><b>Save Changes</b></button>
+                <a href="{% url 'url_profile' %}" class="btn_edit_user" style="padding: 9px;"><b>Cancel</b></a>
             </div>
         </form>
     </div>

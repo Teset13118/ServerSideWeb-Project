@@ -206,6 +206,7 @@ class ViewActivity(View):
         registration = Registration.objects.filter(activity_id=activity_id)
         current_time = timezone.now()
         reviews = Review.objects.filter(activity=activity)
+        has_reviewed = Review.objects.filter(participant=request.user, activity=activity_id).exists()
         for review in reviews:
             review.star_list = ['★'] * review.score
 
@@ -221,6 +222,7 @@ class ViewActivity(View):
             'already_registration': already_registration,
             'current_time': current_time,
             'reviews': reviews,
+            'has_reviewed': has_reviewed,
             'registration': registration,
         })
     def post(self, request, activity_id):
@@ -252,6 +254,13 @@ class ViewActivity(View):
             ).delete()
 
         return redirect('url_p_activitypage', activity_id=activity_id)
+
+    def delete(self, request, review_id):
+        if request.method == 'DELETE':
+            review = get_object_or_404(Review, id=review_id, participant=request.user)
+            review.delete()
+            return JsonResponse({'message': 'Review deleted successfully'}, status=200)
+        return JsonResponse({'error': 'Invalid request method'}, status=400)
     
 class ViewRegistrationUserList(View):
     def get(self, request, activity_id):
