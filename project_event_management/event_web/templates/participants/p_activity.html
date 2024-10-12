@@ -80,13 +80,13 @@ Activity
             {% if activity_images|length == 3 %}
             <div class="pic_area">
                 <div class="pic1">
-                    <img src="/static/pic/dog.jpg" alt="" class="big_pic">
+                    <img src="{{ activity_images.0.image_path.url }}" alt="" class="big_pic">
                 </div>
                 <div class="pic2">
-                    <img src="/static/pic/dog.jpg" alt="" class="medium_pic">
+                    <img src="{{ activity_images.1.image_path.url }}" alt="" class="medium_pic">
                 </div>
                 <div class="pic3">
-                    <img src="/static/pic/dog.jpg" alt="" class="medium_pic">
+                    <img src="{{ activity_images.2.image_path.url }}" alt="" class="medium_pic">
                 </div>
 
                 {% elif activity_images|length == 2 %}
