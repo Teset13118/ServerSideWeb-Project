@@ -46,6 +46,11 @@ body {
     background-color: #29303d;
     color: white;
 }
+.formbox_activity{
+    font-size: 18px !important;
+    background-color: #29303d !important;
+    color: white !important;
+}
 
 .main_login,
 .main_register,

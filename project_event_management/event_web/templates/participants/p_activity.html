@@ -8,11 +8,13 @@ Activity
 {% block content %}
 
 {% if user.role == "Participant"%}
-<a onclick="history.back()" class="btn_back"><b>Back</b></a>
+<a href="{% url 'url_p_homepage_activity' %}" class="btn_back"><b>Back</b></a>
 {% elif user.role == 'Organizer'%}
 <a href="{% url 'url_o_homepage' %}" class="btn_back"><b>Back</b></a>
+{% elif user.is_staff %}
+<a href="{% url 'url_m_manageactivities' %}" class="btn_back"><b>Back</b></a>
 {% else %}
-<a onclick="history.back()" class="btn_back"><b>Back</b></a>
+<a href="{% url 'url_p_homepage' %}" class="btn_back"><b>Back</b></a>
 {% endif %}
 
 <div class="main_activity">
@@ -21,56 +23,52 @@ Activity
         <div class="ghost_ex" style="margin-top: 15px;">
             {% if user.role == "Participant" %}
 
-            <!-- หมดเวลาลงทะเบียนกิจกรรม และ ยังไม่ได้ลงทะเบียนกิจกรรมนี้ -->
-            {% if activity.close_register_date < current_time and not already_registration%} 
-            <button type="submit" class="btn_regis_activity" style="background-color: gray;">Unable to register acticity</button>
+                <!-- หมดเวลาลงทะเบียนกิจกรรม และ ยังไม่ได้ลงทะเบียนกิจกรรมนี้ -->
+                {% if activity.close_register_date < current_time and not already_registration%} 
+                <button type="submit" class="btn_regis_activity" style="background-color: gray;">Unable to register acticity</button>
 
                 <!-- ยังไม่หมดเวลาลงทะเบียน และ ยังไม่ได้ลงทะเบียนกิจกรรมนี้ -->
                 {% elif not already_registration%}
                 <form method="POST" action="{% url 'url_p_activitypage' activity.id %}">
                     {% csrf_token %}
                     <input type="hidden" name="act" value="register">
-                    <button type="submit" class="btn_regis_activity"
-                        onclick="return confirm('คุณต้องการลงทะเบียนกิจกรรมนี้หรือไม่?');">Register activity</button>
+                    <button type="submit" class="btn_regis_activity" onclick="return confirm('คุณต้องการลงทะเบียนกิจกรรมนี้หรือไม่?');">Register activity</button>
                 </form>
 
                 <!-- กิจกรรมได้จบลงแล้ว และ ได้ลงทะเบียนกิจกรรมนี้ -->
                 {% elif already_registration and activity.due_date < current_time %} 
                 <button type="submit" class="btn_regis_activity" style="background-color: gray;">activity has ended</button>
 
-                    <!-- กิจกรรมกำลังเริ่มอยู่ และ ได้ลงทะเบียนกิจกรรมนี้ -->
-                    {% elif already_registration and activity.start_date < current_time %} 
-                    <button type="submit" class="btn_regis_activity" style="background-color: gray;">activity is ongoing</button>
+                <!-- กิจกรรมกำลังเริ่มอยู่ และ ได้ลงทะเบียนกิจกรรมนี้ -->
+                {% elif already_registration and activity.start_date < current_time %} 
+                <button type="submit" class="btn_regis_activity" style="background-color: gray;">activity is ongoing</button>
 
-                        <!-- กิจกรรมยังไม่เริ่ม และ ได้ลงทะเบียนกิจกรรมนี้ -->
-                        {% elif already_registration %}
-                        <form method="POST" action="{% url 'url_p_activitypage' activity.id %}">
+                <!-- กิจกรรมยังไม่เริ่ม และ ได้ลงทะเบียนกิจกรรมนี้ -->
+                {% elif already_registration %}
+                <form method="POST" action="{% url 'url_p_activitypage' activity.id %}">
+                    {% csrf_token %}
+                    <input type="hidden" name="act" value="cancel">
+                    <button type="submit" class="btn_regis_activity" style="background-color: red;"
+                        onclick="return confirm('คุณต้องการยกเลิกลงทะเบียนกิจกรรมนี้หรือไม่?');">Cancel activityregistration</button>
+                </form>
+                {% endif %}
+
+
+            {% elif user.role == "Organizer" %}
+                    <div style="display: flex; gap: 10px;">
+                        <a href="{% url 'url_registration_list' activity.id%}" class="btn_regis_activity">List of registered people</a>
+                        <form method="GET" action="{% url 'url_mo_editactivity' activity.id %}">
                             {% csrf_token %}
-                            <input type="hidden" name="act" value="cancel">
-                            <button type="submit" class="btn_regis_activity" style="background-color: red;"
-                                onclick="return confirm('คุณต้องการยกเลิกลงทะเบียนกิจกรรมนี้หรือไม่?');">Cancel activity
-                                registration</button>
+                            <button type="submit" class="btn_regis_activity" style="background-color: rgba(255, 255, 0, 0.767);" 
+                                onclick="return confirm('คุณต้องการแก้ไขกิจกรรมนี้หรือไม่?');">Edit activity</button>
                         </form>
-                        {% endif %}
-
-
-                        {% elif user.role == "Organizer" %}
-                        <div style="display: flex; gap: 10px;">
-                            <a href="{% url 'url_registration_list' activity.id%}" class="btn_regis_activity">List of registered people</a>
-                            <form method="GET" action="{% url 'url_mo_editactivity' activity.id %}">
-                                {% csrf_token %}
-                                <button type="submit" class="btn_regis_activity"
-                                    style="background-color: rgba(255, 255, 0, 0.87);"
-                                    onclick="return confirm('คุณต้องการแก้ไขกิจกรรมนี้หรือไม่?');">Edit
-                                    activity</button>
-                            </form>
-                            <form method="GET" action="{% url 'url_mo_deleteactivity' activity.id %}">
-                                {% csrf_token %}
-                                <button type="submit" class="btn_regis_activity" style="background-color: red;"
-                                    onclick="return confirm('คุณต้องการลบกิจกรรมนี้หรือไม่?');">Delete activity</button>
-                            </form>
-                        </div>
-                        {% endif %}
+                        <form method="GET" action="{% url 'url_mo_deleteactivity' activity.id %}">
+                            {% csrf_token %}
+                            <button type="submit" class="btn_regis_activity" style="background-color: red;"
+                                onclick="return confirm('คุณต้องการลบกิจกรรมนี้หรือไม่?');">Delete activity</button>
+                        </form>
+                    </div>
+            {% endif %}
         </div>
     </div>
 </div>
@@ -167,11 +165,11 @@ Activity
     <div class="main_activity" style="justify-content: center;">
         {% if user.role == "Participant" %}
 
-        <!-- หมดเวลาลงทะเบียนกิจกรรม และ ยังไม่ได้ลงทะเบียนกิจกรรมนี้ -->
-        {% if activity.close_register_date < current_time and not already_registration%} <button type="submit"
-            class="btn_regis_activity"
-            style="padding: 20px; margin-top: 20px; text-align: center; background-color: gray;">Unable to register
-            acticity</button>
+            <!-- หมดเวลาลงทะเบียนกิจกรรม และ ยังไม่ได้ลงทะเบียนกิจกรรมนี้ -->
+            {% if activity.close_register_date < current_time and not already_registration%} 
+            <button type="submit" class="btn_regis_activity"style="padding: 20px; margin-top: 20px; text-align: center; background-color: gray;">
+                Unable to register acticity
+            </button>
 
             <!-- ยังไม่หมดเวลาลงทะเบียน และ ยังไม่ได้ลงทะเบียนกิจกรรมนี้ -->
             {% elif not already_registration%}
@@ -210,122 +208,122 @@ Activity
                     {% endif %}
     </div>
 
-    {% if current_time < activity.start_date %}
-    <!-- Comment Section -->
-    <div class="comment-section">
-        <h3 class="text-white">Comment</h3>
+    {% if current_time > activity.start_date %} <!-- Comment Section -->
+        <div class="comment-section">
+            <h3 class="text-white">Comment</h3>
 
-        {% for review in reviews %}
-        <div class="comment-card" data-review-id="{{ review.id }}">
-            <div class="card-body">
-                <div class="d-flex align-items-center user-info">
-                    {% if review.participant.userdetail.image_path %}
-                    <img src="{{ review.participant.userdetail.image_path.url }}" class="rounded-circle me-3"
-                        alt="{{ review.participant.username }}" width="50" height="50">
-                    {% else %}
-                    <img src="{% static 'pic/anonymous-user.webp' %}" class="rounded-circle me-3" 
-                        alt="{{ review.participant.username }}" width="50" height="50">
+            {% for review in reviews %}
+            <div class="comment-card" data-review-id="{{ review.id }}">
+                <div class="card-body">
+                    <div class="d-flex align-items-center user-info">
+                        {% if review.participant.userdetail.image_path %}
+                        <img src="{{ review.participant.userdetail.image_path.url }}" class="rounded-circle me-3"
+                            alt="{{ review.participant.username }}" width="50" height="50">
+                        {% else %}
+                        <img src="{% static 'pic/anonymous-user.webp' %}" class="rounded-circle me-3"
+                            alt="{{ review.participant.username }}" width="50" height="50">
+                        {% endif %}
+                        <div>
+                            <h5 class="card-title mb-1 user-id">{{ review.participant.username }}</h5>
+                            <small class="text-muted date">{{ review.created_at|date:"d M Y H:i" }}</small>
+                        </div>
+                        <div class="review_showstars">
+                            {% for star in review.star_list %}
+                            <span class="gold_star">{{ star }}</span>
+                            {% endfor %}
+                        </div>
+                    </div>
+                    <p class="card-text mt-3 review-content">{{ review.description }}</p>
+
+                    <!-- Delete Buttons (แสดงเฉพาะเจ้าของความคิดเห็น) -->
+                    {% if request.user == review.participant %}
+                    <button class="btn btn-sm btn-danger delete-btn"
+                        onclick="deleteReview('{{ review.id }}', '{{ csrf_token }}')">Delete</button>
                     {% endif %}
-                    <div>
-                        <h5 class="card-title mb-1 user-id">{{ review.participant.username }}</h5>
-                        <small class="text-muted date">{{ review.created_at|date:"d M Y H:i" }}</small>
-                    </div>
-                    <div class="review_showstars">
-                        {% for star in review.star_list %}
-                        <span class="gold_star">{{ star }}</span>
-                        {% endfor %}
-                    </div>
                 </div>
-                <p class="card-text mt-3 review-content">{{ review.description }}</p>
-        
-                <!-- Delete Buttons (แสดงเฉพาะเจ้าของความคิดเห็น) -->
-                {% if request.user == review.participant %}
-                <button class="btn btn-sm btn-danger delete-btn" onclick="deleteReview('{{ review.id }}', '{{ csrf_token }}')">Delete</button>
-                {% endif %}
             </div>
-        </div>
-        {% empty %}
-        <div class="alert alert-info text-center" role="alert">
-            <i class="bi bi-info-circle-fill"></i> No reviews yet.
-        </div>
-        {% endfor %}
-
-        <!-- แบบฟอร์มเพิ่มความคิดเห็น -->
-        {% if already_registration and user.role == "Participant" and not has_reviewed and perms.event_web.add_review %}
-        <div class="comment-input-container">
-            <div class="content-wrapper">
-                <form method="post" action="" class="comment_form">
-                    {% csrf_token %}
-                    {% if user.userdetail.image_path %}
-                    <img src="{{ user.userdetail.image_path.url }}" class="rounded-circle me-3"
-                        alt="user_picture" width="50" height="50">
-                    {% else %}
-                    <img src="{% static 'pic/anonymous-user.webp' %}" class="rounded-circle me-3" 
-                        alt="just_profile_pic" width="50" height="50">
-                    {% endif %}
-                    <textarea class="comment-input" name="comment" placeholder="Add a comment..." required></textarea>
-
-                    <div class="star-rating">
-                        <input type="radio" id="5-stars" name="score" value="5">
-                        <label for="5-stars" class="star" data-value="5">&#9733;</label>
-
-                        <input type="radio" id="4-stars" name="score" value="4">
-                        <label for="4-stars" class="star" data-value="4">&#9733;</label>
-
-                        <input type="radio" id="3-stars" name="score" value="3">
-                        <label for="3-stars" class="star" data-value="3">&#9733;</label>
-
-                        <input type="radio" id="2-stars" name="score" value="2">
-                        <label for="2-stars" class="star" data-value="2">&#9733;</label>
-
-                        <input type="radio" id="1-star" name="score" value="1">
-                        <label for="1-star" class="star" data-value="1">&#9733;</label>
-                    </div>
-
-                    <button type="submit" class="send-btn">SEND</button>
-                </form>
+            {% empty %}
+            <div class="alert alert-info text-center" role="alert">
+                <i class="bi bi-info-circle-fill"></i> No reviews yet.
             </div>
-        </div>
-        {% endif %}
+            {% endfor %}
 
-        {% endif %}
+            <!-- แบบฟอร์มเพิ่มความคิดเห็น -->
+            {% if already_registration and user.role == "Participant" and not has_reviewed and perms.event_web.add_review %}
+            <div class="comment-input-container">
+                <div class="content-wrapper">
+                    <form method="post" action="" class="comment_form">
+                        {% csrf_token %}
+                        {% if user.userdetail.image_path %}
+                        <img src="{{ user.userdetail.image_path.url }}" class="rounded-circle me-3" alt="user_picture"
+                            width="50" height="50">
+                        {% else %}
+                        <img src="{% static 'pic/anonymous-user.webp' %}" class="rounded-circle me-3"
+                            alt="just_profile_pic" width="50" height="50">
+                        {% endif %}
+                        <textarea class="comment-input" name="comment" placeholder="Add a comment..."
+                            required></textarea>
 
-        {% endblock %}
+                        <div class="star-rating">
+                            <input type="radio" id="5-stars" name="score" value="5">
+                            <label for="5-stars" class="star" data-value="5">&#9733;</label>
 
-        {% block script %}
-        <script>
-            document.addEventListener('DOMContentLoaded', function () {
-                const stars = document.querySelectorAll('.star-rating input[type="radio"]');
+                            <input type="radio" id="4-stars" name="score" value="4">
+                            <label for="4-stars" class="star" data-value="4">&#9733;</label>
 
-                stars.forEach(star => {
-                    star.addEventListener('click', function () {
-                        stars.forEach(s => s.classList.remove('selected'));
-                        this.classList.add('selected');
+                            <input type="radio" id="3-stars" name="score" value="3">
+                            <label for="3-stars" class="star" data-value="3">&#9733;</label>
+
+                            <input type="radio" id="2-stars" name="score" value="2">
+                            <label for="2-stars" class="star" data-value="2">&#9733;</label>
+
+                            <input type="radio" id="1-star" name="score" value="1">
+                            <label for="1-star" class="star" data-value="1">&#9733;</label>
+                        </div>
+
+                        <button type="submit" class="send-btn">SEND</button>
+                    </form>
+                </div>
+            </div>
+            {% endif %}
+    {% endif %}
+
+            {% endblock %}
+
+            {% block script %}
+            <script>
+                document.addEventListener('DOMContentLoaded', function () {
+                    const stars = document.querySelectorAll('.star-rating input[type="radio"]');
+
+                    stars.forEach(star => {
+                        star.addEventListener('click', function () {
+                            stars.forEach(s => s.classList.remove('selected'));
+                            this.classList.add('selected');
+                        });
                     });
                 });
-            });
 
-            function deleteReview(reviewId, csrf_token) {
-                if (confirm("Are you sure you want to delete this review?")) {
-                    fetch(`/activity/reviews/delete/${reviewId}/`, {
-                    method: "DELETE",
-                    headers: {
-                        "Content-Type": "application/json",
-                        "X-CSRFToken": csrf_token,
-                    },
-                    })
-                    .then((response) => {
-                    if (response.ok) {
-                        alert("Review deleted successfully");
-                        window.location.reload();
-                    } else {
-                        alert("Error deleting review");
+                function deleteReview(reviewId, csrf_token) {
+                    if (confirm("Are you sure you want to delete this review?")) {
+                        fetch(`/activity/reviews/delete/${reviewId}/`, {
+                            method: "DELETE",
+                            headers: {
+                                "Content-Type": "application/json",
+                                "X-CSRFToken": csrf_token,
+                            },
+                        })
+                            .then((response) => {
+                                if (response.ok) {
+                                    alert("Review deleted successfully");
+                                    window.location.reload();
+                                } else {
+                                    alert("Error deleting review");
+                                }
+                            })
+                            .catch((error) => {
+                            });
                     }
-                    })
-                    .catch((error) => {
-                    });
                 }
-            }
 
-        </script>
-        {% endblock %}
+            </script>
+            {% endblock %}

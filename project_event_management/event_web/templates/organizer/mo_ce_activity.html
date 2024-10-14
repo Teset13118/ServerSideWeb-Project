@@ -1,4 +1,6 @@
 {% extends 'layout.html' %}
+{% load widget_tweaks %}
+
 {% load static %}
 
 {% block title %}
@@ -12,7 +14,7 @@
 {% block content %}
     <div class="container p-3">
         <div class="card" style="margin-top: 60px;">
-            <div class="card-header bg-primary text-white">
+            <div class="card-header text-white" style="background-color: #1f2937;">
                 <h1 class="card-title">
                     {% if purpose == 'create' %}
                     Create Activity
@@ -21,7 +23,7 @@
                     {% endif %}
                 </h1>
             </div>
-            <div class="card-body">
+            <div class="card-body" style="background-color: #1f2937; color: white;">
                 <form method="post" enctype="multipart/form-data">
                     {% csrf_token %}
                     
@@ -33,39 +35,39 @@
 
                     <div class="mb-3">
                         <label for="id_title" class="form-label">Activity Name</label>
-                        {{ form.title }}
+                        {{ form.title|add_class:'formbox_activity' }}
                     </div>
 
                     <div class="mb-3">
                         <label for="id_close_register_date" class="form-label">Registration Closing Date</label>
-                        {{ form.close_register_date }}
+                        {{ form.close_register_date|add_class:'formbox_activity' }}
                     </div>
 
                     <div class="row g-3">
                         <div class="col-md-6">
                             <div class="mb-3">
                                 <label for="id_start_date" class="form-label">Activity Start Date</label>
-                                {{ form.start_date }}
+                                {{ form.start_date|add_class:'formbox_activity' }}
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="mb-3">
                                 <label for="id_due_date" class="form-label">Activity End Date</label>
-                                {{ form.due_date }}
+                                {{ form.due_date|add_class:'formbox_activity' }}
                             </div>
                         </div>
 
                         <div class="col-md-6">
                             <div class="mb-3">
                                 <label for="id_activity_type" class="form-label">Activity Type</label>
-                                {{ form.activity_type }}
+                                {{ form.activity_type|add_class:'formbox_activity' }}
                             </div>
                         </div>
 
                         <div class="col-md-6">
                             <div class="mb-3">
                                 <label for="id_category" class="form-label">Activity Category</label>
-                                {{ form.category }}
+                                {{ form.category|add_class:'formbox_activity' }}
                             </div>
                         </div>
                     </div>
@@ -73,32 +75,32 @@
                     <div class="col-md-6">
                         <div class="mb-3" id="location_container">
                             <label for="id_location" class="form-label">Location</label>
-                            {{ form.location }}
+                            {{ form.location|add_class:'formbox_activity' }}
                         </div>
                     </div>
                     <div class="col-md-6">
                         <div class="mb-3" id="platform_container">
                             <label for="id_platform" class="form-label">Platform</label>
-                            {{ form.platform }}
+                            {{ form.platform|add_class:'formbox_activity' }}
                         </div>
                     </div>
 
                     <div class="col-md-6">
                         <div class="mb-3">
                             <label for="id_short_description" class="form-label">Short Description</label>
-                            {{ form.short_description }}
+                            {{ form.short_description|add_class:'formbox_activity' }}
                         </div>
                     </div>
                     <div class="col-md-6">
                         <div class="mb-3">
                             <label for="id_description" class="form-label">Description</label>
-                            {{ form.description }}
+                            {{ form.description|add_class:'formbox_activity' }}
                         </div>
                     </div>
                     <div class="col-md-6">
                         <div class="mb-3">
                             <label for="id_contact" class="form-label">Contact Information</label>
-                            {{ form.contact }}
+                            {{ form.contact|add_class:'formbox_activity' }}
                         </div>
                     </div>
 
