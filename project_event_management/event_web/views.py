@@ -1,25 +1,31 @@
+# Import necessary modules from Django for views, HTTP responses, and object management
 from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponse, Http404, JsonResponse, HttpResponseForbidden
 from django.views import View
-from django.db import transaction
+
+# Import custom forms and models
 from .forms import *
 from .models import *
+
+# Django ORM imports for database queries and functions
 from django.db.models import F, Q, Count, Value, Avg, Max, Min, Sum
 from django.db.models.functions import Length, Upper, Concat
+
+# Import necessary libraries for handling JSON, datetime, and files
 import json
 import datetime
-
 from django.core.files.storage import default_storage
-from django.contrib.auth.forms import UserCreationForm
-from django.contrib.auth.forms import AuthenticationForm, PasswordChangeForm
-from django.contrib.auth.mixins import LoginRequiredMixin
+
+# Authentication and user management utilities from Django
+from django.contrib.auth.forms import UserCreationForm, AuthenticationForm, PasswordChangeForm
+from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from django.contrib.auth import logout, login, authenticate, update_session_auth_hash
+from django.contrib.auth.models import Group
+
+# Email
 from django.core.mail import send_mail
 from django.contrib import messages
 from django.conf import settings
-from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
-from django.contrib.auth.models import Group
-
 
 class RegisterView(View):
     def get(self, request):
@@ -112,6 +118,34 @@ class ChangePasswordView(LoginRequiredMixin, View):
             return redirect('url_profile')
         return render(request, 'changepassword.html', {'form': form})
 
+# participant select category after register
+class SelectCategory(View):
+    def get(self, request, user_id):
+        user = get_object_or_404(User, id=user_id)
+        return render(request, 'participants/p_select_category.html', {'user': user})
+
+    def post(self, request, user_id):
+        user = get_object_or_404(User, id=user_id)
+        selected_categories = request.POST.getlist('categories')
+
+        if selected_categories:
+            UserCategory.objects.filter(participant=user).delete()
+
+            for category_id in selected_categories:
+                category = get_object_or_404(Category, id=category_id)
+                UserCategory.objects.create(participant=user, category=category)
+
+            # Redirect ไปหน้าอื่นหลังจากบันทึกเสร็จ
+            return redirect('url_login')
+
+        # หากไม่มีหมวดหมู่ถูกเลือก ให้ส่ง error กลับไปที่ template
+        return render(request, 'participants/p_select_category.html', {
+            'error': 'Please select at least one category.',
+            'user': user
+        })
+
+# *-------------------------------------PARTICIPANT-------------------------------------*
+# participants หน้าหลัก หน้าก่อนที่จะกดเข้าไป
 class ViewHome(View):
     def get(self, request):
         current_time = timezone.now()
@@ -121,37 +155,32 @@ class ViewHome(View):
             'activity': activity,
              'current_time': current_time,
             })
+
+# participants หน้าแสดงกิจกรรมทั้งหมด
 class ViewHomeActivity(View):
-        def get(self, request):
-            category_id = request.GET.get('category_id')
-            search = request.GET.get('search', '')
-            current_time = timezone.now()
-            
-            if category_id:
-                activity = Activity.objects.filter(is_approve = "Approved", due_date__gt = current_time ,category_id=category_id)
-            else:
-                activity = Activity.objects.filter(is_approve = "Approved", due_date__gt = current_time)
-
-            if search:
-                activity = activity.filter(title__icontains=search)
-
-            category = Category.objects.all()
-            return render(request, 'participants/p_home_activity.html', {
-                'activity': activity,
-                'category': category,
-                'search': search,
-                'current_time': current_time,
-                })
-
-class ViewOrganizerHome(LoginRequiredMixin, PermissionRequiredMixin, View):
-    permission_required = ["event_web.view_activity", "event_web.add_activity"]
-
     def get(self, request):
-        activity = Activity.objects.filter(organizer_id = request.user.id).order_by('id')
-        return render(request, 'organizer/o_home.html',{
+        category_id = request.GET.get('category_id')
+        search = request.GET.get('search', '')
+        current_time = timezone.now()
+        
+        if category_id:
+            activity = Activity.objects.filter(is_approve = "Approved", due_date__gt = current_time ,category_id=category_id)
+        else:
+            activity = Activity.objects.filter(is_approve = "Approved", due_date__gt = current_time)
+
+        if search:
+            activity = activity.filter(title__icontains=search)
+
+        category = Category.objects.all()
+        return render(request, 'participants/p_home_activity.html', {
             'activity': activity,
-        })
-    
+            'category': category,
+            'search': search,
+            'current_time': current_time,
+            })
+
+# *-------------------------------------PROFILE-------------------------------------*
+# participant and organizer profile page
 class ViewProfile(LoginRequiredMixin, PermissionRequiredMixin, View):
     permission_required = ["event_web.view_userdetail"]
 
@@ -163,7 +192,8 @@ class ViewProfile(LoginRequiredMixin, PermissionRequiredMixin, View):
             'profile': profile,
             'regis_activity': registration_activity
         })
-    
+
+# edit profile participant and organizer
 class ViewProfileEdit(LoginRequiredMixin, PermissionRequiredMixin, View):
     permission_required = ["event_web.view_userdetail", "event_web.change_userdetail"]
 
@@ -198,7 +228,7 @@ class ViewProfileEdit(LoginRequiredMixin, PermissionRequiredMixin, View):
             'form2': form2,
         })
 
-
+# show activity for all
 class ViewActivity(View):
     def get(self, request, activity_id):
         activity = get_object_or_404(Activity, id=activity_id)
@@ -263,7 +293,19 @@ class ViewActivity(View):
             review.delete()
             return JsonResponse({'message': 'Review deleted successfully'}, status=200)
         return JsonResponse({'error': 'Invalid request method'}, status=400)
-    
+
+# *-------------------------------------ORGANIZER-------------------------------------*
+# organizer หน้าหลัก
+class ViewOrganizerHome(LoginRequiredMixin, PermissionRequiredMixin, View):
+    permission_required = ["event_web.view_activity", "event_web.add_activity"]
+
+    def get(self, request):
+        activity = Activity.objects.filter(organizer_id = request.user.id).order_by('id')
+        return render(request, 'organizer/o_home.html',{
+            'activity': activity,
+        })
+
+# show list participant for organizer to see
 class ViewRegistrationUserList(View):
     def get(self, request, activity_id):
         list = Registration.objects.filter(activity_id=activity_id)
@@ -275,87 +317,7 @@ class ViewRegistrationUserList(View):
 
         return render(request, 'organizer/o_regis_list.html', context)
 
-class ViewManageUser(LoginRequiredMixin, PermissionRequiredMixin, View):
-    permission_required = ["event_web.view_user", "event_web.delete_user"]
-
-    def get(self, request):
-        participants = User.objects.filter(role='Participant')
-        organizers = User.objects.filter(role='Organizer')
-        context = {
-            'participants': participants,
-            'organizers': organizers,
-        }
-        return render(request, 'manager/m_manage_users.html', context)
-    
-    def delete(self, request, user_id):
-        get_user = get_object_or_404(User, id=user_id)
-
-        user_groups = get_user.groups.all()  # ดึงกลุ่มที่ผู้ใช้เป็นสมาชิก
-        for group in user_groups:
-            get_user.groups.remove(group)  # ลบผู้ใช้จากกลุ่ม
-
-        if get_user.role == 'Organizer':
-            activities = Activity.objects.filter(organizer=get_user)
-            for activity in activities:
-                activity_images = ActivityImage.objects.filter(activity=activity)
-                for image in activity_images:
-                    if image.image_path and default_storage.exists(image.image_path.path):
-                        default_storage.delete(image.image_path.path)
-                    image.delete()
-            activities.delete()
-            
-        get_user.delete()
-        return JsonResponse({'message': 'User deleted successfully'}, status=200)
-
-class ViewManageActivity(LoginRequiredMixin, PermissionRequiredMixin, View):
-    permission_required = ["event_web.view_activity", "event_web.change_activity", "event_web.delete_activity"]
-
-    def get(self, request):
-        if request.user.role == "Organizer" or request.user.role == "Participant" :
-            return HttpResponseForbidden('<h1>403 Forbidden</h1><p>Access denied.</p>')
-        else:
-            activities = Activity.objects.all()
-            context = {
-                'activities': activities,
-            }
-            return render(request, 'manager/m_manage_activity.html', context)
-    
-    def delete(self, request, activity_id):
-        activity = get_object_or_404(Activity, id=activity_id)
-        activity.delete()
-        return JsonResponse({'message': 'Activity deleted successfully'}, status=200)
-    
-    def put(self, request, activity_id):
-        activity = get_object_or_404(Activity, id=activity_id)
-        if activity.is_approve == 'Approval':
-            activity.is_approve = 'Approved'
-            activity.save()
-
-            # ดึงผู้ใช้ที่สนใจใน Category ของ Activity
-            interested_users = UserCategory.objects.filter(category=activity.category)
-
-            # ส่งอีเมลแจ้งผู้ใช้ที่สนใจใน Category นั้น
-            for user_category in interested_users:
-                participant = user_category.participant
-                send_mail(
-                    subject=f'New Activity Approved: {activity.title}',
-                    message = (
-                        f"Dear User,\n\n"
-                        f"We are pleased to inform you that the activity \"{activity.title}\" "
-                        f"you expressed interest in has been approved!\n"
-                        f"It is scheduled to start on {activity.start_date.strftime('%B %d, %Y')}.\n\n"
-                        f"Thank you for your interest, and we hope to see you there!\n\n"
-                        f"Best regards,\n"
-                        f"Activity Hub Management Team"
-                    ),
-                    from_email=settings.EMAIL_HOST_USER,
-                    recipient_list=[participant.email],
-                    fail_silently=False,
-                )
-
-            return JsonResponse({'message': 'Activity approved successfully and emails sent'}, status=200)
-        return JsonResponse({'message': 'Activity not in approval status'}, status=400)
-    
+# organizer "CREATE" activity
 class View_CreateActivity(LoginRequiredMixin, PermissionRequiredMixin, View):
     permission_required = ["event_web.view_activity", "event_web.add_activity"]
 
@@ -390,6 +352,7 @@ class View_CreateActivity(LoginRequiredMixin, PermissionRequiredMixin, View):
         else:
             return render(request, 'organizer/mo_ce_activity.html', {'form': form})
 
+# MANAGER and organizer "EDIT" activity
 class EditActivity(LoginRequiredMixin, PermissionRequiredMixin, View):
     permission_required = ["event_web.view_activity", "event_web.change_activity"]
 
@@ -449,7 +412,8 @@ class EditActivity(LoginRequiredMixin, PermissionRequiredMixin, View):
                 'purpose': purpose,
                 'activity_images': activity_images
             })
-        
+
+# ORGANIZER "DELETE" ACTIVITY
 class DeleteActivity(LoginRequiredMixin, PermissionRequiredMixin, View):
     permission_required = ["event_web.view_activity", "event_web.delete_activity"]
 
@@ -458,32 +422,92 @@ class DeleteActivity(LoginRequiredMixin, PermissionRequiredMixin, View):
             organizer_id = request.user.id,
             id = activity_id).delete()
         return redirect('url_o_homepage')
-
-class SelectCategory(View):
-    def get(self, request, user_id):
-        user = get_object_or_404(User, id=user_id)
-        return render(request, 'participants/p_select_category.html', {'user': user})
-
-    def post(self, request, user_id):
-        user = get_object_or_404(User, id=user_id)
-        selected_categories = request.POST.getlist('categories')
-
-        if selected_categories:
-            UserCategory.objects.filter(participant=user).delete()
-
-            for category_id in selected_categories:
-                category = get_object_or_404(Category, id=category_id)
-                UserCategory.objects.create(participant=user, category=category)
-
-            # Redirect ไปหน้าอื่นหลังจากบันทึกเสร็จ
-            return redirect('url_login')
-
-        # หากไม่มีหมวดหมู่ถูกเลือก ให้ส่ง error กลับไปที่ template
-        return render(request, 'participants/p_select_category.html', {
-            'error': 'Please select at least one category.',
-            'user': user
-        })
     
+# *-------------------------------------MANAGER-------------------------------------*
+# MANAGE "USER" FOR MANAGER
+class ViewManageUser(LoginRequiredMixin, PermissionRequiredMixin, View):
+    permission_required = ["event_web.view_user", "event_web.delete_user"]
+
+    def get(self, request):
+        participants = User.objects.filter(role='Participant')
+        organizers = User.objects.filter(role='Organizer')
+        context = {
+            'participants': participants,
+            'organizers': organizers,
+        }
+        return render(request, 'manager/m_manage_users.html', context)
+    
+    def delete(self, request, user_id):
+        get_user = get_object_or_404(User, id=user_id)
+
+        user_groups = get_user.groups.all()  # ดึงกลุ่มที่ผู้ใช้เป็นสมาชิก
+        for group in user_groups:
+            get_user.groups.remove(group)  # ลบผู้ใช้จากกลุ่ม
+
+        if get_user.role == 'Organizer':
+            activities = Activity.objects.filter(organizer=get_user)
+            for activity in activities:
+                activity_images = ActivityImage.objects.filter(activity=activity)
+                for image in activity_images:
+                    if image.image_path and default_storage.exists(image.image_path.path):
+                        default_storage.delete(image.image_path.path)
+                    image.delete()
+            activities.delete()
+            
+        get_user.delete()
+        return JsonResponse({'message': 'User deleted successfully'}, status=200)
+
+# MANAGE "ACTIVITY" FOR MANAGER
+class ViewManageActivity(LoginRequiredMixin, PermissionRequiredMixin, View):
+    permission_required = ["event_web.view_activity", "event_web.change_activity", "event_web.delete_activity"]
+
+    def get(self, request):
+        if request.user.role == "Organizer" or request.user.role == "Participant" :
+            return HttpResponseForbidden('<h1>403 Forbidden</h1><p>Access denied.</p>')
+        else:
+            activities = Activity.objects.all()
+            context = {
+                'activities': activities,
+            }
+            return render(request, 'manager/m_manage_activity.html', context)
+    
+    def delete(self, request, activity_id):
+        activity = get_object_or_404(Activity, id=activity_id)
+        activity.delete()
+        return JsonResponse({'message': 'Activity deleted successfully'}, status=200)
+    
+    def put(self, request, activity_id):
+        activity = get_object_or_404(Activity, id=activity_id)
+        if activity.is_approve == 'Approval':
+            activity.is_approve = 'Approved'
+            activity.save()
+
+            # ดึงผู้ใช้ที่สนใจใน Category ของ Activity
+            interested_users = UserCategory.objects.filter(category=activity.category)
+
+            # ส่งอีเมลแจ้งผู้ใช้ที่สนใจใน Category นั้น
+            for user_category in interested_users:
+                participant = user_category.participant
+                send_mail(
+                    subject=f'New Activity Approved: {activity.title}',
+                    message = (
+                        f"Dear User,\n\n"
+                        f"We are pleased to inform you that the activity \"{activity.title}\" "
+                        f"you expressed interest in has been approved!\n"
+                        f"It is scheduled to start on {activity.start_date.strftime('%B %d, %Y')}.\n\n"
+                        f"Thank you for your interest, and we hope to see you there!\n\n"
+                        f"Best regards,\n"
+                        f"Activity Hub Management Team"
+                    ),
+                    from_email=settings.EMAIL_HOST_USER,
+                    recipient_list=[participant.email],
+                    fail_silently=False,
+                )
+
+            return JsonResponse({'message': 'Activity approved successfully and emails sent'}, status=200)
+        return JsonResponse({'message': 'Activity not in approval status'}, status=400)
+
+# MANAGE "REVIEW" FOR MANAGER
 class ViewManageReview(LoginRequiredMixin, PermissionRequiredMixin, View):
     permission_required = ["event_web.view_review", "event_web.delete_review"]
 
@@ -503,4 +527,3 @@ class ViewManageReview(LoginRequiredMixin, PermissionRequiredMixin, View):
             review.delete()
             return JsonResponse({'message': 'Review deleted successfully'}, status=200)
         return JsonResponse({'error': 'Invalid request method'}, status=400)
-    
