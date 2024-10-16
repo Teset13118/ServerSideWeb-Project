@@ -21,7 +21,7 @@ from django.contrib.auth.forms import UserCreationForm, AuthenticationForm, Pass
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from django.contrib.auth import logout, login, authenticate, update_session_auth_hash
 from django.contrib.auth.models import Group
-
+from django.core.exceptions import PermissionDenied
 # Email
 from django.core.mail import send_mail
 from django.contrib import messages
@@ -232,8 +232,12 @@ class ViewProfileEdit(LoginRequiredMixin, PermissionRequiredMixin, View):
 class ViewActivity(View):
     def get(self, request, activity_id):
         activity = get_object_or_404(Activity, id=activity_id)
+        # เช็คว่า organizer เป็นคนที่สร้าง activity
+        if request.user.role == "Organizer" and request.user != activity.organizer:
+            raise PermissionDenied
+
         activity_images = ActivityImage.objects.filter(activity=activity)
-        registration = Registration.objects.filter(activity_id=activity_id)
+        registration = Registration.objects.filter(activity_id=activity_id) # เอาไว้นับจำนวนคนที่ลงทะเบียน
         current_time = timezone.now()
         reviews = Review.objects.filter(activity=activity)
         has_reviewed = Review.objects.filter(participant=request.user, activity=activity_id).exists()
@@ -310,6 +314,9 @@ class ViewRegistrationUserList(View):
     def get(self, request, activity_id):
         list = Registration.objects.filter(activity_id=activity_id)
         activity = Activity.objects.get(id=activity_id)
+        # เช็คว่า organizer เป็นคนที่สร้าง activity
+        if request.user.role == "Organizer" and request.user != activity.organizer:
+            raise PermissionDenied
         context = {
             'list': list,
             'activity': activity,
@@ -358,6 +365,9 @@ class EditActivity(LoginRequiredMixin, PermissionRequiredMixin, View):
 
     def get(self, request, activity_id):
         activity = get_object_or_404(Activity, id=activity_id)
+        # เช็คว่า organizer เป็นคนที่สร้าง activity
+        if request.user.role == "Organizer" and request.user != activity.organizer:
+            raise PermissionDenied
         form = CreateActivity_Form(instance=activity)
         purpose = "edit"
         activity_images = ActivityImage.objects.filter(activity=activity)
@@ -463,7 +473,7 @@ class ViewManageActivity(LoginRequiredMixin, PermissionRequiredMixin, View):
 
     def get(self, request):
         if request.user.role == "Organizer" or request.user.role == "Participant" :
-            return HttpResponseForbidden('<h1>403 Forbidden</h1><p>Access denied.</p>')
+            raise PermissionDenied
         else:
             activities = Activity.objects.all()
             context = {
@@ -513,7 +523,7 @@ class ViewManageReview(LoginRequiredMixin, PermissionRequiredMixin, View):
 
     def get(self, request):
         if request.user.role == "Organizer" or request.user.role == "Participant":
-            return HttpResponseForbidden('<h1>403 Forbidden</h1><p>Access denied.</p>')
+            raise PermissionDenied
 
         reviews = Review.objects.all()
         context = {
