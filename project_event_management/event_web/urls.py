@@ -18,7 +18,7 @@ urlpatterns = [
     path("profile/", ViewProfile.as_view(), name="url_profile"),
     path("profile_edit/", ViewProfileEdit.as_view(), name="url_profile_edit"),
 
-    path("activity/<int:activity_id>/", ViewActivity.as_view(), name="url_p_activitypage"),
+    path("activity/<int:activity_id>/", ViewActivity.as_view(), name="url_activitypage"),
     path("activity/reviews/delete/<int:review_id>/", ViewActivity.as_view(), name="url_delete_review"),
     path("create_activity/", View_CreateActivity.as_view(), name="url_o_createactivity"),
     path("registration_list/<int:activity_id>/", ViewRegistrationUserList.as_view(), name="url_registration_list"),

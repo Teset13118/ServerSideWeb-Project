@@ -250,7 +250,7 @@ class ViewActivity(View):
             participant_id=request.user.id
         ).exists()
             
-        return render(request, 'participants/p_activity.html', {
+        return render(request, 'activity.html', {
             'activity': activity,
             'activity_images': activity_images,
             'already_registration': already_registration,
@@ -289,7 +289,7 @@ class ViewActivity(View):
                 participant_id=request.user.id
             ).delete()
 
-        return redirect('url_p_activitypage', activity_id=activity_id)
+        return redirect('url_activitypage', activity_id=activity_id)
 
     def delete(self, request, review_id):
         if request.method == 'DELETE':

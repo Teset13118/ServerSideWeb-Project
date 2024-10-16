@@ -115,7 +115,7 @@ Profile
     <div class="profile_activity_content">
         <div class="box2_profile">
             {% for i in regis_activity %}
-            <a class="block_event" href="{% url 'url_p_activitypage' i.activity.id %}">
+            <a class="block_event" href="{% url 'url_activitypage' i.activity.id %}">
                 {% if i.activity.activityimage_set.all %}
                     <img src="{{ i.activity.activityimage_set.first.image_path.url }}" alt="" class="small_pic">
                 {% else %}

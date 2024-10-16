@@ -55,7 +55,7 @@
                                   {% if activity.is_approve == 'Approval' %}
                                   <button class="btn btn-success btn-sm" onclick="approveActivity('{{ activity.id }}', '{{ csrf_token }}')">Approve</button>
                                   {% endif %}
-                                  <a href="{% url 'url_p_activitypage' activity.id %}" class="btn btn-primary btn-sm">View</a>
+                                  <a href="{% url 'url_activitypage' activity.id %}" class="btn btn-primary btn-sm">View</a>
                                   <a href="{% url 'url_mo_editactivity' activity.id %}" class="btn btn-warning btn-sm">Edit</a>
                                   <button class="btn btn-danger btn-sm" onclick="deleteActivity('{{ activity.id }}', '{{ csrf_token }}')">Delete</button>
                               </td>

@@ -39,7 +39,7 @@ Activity
 
                     <!-- ยังไม่หมดเวลาลงทะเบียนกิจกรรม -->
                     {% elif activity.close_register_date > current_time %}
-                    <form method="POST" action="{% url 'url_p_activitypage' activity.id %}">
+                    <form method="POST" action="{% url 'url_activitypage' activity.id %}">
                         {% csrf_token %}
                         <input type="hidden" name="act" value="register">
                         <button type="submit" class="btn_regis_activity" onclick="return confirm('คุณต้องการลงทะเบียนกิจกรรมนี้หรือไม่?');">Register activity</button>
@@ -59,7 +59,7 @@ Activity
 
                     <!-- กิจกรรมยังไม่เริ่ม -->
                     {% elif activity.start_date > current_time %}
-                    <form method="POST" action="{% url 'url_p_activitypage' activity.id %}">
+                    <form method="POST" action="{% url 'url_activitypage' activity.id %}">
                         {% csrf_token %}
                         <input type="hidden" name="act" value="cancel">
                         <button type="submit" class="btn_regis_activity" style="background-color: red;"
