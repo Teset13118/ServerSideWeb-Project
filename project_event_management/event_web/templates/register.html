@@ -20,13 +20,13 @@
     <div class="main_register">
         <form method="POST" class="register_form">
             {% csrf_token %}
-            <h1 class="register_title">register</h1>
+            <h1 class="register_title">Register</h1>
             <div class="box_register">
                 <label for="username">Username:</label>
                 {{ form.username|add_class:'formbox' }}
             </div>
             <div class="box_register">
-                <label for="">email:</label>
+                <label for="">Email:</label>
                 {{ form.email|add_class:'formbox' }}
             </div>
             <div class="box_register">
@@ -34,7 +34,7 @@
                 {{ form.phone_number|add_class:'formbox' }}
             </div>
             <div class="box_register">
-                <label for="">role:</label>
+                <label for="">Role:</label>
                 {{ form.role|add_class:'formbox'}}
             </div>
             <div class="box_register">

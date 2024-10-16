@@ -15,7 +15,7 @@ Home
         <div class="ex2">
             <h5 class="ghost" style="color: white;">Activities</h5>
             <div class="ghost_ex">
-                <form method="GET" action="{% url 'url_p_homepage' %}" class="search_form">
+                <form method="GET" action="{% url 'url_p_homepage_activity' %}" class="search_form">
                     {% csrf_token %}
                     <input class="searchbar" type="text" name="search" placeholder="Search.." value="{{ search }}">
                     <button class="btn_search"><i class="fa fa-search"> Search</i></button>

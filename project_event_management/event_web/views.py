@@ -371,7 +371,8 @@ class View_CreateActivity(LoginRequiredMixin, PermissionRequiredMixin, View):
                 ActivityImage.objects.create(activity=activity, image_path=image)
             return redirect('url_o_homepage')
         else:
-            return render(request, 'organizer/mo_ce_activity.html', {'form': form})
+            purpose = "create"
+            return render(request, 'organizer/mo_ce_activity.html', {'form': form, 'purpose': purpose})
 
 # MANAGER and organizer "EDIT" activity
 class EditActivity(LoginRequiredMixin, PermissionRequiredMixin, View):
