@@ -122,6 +122,14 @@ class ChangePasswordView(LoginRequiredMixin, View):
 class SelectCategory(View):
     def get(self, request, user_id):
         user = get_object_or_404(User, id=user_id)
+        if request.user.is_authenticated:
+            if request.user.is_superuser:
+                    return redirect('/admin/')
+                
+            if request.user.role == "Organizer":
+                return redirect('url_o_homepage')
+            elif request.user.is_staff:
+                return redirect('url_m_manageactivities')
         return render(request, 'participants/p_select_category.html', {'user': user})
 
     def post(self, request, user_id):
