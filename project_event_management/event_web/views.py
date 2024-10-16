@@ -242,7 +242,6 @@ class ViewActivity(View):
     def get(self, request, activity_id):
         activity = get_object_or_404(Activity, id=activity_id)
         # เช็คว่า organizer เป็นคนที่สร้าง activity
-        print("request.user = ", request.user)
         if request.user.is_authenticated and request.user.role == "Organizer" and request.user != activity.organizer:
             raise PermissionDenied
 
@@ -443,9 +442,11 @@ class DeleteActivity(LoginRequiredMixin, PermissionRequiredMixin, View):
     permission_required = ["event_web.view_activity", "event_web.delete_activity"]
 
     def get(self, request, activity_id):
-        Activity.objects.filter(
-            organizer_id = request.user.id,
-            id = activity_id).delete()
+        # เช็คว่า organizer เป็นคนที่สร้าง activity
+        activity = get_object_or_404(Activity, id=activity_id)
+        if request.user.is_authenticated and request.user.role == "Organizer" and request.user != activity.organizer:
+            raise PermissionDenied
+        activity.delete()
         return redirect('url_o_homepage')
     
 # *-------------------------------------MANAGER-------------------------------------*
@@ -487,7 +488,7 @@ class ViewManageActivity(LoginRequiredMixin, PermissionRequiredMixin, View):
     permission_required = ["event_web.view_activity", "event_web.change_activity", "event_web.delete_activity"]
 
     def get(self, request):
-        if request.user.role == "Organizer" or request.user.role == "Participant" :
+        if request.user.role == "Organizer" or request.user.role == "Participant":
             raise PermissionDenied
         else:
             activities = Activity.objects.all()
@@ -497,57 +498,62 @@ class ViewManageActivity(LoginRequiredMixin, PermissionRequiredMixin, View):
             return render(request, 'manager/m_manage_activity.html', context)
     
     def delete(self, request, activity_id):
-        activity = get_object_or_404(Activity, id=activity_id)
-        activity.delete()
-        return JsonResponse({'message': 'Activity deleted successfully'}, status=200)
+        if request.user.role == "Organizer" or request.user.role == "Participant":
+            raise PermissionDenied
+        else:
+            activity = get_object_or_404(Activity, id=activity_id)
+            activity.delete()
+            return JsonResponse({'message': 'Activity deleted successfully'}, status=200)
     
     def put(self, request, activity_id):
-        activity = get_object_or_404(Activity, id=activity_id)
-        if activity.is_approve == 'Approval':
-            activity.is_approve = 'Approved'
-            activity.save()
+        if request.user.role == "Organizer" or request.user.role == "Participant":
+            raise PermissionDenied
+        else:
+            activity = get_object_or_404(Activity, id=activity_id)
+            if activity.is_approve == 'Approval':
+                activity.is_approve = 'Approved'
+                activity.save()
 
-            # ดึงผู้ใช้ที่สนใจใน Category ของ Activity
-            interested_users = UserCategory.objects.filter(category=activity.category)
+                # ดึงผู้ใช้ที่สนใจใน Category ของ Activity
+                interested_users = UserCategory.objects.filter(category=activity.category)
 
-            # ส่งอีเมลแจ้งผู้ใช้ที่สนใจใน Category นั้น
-            for user_category in interested_users:
-                participant = user_category.participant
-                send_mail(
-                    subject=f'New Activity Approved: {activity.title}',
-                    message = (
-                        f"Dear User,\n\n"
-                        f"We are pleased to inform you that the activity \"{activity.title}\" "
-                        f"you expressed interest in has been approved!\n"
-                        f"It is scheduled to start on {activity.start_date.strftime('%B %d, %Y')}.\n\n"
-                        f"Thank you for your interest, and we hope to see you there!\n\n"
-                        f"Best regards,\n"
-                        f"Activity Hub Management Team"
-                    ),
-                    from_email=settings.EMAIL_HOST_USER,
-                    recipient_list=[participant.email],
-                    fail_silently=False,
-                )
+                # ส่งอีเมลแจ้งผู้ใช้ที่สนใจใน Category นั้น
+                for user_category in interested_users:
+                    participant = user_category.participant
+                    send_mail(
+                        subject=f'New Activity Approved: {activity.title}',
+                        message = (
+                            f"Dear User,\n\n"
+                            f"We are pleased to inform you that the activity \"{activity.title}\" "
+                            f"you expressed interest in has been approved!\n"
+                            f"It is scheduled to start on {activity.start_date.strftime('%B %d, %Y')}.\n\n"
+                            f"Thank you for your interest, and we hope to see you there!\n\n"
+                            f"Best regards,\n"
+                            f"Activity Hub Management Team"
+                        ),
+                        from_email=settings.EMAIL_HOST_USER,
+                        recipient_list=[participant.email],
+                        fail_silently=False,
+                    )
 
-                # ส่งอีเมลแจ้งให้ Organizer ว่ากิจกรรมได้รับการอนุมัติแล้ว
-                send_mail(
-                    subject=f'Your Activity has been Approved: {activity.title}',
-                    message=(
-                        f"Dear {activity.organizer.username},\n\n"
-                        f"Your activity \"{activity.title}\" has been approved!\n"
-                        f"Participants can now see the activity and join if they are interested.\n"
-                        f"The activity is scheduled to start on {activity.start_date.strftime('%B %d, %Y')}.\n\n"
-                        f"Thank you for organizing this event and we wish you success with it!\n\n"
-                        f"Best regards,\n"
-                        f"Activity Hub Management Team"
-                    ),
-                    from_email=settings.EMAIL_HOST_USER,
-                    recipient_list=[activity.organizer.email],
-                    fail_silently=False,
-                )
-
-            return JsonResponse({'message': 'Activity approved successfully and emails sent'}, status=200)
-        return JsonResponse({'message': 'Activity not in approval status'}, status=400)
+                    # ส่งอีเมลแจ้งให้ Organizer ว่ากิจกรรมได้รับการอนุมัติแล้ว
+                    send_mail(
+                        subject=f'Your Activity has been Approved: {activity.title}',
+                        message=(
+                            f"Dear {activity.organizer.username},\n\n"
+                            f"Your activity \"{activity.title}\" has been approved!\n"
+                            f"Participants can now see the activity and join if they are interested.\n"
+                            f"The activity is scheduled to start on {activity.start_date.strftime('%B %d, %Y')}.\n\n"
+                            f"Thank you for organizing this event and we wish you success with it!\n\n"
+                            f"Best regards,\n"
+                            f"Activity Hub Management Team"
+                        ),
+                        from_email=settings.EMAIL_HOST_USER,
+                        recipient_list=[activity.organizer.email],
+                        fail_silently=False,
+                    )
+                return JsonResponse({'message': 'Activity approved successfully and emails sent'}, status=200)
+            return JsonResponse({'message': 'Activity not in approval status'}, status=400)
 
 # MANAGE "REVIEW" FOR MANAGER
 class ViewManageReview(LoginRequiredMixin, PermissionRequiredMixin, View):
@@ -564,6 +570,9 @@ class ViewManageReview(LoginRequiredMixin, PermissionRequiredMixin, View):
         return render(request, 'manager/m_manage_reviews.html', context)
 
     def delete(self, request, review_id):
+        if request.user.role == "Organizer" or request.user.role == "Participant":
+            raise PermissionDenied
+        
         if request.method == 'DELETE':
             review = get_object_or_404(Review, id=review_id)
             review.delete()
