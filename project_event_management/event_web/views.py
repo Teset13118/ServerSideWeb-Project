@@ -151,9 +151,18 @@ class ViewHome(View):
         current_time = timezone.now()
         activity = Activity.objects.filter(is_approve = "Approved", due_date__gt = current_time).order_by('?')[:4]  # Randomly shuffle and limit to 5
 
+        if request.user.is_authenticated:
+            if request.user.is_superuser:
+                    return redirect('/admin/')
+                
+            if request.user.role == "Organizer":
+                return redirect('url_o_homepage')
+            elif request.user.is_staff:
+                return redirect('url_m_manageactivities')
+            
         return render(request, 'participants/p_home.html', {
             'activity': activity,
-             'current_time': current_time,
+            'current_time': current_time,
             })
 
 # participants หน้าแสดงกิจกรรมทั้งหมด
@@ -233,14 +242,20 @@ class ViewActivity(View):
     def get(self, request, activity_id):
         activity = get_object_or_404(Activity, id=activity_id)
         # เช็คว่า organizer เป็นคนที่สร้าง activity
-        if request.user.role == "Organizer" and request.user != activity.organizer:
+        print("request.user = ", request.user)
+        if request.user.is_authenticated and request.user.role == "Organizer" and request.user != activity.organizer:
             raise PermissionDenied
 
         activity_images = ActivityImage.objects.filter(activity=activity)
         registration = Registration.objects.filter(activity_id=activity_id) # เอาไว้นับจำนวนคนที่ลงทะเบียน
         current_time = timezone.now()
         reviews = Review.objects.filter(activity=activity)
-        has_reviewed = Review.objects.filter(participant=request.user, activity=activity_id).exists()
+
+        # เช็คว่า request.user เป็น AnonymousUser หรือไม่
+        if not request.user.is_authenticated:
+            has_reviewed = False 
+        else:
+            has_reviewed = Review.objects.filter(participant=request.user, activity=activity_id).exists()
         for review in reviews:
             review.star_list = ['★'] * review.score
 
