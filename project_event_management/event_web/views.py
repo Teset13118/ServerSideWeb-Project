@@ -171,6 +171,15 @@ class ViewHomeActivity(View):
         category_id = request.GET.get('category_id')
         search = request.GET.get('search', '')
         current_time = timezone.now()
+
+        if request.user.is_authenticated:
+            if request.user.is_superuser:
+                    return redirect('/admin/')
+                
+            if request.user.role == "Organizer":
+                return redirect('url_o_homepage')
+            elif request.user.is_staff:
+                return redirect('url_m_manageactivities')
         
         if category_id:
             activity = Activity.objects.filter(is_approve = "Approved", due_date__gt = current_time ,category_id=category_id)
