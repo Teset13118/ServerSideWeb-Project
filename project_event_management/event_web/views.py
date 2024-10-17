@@ -526,52 +526,52 @@ class ViewManageActivity(LoginRequiredMixin, PermissionRequiredMixin, View):
     def put(self, request, activity_id):
         if request.user.role == "Organizer" or request.user.role == "Participant":
             raise PermissionDenied
-        else:
-            activity = get_object_or_404(Activity, id=activity_id)
-            if activity.is_approve == 'Approval':
-                activity.is_approve = 'Approved'
-                activity.save()
 
-                # ดึงผู้ใช้ที่สนใจใน Category ของ Activity
-                interested_users = UserCategory.objects.filter(category=activity.category)
+        activity = get_object_or_404(Activity, id=activity_id)
+        if activity.is_approve == 'Approval':
+            activity.is_approve = 'Approved'
+            activity.save()
 
-                # ส่งอีเมลแจ้งผู้ใช้ที่สนใจใน Category นั้น
-                for user_category in interested_users:
-                    participant = user_category.participant
-                    send_mail(
-                        subject=f'New Activity Approved: {activity.title}',
-                        message = (
-                            f"Dear User,\n\n"
-                            f"We are pleased to inform you that the activity \"{activity.title}\" "
-                            f"you expressed interest in has been approved!\n"
-                            f"It is scheduled to start on {activity.start_date.strftime('%B %d, %Y')}.\n\n"
-                            f"Thank you for your interest, and we hope to see you there!\n\n"
-                            f"Best regards,\n"
-                            f"Activity Hub Management Team"
-                        ),
-                        from_email=settings.EMAIL_HOST_USER,
-                        recipient_list=[participant.email],
-                        fail_silently=False,
-                    )
+            # ดึงผู้ใช้ที่สนใจใน Category ของ Activity
+            interested_users = UserCategory.objects.filter(category=activity.category)
 
-                    # ส่งอีเมลแจ้งให้ Organizer ว่ากิจกรรมได้รับการอนุมัติแล้ว
-                    send_mail(
-                        subject=f'Your Activity has been Approved: {activity.title}',
-                        message=(
-                            f"Dear {activity.organizer.username},\n\n"
-                            f"Your activity \"{activity.title}\" has been approved!\n"
-                            f"Participants can now see the activity and join if they are interested.\n"
-                            f"The activity is scheduled to start on {activity.start_date.strftime('%B %d, %Y')}.\n\n"
-                            f"Thank you for organizing this event and we wish you success with it!\n\n"
-                            f"Best regards,\n"
-                            f"Activity Hub Management Team"
-                        ),
-                        from_email=settings.EMAIL_HOST_USER,
-                        recipient_list=[activity.organizer.email],
-                        fail_silently=False,
-                    )
-                return JsonResponse({'message': 'Activity approved successfully and emails sent'}, status=200)
-            return JsonResponse({'message': 'Activity not in approval status'}, status=400)
+            # ส่งอีเมลแจ้งผู้ใช้ที่สนใจใน Category นั้น
+            for user_category in interested_users:
+                participant = user_category.participant
+                send_mail(
+                    subject=f'New Activity Approved: {activity.title}',
+                    message = (
+                        f"Dear User,\n\n"
+                        f"We are pleased to inform you that the activity \"{activity.title}\" "
+                        f"you expressed interest in has been approved!\n"
+                        f"It is scheduled to start on {activity.start_date.strftime('%B %d, %Y')}.\n\n"
+                        f"Thank you for your interest, and we hope to see you there!\n\n"
+                        f"Best regards,\n"
+                        f"Activity Hub Management Team"
+                    ),
+                    from_email=settings.EMAIL_HOST_USER,
+                    recipient_list=[participant.email],
+                    fail_silently=False,
+                )
+
+            # ส่งอีเมลแจ้งให้ Organizer ว่ากิจกรรมได้รับการอนุมัติแล้ว
+            send_mail(
+                subject=f'Your Activity has been Approved: {activity.title}',
+                message=(
+                    f"Dear {activity.organizer.username},\n\n"
+                    f"Your activity \"{activity.title}\" has been approved!\n"
+                    f"Participants can now see the activity and join if they are interested.\n"
+                    f"The activity is scheduled to start on {activity.start_date.strftime('%B %d, %Y')}.\n\n"
+                    f"Thank you for organizing this event and we wish you success with it!\n\n"
+                    f"Best regards,\n"
+                    f"Activity Hub Management Team"
+                ),
+                from_email=settings.EMAIL_HOST_USER,
+                recipient_list=[activity.organizer.email],
+                fail_silently=False,
+            )
+            return JsonResponse({'message': 'Activity approved successfully and emails sent'}, status=200)
+        return JsonResponse({'message': 'Activity not in approval status'}, status=400)
 
 # MANAGE "REVIEW" FOR MANAGER
 class ViewManageReview(LoginRequiredMixin, PermissionRequiredMixin, View):
